@@ -590,7 +590,15 @@ function handleMe(req, res) {
 function handleListParcels(req, res) {
   const session = requireAuth(req, res);
   if (!session) return;
-  const parcels = stmts.getAllParcels.all();
+  const parcels = stmts.getAllParcels.all().map(p => ({
+    parcelKey:    p.parcel_key,
+    blockName:    p.block_name,
+    parcelNumber: p.parcel_number,
+    currentOwner: p.current_owner,
+    currentState: p.current_state,
+    lastUpdated:  p.updated_at || p.created_at,
+    txCount:      p.tx_count,
+  }));
   sendJSON(res, 200, { status: 'ok', count: parcels.length, data: parcels });
 }
 
@@ -613,7 +621,21 @@ function handleSearch(req, res, query) {
   }
 
   logAudit(session, 'SEARCH', key, 'SUCCESS', `${history.length} records`, getIP(req));
-  sendJSON(res, 200, { status: 'ok', parcelKey: key, count: history.length, data: history });
+  const mapped = history.map(t => ({
+    txId:          t.tx_id,
+    timestamp:     t.timestamp,
+    type:          t.type,
+    blockName:     t.block_name,
+    parcelNumber:  t.parcel_number,
+    currentOwner:  t.current_owner,
+    currentState:  t.current_state,
+    mspid:         t.mspid,
+    submittedBy:   t.submitted_by,
+    bank:          t.bank,
+    loanRef:       t.loan_ref,
+    cautionReason: t.caution_reason,
+  }));
+  sendJSON(res, 200, { status: 'ok', parcelKey: key, count: mapped.length, data: mapped });
 }
 
 // POST /api/transferParcel
@@ -851,12 +873,45 @@ async function handleCreateParcel(req, res) {
   });
 }
 
+// GET /api/allTransactions  — all transactions sorted by date, for history page
+function handleAllTransactions(req, res) {
+  const session = requireAuth(req, res);
+  if (!session) return;
+  const rows = db.prepare('SELECT * FROM transactions ORDER BY timestamp DESC').all();
+  const mapped = rows.map(t => ({
+    txId:          t.tx_id,
+    timestamp:     t.timestamp,
+    type:          t.type,
+    blockName:     t.block_name,
+    parcelNumber:  t.parcel_number,
+    currentOwner:  t.current_owner,
+    currentState:  t.current_state,
+    mspid:         t.mspid,
+    submittedBy:   t.submitted_by,
+    bank:          t.bank,
+    loanRef:       t.loan_ref,
+    cautionReason: t.caution_reason,
+  }));
+  sendJSON(res, 200, { status: 'ok', count: mapped.length, data: mapped });
+}
+
 // GET /api/auditLog
 function handleAuditLog(req, res) {
   const session = requireAuth(req, res);
   if (!session) return;
   if (!checkRole(session,'auditLog',res)) return;
-  const logs = stmts.getAuditLog.all();
+  const logs = stmts.getAuditLog.all().map(a => ({
+    id:        a.id,
+    timestamp: a.timestamp,
+    username:  a.username,
+    name:      a.name,
+    role:      a.role,
+    action:    a.action,
+    parcelKey: a.parcel_key,
+    outcome:   a.outcome,
+    detail:    a.detail,
+    ip:        a.ip,
+  }));
   sendJSON(res,200,{status:'ok',count:logs.length,data:logs});
 }
 
@@ -904,6 +959,7 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/addCaution'         && method === 'PUT')  return handleAddCaution(req,res);
     if (pathname === '/api/removeCaution'      && method === 'PUT')  return handleRemoveCaution(req,res);
     if (pathname === '/api/auditLog'           && method === 'GET')  return handleAuditLog(req,res);
+    if (pathname === '/api/allTransactions'    && method === 'GET')  return handleAllTransactions(req,res);
     if (pathname === '/api/users'              && method === 'GET')  return handleListUsers(req,res);
     if (pathname === '/api/createParcel'       && method === 'POST') return handleCreateParcel(req,res);
 
