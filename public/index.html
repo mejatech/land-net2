@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>LandNet Portal — Blockchain Land Records Kenya</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<title>LandNet Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -18,338 +18,382 @@
   --amber:#E3B341;--amberl:#2B2108;
   --red:#F85149;--redl:#2D1A1A;
 }
-html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
 
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-
-/* ── LOGIN ── */
+/* ── LOGIN SCREEN ───────────────────────────────────── */
 #login-screen{
   display:flex;align-items:center;justify-content:center;
   min-height:100vh;padding:24px;
-  background:radial-gradient(ellipse 80% 50% at 50% -10%,#0d2340 0%,var(--bg) 60%);
+  background:radial-gradient(ellipse at 50% 0%,#0d2340 0%,var(--bg) 60%);
 }
 .login-box{
-  background:var(--bg2);border:1px solid var(--border);
-  border-radius:16px;padding:40px 36px;width:100%;max-width:420px;
-  animation:fadeUp .4s ease;
+  background:var(--bg2);border:1px solid var(--border);border-radius:16px;
+  padding:40px 36px;width:100%;max-width:400px;
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.login-logo{display:flex;align-items:center;gap:10px;font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);margin-bottom:4px}
-.ldot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);flex-shrink:0;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 8px var(--green)}50%{box-shadow:0 0 18px var(--green)}}
-.login-sub{font-size:12px;color:var(--text3);margin-bottom:28px}
-.lbl{display:block;font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:6px}
-.linput{
-  width:100%;background:var(--bg3);border:1px solid var(--border);
-  border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;
-  font-size:14px;color:var(--text);outline:none;margin-bottom:14px;
-  transition:border-color .15s,box-shadow .15s;
+.login-logo{
+  display:flex;align-items:center;gap:10px;margin-bottom:8px;
+  font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);
 }
-.linput:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(88,166,255,.12)}
+.login-logo .dot{width:10px;height:10px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+.login-sub{font-size:13px;color:var(--text3);margin-bottom:32px}
+.login-label{font-size:12px;font-weight:500;color:var(--text2);display:block;margin-bottom:6px}
+.login-input{
+  width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;
+  padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;
+  color:var(--text);outline:none;margin-bottom:14px;transition:border-color .15s;
+}
+.login-input:focus{border-color:var(--blue)}
 .login-btn{
   width:100%;padding:11px;border-radius:8px;font-size:14px;font-weight:600;
-  cursor:pointer;border:1px solid var(--green);background:var(--green2);
-  color:#fff;font-family:'DM Sans',sans-serif;margin-top:4px;
-  transition:background .15s,transform .1s;
+  cursor:pointer;border:none;font-family:'DM Sans',sans-serif;
+  background:var(--green2);color:#fff;border:1px solid var(--green);
+  transition:background .15s;margin-top:4px;
 }
 .login-btn:hover{background:#2ea043}
-.login-btn:active{transform:scale(.98)}
 .login-btn:disabled{opacity:.5;cursor:not-allowed}
-#lerr{
+#login-error{
   background:var(--redl);border:1px solid var(--red);color:var(--red);
-  border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:none;
+  border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:16px;display:none;
 }
-.demo-hint{margin-top:22px;padding:16px;background:var(--bg3);border-radius:10px;border:1px solid var(--border)}
-.demo-title{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
-.drow{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;border-radius:4px;padding:6px 6px}
-.drow:last-child{border-bottom:none}
-.drow:hover .dn{color:var(--blue)}
-.dn{font-size:12px;color:var(--text2);font-weight:500;transition:color .15s}
-.dr{font-size:11px;color:var(--text3)}
-.dpw{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);margin-left:6px}
+.login-hint{margin-top:24px;padding:16px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)}
+.login-hint-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.demo-user{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);cursor:pointer}
+.demo-user:last-child{border-bottom:none}
+.demo-user:hover .demo-name{color:var(--blue)}
+.demo-name{font-size:12px;color:var(--text2);font-weight:500}
+.demo-role{font-size:11px;color:var(--text3)}
+.demo-pw{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)}
 
-/* ── APP ── */
-#app{display:none;flex-direction:column;min-height:100vh}
+/* ── APP SHELL ──────────────────────────────────────── */
+#app{display:none}
 
-/* ── NAV ── */
 nav{
   position:sticky;top:0;z-index:100;
-  background:rgba(13,17,23,.96);backdrop-filter:blur(16px);
+  background:rgba(13,17,23,0.95);backdrop-filter:blur(12px);
   border-bottom:1px solid var(--border);
-  height:52px;display:flex;align-items:center;padding:0 20px;gap:6px;
-  flex-shrink:0;
+  padding:0 24px;display:flex;align-items:center;height:56px;gap:8px;
 }
-.nav-brand{display:flex;align-items:center;gap:8px;font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);cursor:pointer;margin-right:20px;text-decoration:none;flex-shrink:0}
-.nav-brand .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
-.nav-links{display:flex;gap:2px;flex:1;overflow-x:auto;scrollbar-width:none}
-.nav-links::-webkit-scrollbar{display:none}
-.nl{padding:5px 11px;border-radius:6px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:color .12s,background .12s}
-.nl:hover{color:var(--text);background:var(--bg3)}
-.nl.active{color:var(--text);background:var(--bg3);border:1px solid var(--border2)}
-.nl.hidden{display:none}
-.nav-r{display:flex;align-items:center;gap:8px;margin-left:auto;flex-shrink:0}
-.rbadge{padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.nav-brand{
+  display:flex;align-items:center;gap:10px;margin-right:24px;
+  text-decoration:none;font-family:'DM Serif Display',serif;font-size:20px;color:var(--text);cursor:pointer;
+}
+.nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+.nav-links{display:flex;gap:2px;flex:1;flex-wrap:wrap}
+.nav-link{
+  padding:6px 12px;border-radius:6px;font-size:13px;font-weight:500;
+  color:var(--text2);cursor:pointer;transition:all .15s;border:none;background:none;font-family:'DM Sans',sans-serif;
+}
+.nav-link:hover{color:var(--text);background:var(--bg3)}
+.nav-link.active{color:var(--text);background:var(--bg3);border:1px solid var(--border2)}
+.nav-link.hidden{display:none}
+.nav-right{display:flex;align-items:center;gap:8px}
+.role-badge{
+  padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;
+}
 .role-registrar{background:var(--bluel);color:var(--blue);border:1px solid var(--blue2)}
 .role-bank{background:var(--purplel);color:var(--purple);border:1px solid #6E40C9}
 .role-surveyor{background:var(--amberl);color:var(--amber);border:1px solid #845304}
 .role-landowner{background:var(--greenl);color:var(--green);border:1px solid var(--green2)}
-.nav-user{display:flex;align-items:center;gap:7px;padding:4px 10px;border-radius:6px;background:var(--bg3);border:1px solid var(--border);font-size:11px;color:var(--text2)}
-.av{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;flex-shrink:0}
-.lout-btn{padding:4px 10px;border-radius:6px;font-size:11px;background:var(--bg3);color:var(--text2);border:1px solid var(--border);cursor:pointer;font-family:'DM Sans',sans-serif;transition:color .12s,border-color .12s}
-.lout-btn:hover{color:var(--red);border-color:var(--red)}
+.nav-user{
+  display:flex;align-items:center;gap:8px;padding:5px 12px;
+  border-radius:6px;background:var(--bg3);border:1px solid var(--border);
+  font-size:12px;color:var(--text2);
+}
+.nav-user .avatar{
+  width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;
+}
+.logout-btn{
+  padding:5px 12px;border-radius:6px;font-size:12px;font-weight:500;
+  background:var(--bg3);color:var(--text2);border:1px solid var(--border);cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:all .15s;
+}
+.logout-btn:hover{color:var(--red);border-color:var(--red)}
 
-/* ── PAGES ── */
-.page{display:none;padding:28px 20px;max-width:1080px;margin:0 auto;width:100%;animation:fadein .2s ease}
-.page.active{display:block}
+.page{display:none;padding:32px 24px;max-width:1100px;margin:0 auto}
+.page.active{display:block;animation:fadein .2s ease}
 @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.bc{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-bottom:10px}
-.ph h1{font-family:'DM Serif Display',serif;font-size:26px;font-weight:400;margin-bottom:4px}
-.ph p{color:var(--text2);font-size:13px;margin-bottom:20px}
 
-/* ── CARDS ── */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
-.ct{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px}
+.page-header{margin-bottom:28px}
+.page-header h1{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;margin-bottom:6px}
+.page-header p{color:var(--text2);font-size:14px;line-height:1.6}
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text3);margin-bottom:12px}
 
-/* ── STATS ── */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
-.sc{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px}
-.sl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.sv{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text)}
-.ss{font-size:10px;color:var(--text3);margin-top:2px}
-.sc.g{border-color:var(--green2)}.sc.g .sv{color:var(--green)}
-.sc.b{border-color:var(--blue2)}.sc.b .sv{color:var(--blue)}
-.sc.p{border-color:#6E40C9}.sc.p .sv{color:var(--purple)}
-.sc.a{border-color:#845304}.sc.a .sv{color:var(--amber)}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:16px}
+.card-title{font-size:13px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px}
 
-/* ── LAYOUT ── */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:700px){.split,.stats,.fr2{grid-template-columns:1fr!important}}
+.form-row{display:grid;gap:12px;margin-bottom:16px}
+.form-row.cols-2{grid-template-columns:1fr 1fr}
+.form-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-label{font-size:12px;font-weight:500;color:var(--text2)}
+.form-input{
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;
+  color:var(--text);outline:none;transition:border-color .15s;
+}
+.form-input:focus{border-color:var(--blue)}
+.form-input::placeholder{color:var(--text3)}
+.form-select{
+  background:var(--bg3);border:1px solid var(--border);border-radius:6px;
+  padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;
+  color:var(--text);outline:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238B949E' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;appearance:none;
+}
 
-/* ── FORMS ── */
-.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
-.fl{font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.04em;text-transform:uppercase}
-.fi{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 11px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;width:100%;transition:border-color .15s,box-shadow .15s}
-.fi:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(88,166,255,.1)}
-.fi::placeholder{color:var(--text3)}
-.fsel{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 11px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text);outline:none;width:100%;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238B949E' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
-.fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* ── BUTTONS ── */
-.btn{padding:8px 16px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.btn{
+  padding:8px 18px;border-radius:6px;font-size:13px;font-weight:500;
+  cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .15s;
+  display:inline-flex;align-items:center;gap:6px;
+}
 .btn:disabled{opacity:.5;cursor:not-allowed}
-.bp{background:var(--green2);color:#fff;border:1px solid var(--green)}.bp:hover:not(:disabled){background:#2ea043}
-.bs{background:var(--bg3);color:var(--text);border:1px solid var(--border)}.bs:hover:not(:disabled){background:var(--bg4);border-color:var(--border2)}
-.bd{background:var(--redl);color:var(--red);border:1px solid var(--red)}.bd:hover:not(:disabled){background:#3d1f1f}
-.bpu{background:var(--purplel);color:var(--purple);border:1px solid #6E40C9}.bpu:hover:not(:disabled){background:#28194a}
+.btn-primary{background:var(--green2);color:#fff;border:1px solid var(--green)}
+.btn-primary:hover:not(:disabled){background:#2EA043}
+.btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover:not(:disabled){background:var(--bg4);border-color:var(--border2)}
+.btn-danger{background:var(--orangel);color:var(--orange);border:1px solid var(--orange)}
+.btn-purple{background:var(--purplel);color:var(--purple);border:1px solid #6E40C9}
 
-/* ── ALERTS ── */
-.alert{padding:11px 15px;border-radius:8px;font-size:13px;margin-bottom:14px;display:none;align-items:flex-start;gap:9px;line-height:1.5}
+.alert{
+  padding:12px 16px;border-radius:8px;font-size:13px;margin-bottom:16px;
+  display:none;align-items:flex-start;gap:10px;
+}
 .alert.show{display:flex;animation:fadein .2s ease}
-.as{background:var(--greenl);border:1px solid var(--green2);color:var(--green)}
-.ae{background:var(--redl);border:1px solid var(--red);color:var(--red)}
-.aw{background:var(--amberl);border:1px solid var(--amber);color:var(--amber)}
-.ai{background:var(--bluel);border:1px solid var(--blue2);color:var(--blue)}
+.alert-success{background:var(--greenl);border:1px solid var(--green2);color:var(--green)}
+.alert-error{background:var(--redl);border:1px solid var(--red);color:var(--red)}
+.alert-info{background:var(--bluel);border:1px solid var(--blue2);color:var(--blue)}
+.alert-warning{background:var(--amberl);border:1px solid var(--amber);color:var(--amber)}
 
-/* ── TABLES ── */
-.tw{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}
+.table-wrap{overflow-x:auto;border-radius:8px;border:1px solid var(--border)}
 table{width:100%;border-collapse:collapse}
 thead tr{background:var(--bg3);border-bottom:1px solid var(--border)}
-th{padding:9px 13px;text-align:left;font-size:10px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
-td{padding:9px 13px;font-size:12px;color:var(--text2);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+td{padding:10px 14px;font-size:12px;color:var(--text2);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace}
 tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(255,255,255,.02)}
-.tdm{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--text)}
-.txh{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);cursor:pointer;transition:color .12s}
-.txh:hover{color:var(--blue)}
+tr:hover td{background:var(--bg3)}
+.td-main{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:var(--text)}
 
-/* ── BADGES ── */
-.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.badge::before{content:'';width:4px;height:4px;border-radius:50%}
-.bf{background:var(--greenl);color:var(--green)}.bf::before{background:var(--green)}
-.bch{background:var(--purplel);color:var(--purple)}.bch::before{background:var(--purple)}
-.bc2{background:var(--amberl);color:var(--amber)}.bc2::before{background:var(--amber)}
-.bpe{background:var(--bluel);color:var(--blue)}.bpe::before{background:var(--blue)}
-.bsp{background:var(--greenl);color:var(--green)}.bsp::before{background:var(--green)}
-.brc{background:var(--redl);color:var(--red)}.brc::before{background:var(--red)}
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;white-space:nowrap}
+.badge::before{content:'';width:5px;height:5px;border-radius:50%}
+.badge-free{background:var(--greenl);color:var(--green)}.badge-free::before{background:var(--green)}
+.badge-charged{background:var(--purplel);color:var(--purple)}.badge-charged::before{background:var(--purple)}
+.badge-caution{background:var(--amberl);color:var(--amber)}.badge-caution::before{background:var(--amber)}
+.badge-pending{background:var(--bluel);color:var(--blue)}.badge-pending::before{background:var(--blue)}
+.badge-paid{background:var(--greenl);color:var(--green)}.badge-paid::before{background:var(--green)}
 
-/* ── PARCEL INFO GRID ── */
-.pi{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ir{display:flex;flex-direction:column;gap:2px;padding:9px 10px;background:var(--bg3);border-radius:6px}
-.ik{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
-.iv{font-size:13px;color:var(--text);font-weight:500}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:18px 20px}
+.stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.stat-value{font-family:'DM Serif Display',serif;font-size:28px;color:var(--text)}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:4px}
+.stat-card.green{border-color:var(--green2)}.stat-card.green .stat-value{color:var(--green)}
+.stat-card.blue{border-color:var(--blue2)}.stat-card.blue .stat-value{color:var(--blue)}
+.stat-card.purple{border-color:#6E40C9}.stat-card.purple .stat-value{color:var(--purple)}
+.stat-card.amber{border-color:#845304}.stat-card.amber .stat-value{color:var(--amber)}
 
-/* ── TIMELINE ── */
-.tl{padding-left:18px;border-left:2px solid var(--border)}
-.tli{position:relative;padding:0 0 16px 18px}
-.tli::before{content:'';position:absolute;left:-7px;top:3px;width:11px;height:11px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2);transition:all .3s}
-.tli.done::before{background:var(--green);border-color:var(--green)}
-.tlt{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
-.tlm{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 
-/* ── ACCESS DENIED ── */
-.denied{background:var(--amberl);border:1px solid var(--amber);border-radius:10px;padding:28px;text-align:center;display:none}
-.denied h3{font-family:'DM Serif Display',serif;color:var(--amber);margin-bottom:6px;font-size:20px;font-weight:400}
-.denied p{color:var(--text2);font-size:13px}
+.tx-hash{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);cursor:pointer}
+.tx-hash:hover{color:var(--blue)}
 
-/* ── NETWORK PEER ROWS ── */
-.peer-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:var(--bg3);border-radius:6px}
+.parcel-info{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.info-row{display:flex;flex-direction:column;gap:3px;padding:10px;background:var(--bg3);border-radius:6px}
+.info-key{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.info-val{font-size:13px;color:var(--text);font-weight:500}
 
-/* ── ACTIVITY ── */
-.act-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
-.act-item:last-child{border-bottom:none}
-.act-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-.act-body{flex:1}
-.act-title{font-size:12px;color:var(--text);margin-bottom:1px}
-.act-meta{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace}
-.act-time{font-size:10px;color:var(--text3);white-space:nowrap}
+.timeline{padding-left:20px;border-left:2px solid var(--border)}
+.tl-item{position:relative;padding:0 0 20px 20px}
+.tl-item::before{content:'';position:absolute;left:-7px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--bg3);border:2px solid var(--border2)}
+.tl-item.done::before{background:var(--green);border-color:var(--green)}
+.tl-title{font-size:13px;font-weight:500;color:var(--text);margin-bottom:3px}
+.tl-meta{font-size:11px;color:var(--text3);font-family:'DM Mono',monospace}
 
-/* ── USER INFO ── */
-.urow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px}
-.urow:last-child{border-bottom:none}
-.uk{color:var(--text2)}
-.uv{color:var(--text);font-weight:500;font-family:'DM Mono',monospace;font-size:11px}
-
-/* ── FOOTER ── */
-footer{border-top:1px solid var(--border);padding:14px 20px;text-align:center;font-size:11px;color:var(--text3);margin-top:auto}
-footer span{color:var(--text2)}
+.access-denied{
+  background:var(--orangel);border:1px solid var(--orange);border-radius:10px;
+  padding:32px;text-align:center;
+}
+.access-denied h2{font-family:'DM Serif Display',serif;color:var(--orange);margin-bottom:8px;font-size:22px}
+.access-denied p{color:var(--text2);font-size:13px}
 </style>
 </head>
 <body>
 
-<!-- ══ LOGIN ══════════════════════════════════════════ -->
+<!-- ══════════════════ LOGIN SCREEN ══════════════════ -->
 <div id="login-screen">
   <div class="login-box">
-    <div class="login-logo"><span class="ldot"></span>LandNet</div>
-    <p class="login-sub">Blockchain Land Records · Hyperledger Fabric · Kenya · Technical University of Kenya</p>
-    <div id="lerr"></div>
-    <label class="lbl">Username</label>
-    <input class="linput" id="lu" placeholder="e.g. registrar" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"/>
-    <label class="lbl">Password</label>
-    <input class="linput" id="lp" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
-    <button class="login-btn" id="lbtn" onclick="doLogin()">Sign in to LandNet</button>
-    <div class="demo-hint">
-      <div class="demo-title">Demo accounts — click to fill</div>
-      <div class="drow" onclick="fill('registrar','registry123')"><span><span class="dn">registrar</span><span class="dpw">registry123</span></span><span class="dr">Land Registrar</span></div>
-      <div class="drow" onclick="fill('kcb_bank','bank123')"><span><span class="dn">kcb_bank</span><span class="dpw">bank123</span></span><span class="dr">KCB Bank</span></div>
-      <div class="drow" onclick="fill('equity_bank','bank123')"><span><span class="dn">equity_bank</span><span class="dpw">bank123</span></span><span class="dr">Equity Bank</span></div>
-      <div class="drow" onclick="fill('surveyor','survey123')"><span><span class="dn">surveyor</span><span class="dpw">survey123</span></span><span class="dr">Surveyor</span></div>
-      <div class="drow" onclick="fill('owner_alex','land123')"><span><span class="dn">owner_alex</span><span class="dpw">land123</span></span><span class="dr">Landowner</span></div>
-      <div class="drow" onclick="fill('owner_peter','land123')"><span><span class="dn">owner_peter</span><span class="dpw">land123</span></span><span class="dr">Landowner</span></div>
-      <div class="drow" onclick="fill('owner_susan','land123')"><span><span class="dn">owner_susan</span><span class="dpw">land123</span></span><span class="dr">Landowner</span></div>
-      <div class="drow" onclick="fill('nlc_officer','nlc123')"><span><span class="dn">nlc_officer</span><span class="dpw">nlc123</span></span><span class="dr">NLC Officer</span></div>
+    <div class="login-logo"><span class="dot"></span>LandNet</div>
+    <p class="login-sub">Blockchain Land Records · Hyperledger Fabric · Kenya</p>
+    <div id="login-error"></div>
+    <label class="login-label">Username</label>
+    <input class="login-input" id="l-user" placeholder="e.g. registrar" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <label class="login-label">Password</label>
+    <input class="login-input" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign in to LandNet</button>
+
+    <div class="login-hint">
+      <div class="login-hint-title">Demo accounts — click to fill</div>
+      <div class="demo-user" onclick="fillLogin('registrar','registry123')">
+        <span><span class="demo-name">registrar</span> <span class="demo-pw">registry123</span></span>
+        <span class="demo-role">Land Registrar</span>
+      </div>
+      <div class="demo-user" onclick="fillLogin('kcb_bank','bank123')">
+        <span><span class="demo-name">kcb_bank</span> <span class="demo-pw">bank123</span></span>
+        <span class="demo-role">Bank Officer</span>
+      </div>
+      <div class="demo-user" onclick="fillLogin('surveyor','survey123')">
+        <span><span class="demo-name">surveyor</span> <span class="demo-pw">survey123</span></span>
+        <span class="demo-role">Surveyor</span>
+      </div>
+      <div class="demo-user" onclick="fillLogin('owner_alex','land123')">
+        <span><span class="demo-name">owner_alex</span> <span class="demo-pw">land123</span></span>
+        <span class="demo-role">Landowner</span>
+      </div>
+      <div class="demo-user" onclick="fillLogin('owner_peter','land123')">
+        <span><span class="demo-name">owner_peter</span> <span class="demo-pw">land123</span></span>
+        <span class="demo-role">Landowner</span>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ══ APP ════════════════════════════════════════════ -->
+<!-- ══════════════════ APP SHELL ══════════════════════ -->
 <div id="app">
 <nav>
-  <a class="nav-brand" onclick="sp('dashboard')"><span class="dot"></span>LandNet</a>
+  <div class="nav-brand" onclick="showPage('dashboard')"><span class="dot"></span>LandNet</div>
   <div class="nav-links">
-    <button class="nl active" id="n-dashboard" onclick="sp('dashboard')">Dashboard</button>
-    <button class="nl" id="n-parcels" onclick="sp('parcels')">All Parcels</button>
-    <button class="nl" id="n-search" onclick="sp('search')">Search</button>
-    <button class="nl" id="n-transfer" onclick="sp('transfer')">Transfer</button>
-    <button class="nl" id="n-stamp" onclick="sp('stamp')">Stamp Duty</button>
-    <button class="nl" id="n-charge" onclick="sp('charge')">Charge</button>
-    <button class="nl" id="n-discharge" onclick="sp('discharge')">Discharge</button>
-    <button class="nl" id="n-caution" onclick="sp('caution')">Caution</button>
-    <button class="nl" id="n-history" onclick="sp('history')">History</button>
-    <button class="nl" id="n-audit" onclick="sp('audit')">Audit Log</button>
+    <button class="nav-link active" id="nav-dashboard" onclick="showPage('dashboard')">Dashboard</button>
+    <button class="nav-link" id="nav-parcels" onclick="showPage('parcels')">All Parcels</button>
+    <button class="nav-link" id="nav-search" onclick="showPage('search')">Search</button>
+    <button class="nav-link" id="nav-transfer" onclick="showPage('transfer')">Transfer</button>
+    <button class="nav-link" id="nav-stamp" onclick="showPage('stamp')">Stamp Duty</button>
+    <button class="nav-link" id="nav-charge" onclick="showPage('charge')">Charge</button>
+    <button class="nav-link" id="nav-discharge" onclick="showPage('discharge')">Discharge</button>
+    <button class="nav-link" id="nav-caution" onclick="showPage('caution')">Caution</button>
+    <button class="nav-link" id="nav-history" onclick="showPage('history')">History</button>
+    <button class="nav-link" id="nav-audit" onclick="showPage('audit')">Audit Log</button>
+    <button class="nav-link" id="nav-create" onclick="showPage('create')">+ New Parcel</button>
   </div>
-  <div class="nav-r">
-    <span class="rbadge" id="nrb"></span>
-    <div class="nav-user"><div class="av" id="nav-av"></div><span id="nav-nm"></span></div>
-    <button class="lout-btn" onclick="doLogout()">Sign out</button>
+  <div class="nav-right">
+    <span class="role-badge" id="nav-role-badge"></span>
+    <div class="nav-user"><div class="avatar" id="nav-avatar"></div><span id="nav-username"></span></div>
+    <button class="logout-btn" onclick="doLogout()">Sign out</button>
   </div>
 </nav>
 
 <!-- DASHBOARD -->
 <div class="page active" id="page-dashboard">
-  <div class="ph">
-    <div class="bc"><span>LandNet Portal</span></div>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet Portal</span></div>
     <h1>Dashboard</h1>
-    <p>Blockchain land records — Hyperledger Fabric network · Technical University of Kenya</p>
+    <p>Blockchain land records — Hyperledger Fabric network</p>
   </div>
-  <div class="stats">
-    <div class="sc g"><div class="sl">Total parcels</div><div class="sv" id="s-tot">10</div><div class="ss">Blocks A–D</div></div>
-    <div class="sc b"><div class="sl">FREE</div><div class="sv" id="s-free">—</div><div class="ss">Available</div></div>
-    <div class="sc p"><div class="sl">CHARGED</div><div class="sv" id="s-ch">—</div><div class="ss">Active charges</div></div>
-    <div class="sc a"><div class="sl">CAUTION</div><div class="sv" id="s-ca">—</div><div class="ss">Restricted</div></div>
+  <div class="stats-grid">
+    <div class="stat-card green"><div class="stat-label">Total parcels</div><div class="stat-value" id="stat-total">—</div><div class="stat-sub">Across 4 blocks</div></div>
+    <div class="stat-card blue"><div class="stat-label">FREE</div><div class="stat-value" id="stat-free">—</div><div class="stat-sub">Available for transfer</div></div>
+    <div class="stat-card purple"><div class="stat-label">CHARGED</div><div class="stat-value" id="stat-charged">—</div><div class="stat-sub">Active charges</div></div>
+    <div class="stat-card amber"><div class="stat-label">CAUTION</div><div class="stat-value" id="stat-caution">—</div><div class="stat-sub">Blocked parcels</div></div>
   </div>
   <div class="split">
-    <div class="card"><div class="ct">⚡ Recent activity</div><div id="dash-act"><div style="color:var(--text3);font-size:13px">Loading…</div></div></div>
+    <div class="card">
+      <div class="card-title">⚡ Recent activity</div>
+      <div id="dash-activity"><div style="color:var(--text3);font-size:13px">Loading…</div></div>
+    </div>
     <div>
-      <div class="card"><div class="ct">🌐 Network peers</div>
-        <div style="display:flex;flex-direction:column;gap:6px">
-          <div class="peer-row"><span style="font-size:12px;color:var(--text)">peer0.org1 — Registry MSP</span><span class="badge bf">Online</span></div>
-          <div class="peer-row"><span style="font-size:12px;color:var(--text)">peer0.org2 — Bank MSP</span><span class="badge bf">Online</span></div>
-          <div class="peer-row"><span style="font-size:12px;color:var(--text)">peer0.org3 — Surveyor MSP</span><span class="badge bf">Online</span></div>
-          <div class="peer-row"><span style="font-size:12px;color:var(--text)">Ordering service</span><span class="badge bf">Online</span></div>
+      <div class="card">
+        <div class="card-title">🌐 Network peers</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px"><span style="font-size:13px;color:var(--text)">Peer A — Land Registry MSP</span><span class="badge badge-free">Online</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px"><span style="font-size:13px;color:var(--text)">Peer B — Bank MSP</span><span class="badge badge-free">Online</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px"><span style="font-size:13px;color:var(--text)">Peer C — Surveyor MSP</span><span class="badge badge-free">Online</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:var(--bg3);border-radius:6px"><span style="font-size:13px;color:var(--text)">Ordering Service</span><span class="badge badge-free">Online</span></div>
         </div>
       </div>
-      <div class="card"><div class="ct">🏛 Signed in as</div><div id="dash-user"></div></div>
+      <div class="card">
+        <div class="card-title">🏛 Signed in as</div>
+        <div id="dash-user-info" style="display:flex;flex-direction:column;gap:8px;font-size:13px;color:var(--text2)"></div>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- ALL PARCELS -->
 <div class="page" id="page-parcels">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>All Parcels</span></div><h1>All parcels</h1><p>Current state of every land parcel on the blockchain ledger. Click any parcel key to view full history.</p></div>
-  <div class="card"><div class="ct">📦 Ledger — parcel registry</div>
-    <div class="tw"><table>
-      <thead><tr><th>Parcel key</th><th>Block</th><th>Parcel no.</th><th>Current owner</th><th>State</th><th>Txns</th><th>Last updated</th></tr></thead>
-      <tbody id="ptbody"></tbody>
-    </table></div>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>All Parcels</span></div>
+    <h1>All parcels</h1>
+    <p>Current state snapshot of every land parcel on the blockchain ledger.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">📦 Ledger — parcel registry</div>
+    <div class="table-wrap">
+      <table><thead><tr><th>Parcel key</th><th>Block</th><th>Parcel No.</th><th>Current owner</th><th>State</th><th>Tx count</th><th>Last updated</th></tr></thead>
+      <tbody id="parcels-tbody"><tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading…</td></tr></tbody></table>
+    </div>
   </div>
 </div>
 
 <!-- SEARCH -->
 <div class="page" id="page-search">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>Search</span></div><h1>Search parcel history</h1><p>Query the full immutable transaction history of any land parcel from the blockchain ledger.</p></div>
-  <div class="card"><div class="ct">🔍 Parcel lookup</div>
-    <div class="fr2" style="margin-bottom:10px">
-      <div class="fg"><label class="fl">Block name</label><input class="fi" id="sb" value="Block A" placeholder="Block A"/></div>
-      <div class="fg"><label class="fl">Parcel number</label><input class="fi" id="sp2" value="001" placeholder="001"/></div>
-    </div>
-    <div style="display:flex;align-items:center;gap:10px">
-      <button class="btn bp" onclick="doSearch()">Search ledger</button>
-      <span style="font-size:11px;color:var(--text3)">Try: Block A/001–004 · Block B/001–003 · Block C/005,010 · Block D/007</span>
-    </div>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Search</span></div>
+    <h1>Search parcel history</h1>
+    <p>Query the full immutable transaction history of any parcel from the blockchain ledger.</p>
   </div>
-  <div id="sr" style="display:none">
-    <div class="card"><div class="ct">📄 Parcel details</div><div class="pi" id="sr-info"></div></div>
-    <div class="card"><div class="ct">📜 Transaction history</div>
-      <div class="tw"><table><thead><tr><th>Tx ID</th><th>Timestamp</th><th>Type</th><th>Owner</th><th>MSP</th><th>State</th><th>Detail</th></tr></thead><tbody id="sr-tbody"></tbody></table></div>
+  <div class="card">
+    <div class="card-title">🔍 Parcel lookup</div>
+    <div class="form-row cols-3">
+      <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="s-block" placeholder="e.g. Block A" value="Block A"/></div>
+      <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="s-parcel" placeholder="e.g. 001" value="001"/></div>
+      <div class="form-group"><label class="form-label">&nbsp;</label><button class="btn btn-primary" onclick="doSearch()" style="height:38px">Search ledger</button></div>
+    </div>
+    <div style="font-size:12px;color:var(--text3)">Try: Block A / 001–004 · Block B / 001–003 · Block C / 005, 010 · Block D / 007</div>
+  </div>
+  <div id="search-result" style="display:none">
+    <div class="card"><div class="card-title">📄 Parcel details</div><div class="parcel-info" id="parcel-info-grid"></div></div>
+    <div class="card">
+      <div class="card-title">📜 Transaction history</div>
+      <div class="table-wrap"><table><thead><tr><th>Tx ID</th><th>Timestamp</th><th>Type</th><th>Owner</th><th>Organisation</th><th>State</th></tr></thead><tbody id="search-tbody"></tbody></table></div>
     </div>
   </div>
 </div>
 
 <!-- TRANSFER -->
 <div class="page" id="page-transfer">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>Transfer</span></div><h1>Transfer ownership</h1><p>Initiate a parcel ownership transfer. All conditions are enforced by the smart contract.</p></div>
-  <div id="t-alert" class="alert"></div>
-  <div id="t-denied" class="denied"><h3>Access restricted</h3><p>Only <strong>Land Registrars</strong> and <strong>Landowners</strong> can initiate transfers.</p></div>
-  <div id="t-form" class="split">
-    <div class="card"><div class="ct">📋 Transfer request</div>
-      <div class="fr2"><div class="fg"><label class="fl">Block name</label><input class="fi" id="tb" placeholder="e.g. Block A"/></div><div class="fg"><label class="fl">Parcel number</label><input class="fi" id="tp" placeholder="e.g. 004"/></div></div>
-      <div class="fg"><label class="fl">Current owner (must match ledger)</label><input class="fi" id="to" placeholder="Full name of current owner"/></div>
-      <div class="fg"><label class="fl">New owner</label><input class="fi" id="tn" placeholder="Full name of new owner"/></div>
-      <div style="display:flex;gap:8px;margin-top:4px">
-        <button class="btn bp" onclick="doTransfer()">Submit transfer</button>
-        <button class="btn bs" onclick="clearF('tb','tp','to','tn')">Clear</button>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Transfer</span></div>
+    <h1>Transfer ownership</h1>
+    <p>Initiate a transfer of land parcel ownership. All conditions are enforced by the smart contract.</p>
+  </div>
+  <div id="transfer-alert" class="alert"></div>
+  <div id="transfer-denied" class="access-denied" style="display:none">
+    <h2>🔒 Access restricted</h2>
+    <p>Only <strong>Land Registrars</strong> and <strong>Landowners</strong> can initiate transfers.</p>
+  </div>
+  <div id="transfer-form" class="split">
+    <div class="card">
+      <div class="card-title">📋 Transfer request</div>
+      <div class="form-row cols-2">
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="t-block" placeholder="e.g. Block A"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="t-parcel" placeholder="e.g. 001"/></div>
+      </div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Current owner (must match ledger)</label><input class="form-input" id="t-owner" placeholder="Full name of current owner"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">New owner</label><input class="form-input" id="t-newowner" placeholder="Full name of new owner"/></div></div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn btn-primary" onclick="doTransfer()">Submit transfer</button>
+        <button class="btn btn-secondary" onclick="clearFields('t-block','t-parcel','t-owner','t-newowner')">Clear</button>
       </div>
     </div>
-    <div class="card"><div class="ct">✅ Smart contract conditions</div>
-      <div class="tl">
-        <div class="tli" id="c1"><div class="tlt">Caller is registered owner</div><div class="tlm">Verified against ledger state</div></div>
-        <div class="tli" id="c2"><div class="tlt">No active charge on parcel</div><div class="tlm">State must not be CHARGED</div></div>
-        <div class="tli" id="c3"><div class="tlt">No active caution or caveat</div><div class="tlm">State must not be CAUTION</div></div>
-        <div class="tli" id="c4"><div class="tlt">No pending transfer</div><div class="tlm">State must not be PENDING</div></div>
-        <div class="tli" id="c5"><div class="tlt">New owner address provided</div><div class="tlm">Cannot transfer to empty address</div></div>
+    <div class="card">
+      <div class="card-title">✅ Smart contract conditions</div>
+      <div class="timeline">
+        <div class="tl-item" id="cond-1"><div class="tl-title">Caller is registered owner</div><div class="tl-meta">Verified against ledger state</div></div>
+        <div class="tl-item" id="cond-2"><div class="tl-title">No active charge on parcel</div><div class="tl-meta">State must not be CHARGED</div></div>
+        <div class="tl-item" id="cond-3"><div class="tl-title">No active caution or caveat</div><div class="tl-meta">State must not be CAUTION</div></div>
+        <div class="tl-item" id="cond-4"><div class="tl-title">No pending transfer</div><div class="tl-meta">State must not be PENDING</div></div>
+        <div class="tl-item" id="cond-5"><div class="tl-title">New owner address provided</div><div class="tl-meta">Cannot transfer to empty address</div></div>
       </div>
     </div>
   </div>
@@ -357,589 +401,708 @@ footer span{color:var(--text2)}
 
 <!-- STAMP DUTY -->
 <div class="page" id="page-stamp">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>Stamp Duty</span></div><h1>Confirm stamp duty</h1><p>Advance a PENDING parcel to STAMP_PAID after confirming payment. Registrar only.</p></div>
-  <div id="sd-alert" class="alert"></div>
-  <div id="sd-denied" class="denied"><h3>Access restricted</h3><p>Only <strong>Land Registrars</strong> can confirm stamp duty payments.</p></div>
-  <div id="sd-form" class="card" style="max-width:480px">
-    <div class="ct">🏛 Stamp duty confirmation</div>
-    <div class="fr2">
-      <div class="fg"><label class="fl">Block name</label><input class="fi" id="sdb" placeholder="e.g. Block A"/></div>
-      <div class="fg"><label class="fl">Parcel number</label><input class="fi" id="sdp" placeholder="e.g. 001"/></div>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Stamp Duty</span></div>
+    <h1>Confirm stamp duty</h1>
+    <p>Registrar only — confirm stamp duty payment to advance a PENDING parcel to STAMP_PAID.</p>
+  </div>
+  <div id="stamp-alert" class="alert"></div>
+  <div id="stamp-denied" class="access-denied" style="display:none">
+    <h2>🔒 Access restricted</h2><p>Only <strong>Land Registrars</strong> can confirm stamp duty payments.</p>
+  </div>
+  <div id="stamp-form" class="card" style="max-width:500px">
+    <div class="card-title">🏛 Stamp duty confirmation</div>
+    <div class="form-row cols-2">
+      <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="sd-block" placeholder="e.g. Block B"/></div>
+      <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="sd-parcel" placeholder="e.g. 003"/></div>
     </div>
-    <p style="font-size:11px;color:var(--text3);margin-bottom:12px">Currently PENDING: Block A/001 · Block B/003</p>
-    <button class="btn bp" onclick="doStamp()">Confirm stamp duty paid</button>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Parcels currently PENDING: Block A/001 · Block B/003</p>
+    <button class="btn btn-primary" onclick="doStampDuty()">Confirm stamp duty paid</button>
   </div>
 </div>
 
 <!-- CHARGE -->
 <div class="page" id="page-charge">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>Charge</span></div><h1>Place a charge</h1><p>Register a parcel as loan collateral. Bank officers only.</p></div>
-  <div id="ch-alert" class="alert"></div>
-  <div id="ch-denied" class="denied"><h3>Access restricted</h3><p>Only <strong>Bank Officers</strong> can place charges on parcels.</p></div>
-  <div id="ch-form" class="split">
-    <div class="card"><div class="ct">🏦 Charge request</div>
-      <div class="fr2"><div class="fg"><label class="fl">Block name</label><input class="fi" id="chb" placeholder="Block A"/></div><div class="fg"><label class="fl">Parcel number</label><input class="fi" id="chp" placeholder="004"/></div></div>
-      <div class="fg"><label class="fl">Owner name (must match ledger)</label><input class="fi" id="cho" placeholder="Registered owner"/></div>
-      <div class="fg"><label class="fl">Loan reference</label><input class="fi" id="chr" placeholder="e.g. KCB/2024/001234"/></div>
-      <p id="ch-bank-lbl" style="font-size:11px;color:var(--text3);margin-bottom:10px"></p>
-      <button class="btn bp" onclick="doCharge()">Place charge</button>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Charge</span></div>
+    <h1>Place a charge</h1>
+    <p>Register a parcel as loan collateral. Bank officers only.</p>
+  </div>
+  <div id="charge-alert" class="alert"></div>
+  <div id="charge-denied" class="access-denied" style="display:none">
+    <h2>🔒 Access restricted</h2><p>Only <strong>Bank Officers</strong> can place charges on parcels.</p>
+  </div>
+  <div id="charge-form" class="split">
+    <div class="card">
+      <div class="card-title">🏦 Charge request</div>
+      <div class="form-row cols-2">
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="ch-block" placeholder="Block A"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="ch-parcel" placeholder="001"/></div>
+      </div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Owner name (must match ledger)</label><input class="form-input" id="ch-owner" placeholder="Registered owner"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Loan reference</label><input class="form-input" id="ch-ref" placeholder="e.g. KCB/2024/001234"/></div></div>
+      <p id="ch-bank-display" style="font-size:12px;color:var(--text3);margin-bottom:12px"></p>
+      <button class="btn btn-primary" onclick="doCharge()">Place charge</button>
     </div>
-    <div class="card"><div class="ct">ℹ️ Charge rules</div>
-      <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:12px">A charge locks the parcel as collateral. Only one charge is allowed per parcel at a time. While CHARGED, no transfers or second charges are permitted.</p>
-      <div style="padding:10px;background:var(--amberl);border:1px solid var(--amber);border-radius:7px"><p style="font-size:11px;color:var(--amber)">⚠️ Smart contract blocks if parcel already has a charge, caution, or pending transfer.</p></div>
-      <p style="font-size:11px;color:var(--text3);margin-top:10px">FREE parcels available: Block A/004 · Block B/001</p>
+    <div class="card">
+      <div class="card-title">ℹ️ About charging</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">A charge locks the parcel as collateral. While CHARGED, the parcel cannot be transferred or charged again by any institution.</p>
+      <div style="padding:12px;background:var(--amberl);border:1px solid var(--amber);border-radius:8px"><p style="font-size:12px;color:var(--amber)">⚠️ Smart contract blocks charge if parcel already has an active charge, caution, or pending transfer.</p></div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text3)">FREE parcels available to charge:<br/>Block A / 004, Block B / 001</div>
     </div>
   </div>
 </div>
 
 <!-- DISCHARGE -->
 <div class="page" id="page-discharge">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>Discharge</span></div><h1>Discharge a charge</h1><p>Remove a charge once the loan is fully repaid. Only the charging institution can discharge.</p></div>
-  <div id="dc-alert" class="alert"></div>
-  <div id="dc-denied" class="denied"><h3>Access restricted</h3><p>Only <strong>Bank Officers</strong> can discharge charges.</p></div>
-  <div id="dc-form" class="split">
-    <div class="card"><div class="ct">✅ Discharge request</div>
-      <div class="fr2"><div class="fg"><label class="fl">Block name</label><input class="fi" id="dcb" placeholder="Block A"/></div><div class="fg"><label class="fl">Parcel number</label><input class="fi" id="dcp" placeholder="003"/></div></div>
-      <div class="fg"><label class="fl">Loan reference</label><input class="fi" id="dcr" placeholder="Original loan reference number"/></div>
-      <p id="dc-bank-lbl" style="font-size:11px;color:var(--text3);margin-bottom:10px"></p>
-      <button class="btn bp" onclick="doDischarge()">Discharge parcel</button>
-    </div>
-    <div class="card"><div class="ct">🔒 Discharge conditions</div>
-      <div class="tl">
-        <div class="tli done"><div class="tlt">Parcel state is CHARGED</div><div class="tlm">Active charge required</div></div>
-        <div class="tli done"><div class="tlt">Caller is the charging institution</div><div class="tlm">MSP verified on every request</div></div>
-        <div class="tli done"><div class="tlt">Loan reference provided</div><div class="tlm">Must match original charge record</div></div>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Discharge</span></div>
+    <h1>Discharge a charge</h1>
+    <p>Remove a charge once the loan is repaid. Only the charging institution can discharge.</p>
+  </div>
+  <div id="discharge-alert" class="alert"></div>
+  <div id="discharge-denied" class="access-denied" style="display:none">
+    <h2>🔒 Access restricted</h2><p>Only <strong>Bank Officers</strong> can discharge charges.</p>
+  </div>
+  <div id="discharge-form" class="split">
+    <div class="card">
+      <div class="card-title">✅ Discharge request</div>
+      <div class="form-row cols-2">
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="dc-block" placeholder="Block A"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="dc-parcel" placeholder="003"/></div>
       </div>
-      <p style="font-size:11px;color:var(--text3);margin-top:8px">Currently CHARGED: Block A/003 (Equity Bank) · Block C/010 (NCBA Bank)</p>
+      <div class="form-row"><div class="form-group"><label class="form-label">Loan reference</label><input class="form-input" id="dc-ref" placeholder="Original loan reference number"/></div></div>
+      <p id="dc-bank-display" style="font-size:12px;color:var(--text3);margin-bottom:12px"></p>
+      <button class="btn btn-primary" onclick="doDischarge()">Discharge parcel</button>
+    </div>
+    <div class="card">
+      <div class="card-title">🔒 Discharge conditions</div>
+      <div class="timeline">
+        <div class="tl-item done"><div class="tl-title">Parcel state is CHARGED</div><div class="tl-meta">Must have an active charge</div></div>
+        <div class="tl-item done"><div class="tl-title">Caller is the charging institution</div><div class="tl-meta">MSP verified on every request</div></div>
+        <div class="tl-item done"><div class="tl-title">Loan reference provided</div><div class="tl-meta">Must match original charge record</div></div>
+      </div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text3)">Currently CHARGED: Block A/003 (Equity Bank) · Block C/010 (NCBA)</div>
     </div>
   </div>
 </div>
 
 <!-- CAUTION -->
 <div class="page" id="page-caution">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>Caution</span></div><h1>Caution &amp; caveat</h1><p>Place or remove a restriction that blocks all transactions on a parcel.</p></div>
-  <div id="ca-alert" class="alert"></div>
-  <div id="ca-denied" class="denied"><h3>Access restricted</h3><p>Only <strong>Registrars</strong> and <strong>Landowners</strong> can manage cautions.</p></div>
-  <div id="ca-form" class="split">
-    <div class="card"><div class="ct">⚠️ Caution request</div>
-      <div class="fr2"><div class="fg"><label class="fl">Block name</label><input class="fi" id="cab" placeholder="Block A"/></div><div class="fg"><label class="fl">Parcel number</label><input class="fi" id="cap" placeholder="004"/></div></div>
-      <div class="fg"><label class="fl">Owner name (must match ledger)</label><input class="fi" id="cao" placeholder="Registered owner name"/></div>
-      <div class="fg"><label class="fl">Reason / reference</label><input class="fi" id="car" placeholder="e.g. Court order CAJ/2024/0012"/></div>
-      <div style="display:flex;gap:8px;margin-top:4px">
-        <button class="btn bp" onclick="doCaution()">Place caution</button>
-        <button class="btn bd" onclick="doRemoveCaution()">Remove caution</button>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Caution</span></div>
+    <h1>Caution &amp; caveat</h1>
+    <p>Place or remove a restriction that blocks all transactions on a parcel.</p>
+  </div>
+  <div id="caution-alert" class="alert"></div>
+  <div id="caution-denied" class="access-denied" style="display:none">
+    <h2>🔒 Access restricted</h2><p>Only <strong>Registrars</strong> and <strong>Landowners</strong> can manage cautions.</p>
+  </div>
+  <div id="caution-form" class="split">
+    <div class="card">
+      <div class="card-title">⚠️ Caution request</div>
+      <div class="form-row cols-2">
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="ca-block" placeholder="Block A"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="ca-parcel" placeholder="004"/></div>
+      </div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Owner name (must match ledger)</label><input class="form-input" id="ca-owner" placeholder="Registered owner"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Reason / reference</label><input class="form-input" id="ca-reason" placeholder="e.g. Pending court order CAJ/2024/0012"/></div></div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn btn-primary" onclick="doCaution()">Place caution</button>
+        <button class="btn btn-danger" onclick="doRemoveCaution()">Remove caution</button>
       </div>
     </div>
-    <div class="card"><div class="ct">🚫 Effect of caution</div>
-      <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:12px">Once placed, ALL further transactions are blocked — transfers, charges, discharges — until formally removed by the same owner or a Land Registrar.</p>
-      <div style="padding:10px;background:var(--redl);border:1px solid var(--red);border-radius:7px"><p style="font-size:11px;color:var(--red)">🔴 Only the owner who placed the caution, or a Registrar, can remove it. Smart contract verifies caller MSP on every removal.</p></div>
-      <p style="font-size:11px;color:var(--text3);margin-top:10px">Currently CAUTION: Block A/002 · Block B/002</p>
+    <div class="card">
+      <div class="card-title">🚫 Effect of caution</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">Once placed, the smart contract blocks <strong style="color:var(--text)">all</strong> further transactions — transfers, charges, discharges — until formally removed by the same owner or a registrar.</p>
+      <div style="padding:12px;background:var(--redl);border:1px solid var(--red);border-radius:8px"><p style="font-size:12px;color:var(--red)">🔴 Only the owner who placed the caution, or a Land Registrar, can remove it.</p></div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text3)">Currently CAUTIONED: Block A/002 · Block B/002</div>
     </div>
   </div>
 </div>
 
 <!-- HISTORY -->
 <div class="page" id="page-history">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>History</span></div><h1>Transaction history</h1><p>Full immutable audit trail of all land transactions across the entire blockchain ledger.</p></div>
-  <div class="card"><div class="ct">📜 All transactions — blockchain ledger</div>
-    <div class="tw"><table>
-      <thead><tr><th>Tx ID</th><th>Timestamp</th><th>Type</th><th>Block / Parcel</th><th>Owner</th><th>MSP</th><th>State</th></tr></thead>
-      <tbody id="htbody"><tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading…</td></tr></tbody>
-    </table></div>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>History</span></div>
+    <h1>Transaction history</h1>
+    <p>Full audit trail across all parcels committed to the distributed blockchain ledger.</p>
+  </div>
+  <div class="card">
+    <div class="card-title">📜 All transactions — blockchain ledger</div>
+    <div class="table-wrap">
+      <table><thead><tr><th>Tx ID</th><th>Timestamp</th><th>Type</th><th>Block / Parcel</th><th>Owner</th><th>Organisation</th><th>State</th></tr></thead>
+      <tbody id="history-tbody"><tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading…</td></tr></tbody></table>
+    </div>
   </div>
 </div>
 
 <!-- AUDIT LOG -->
 <div class="page" id="page-audit">
-  <div class="ph"><div class="bc"><span>LandNet</span><span>›</span><span>Audit Log</span></div><h1>System audit log</h1><p>Every action logged with user, role, outcome and timestamp. Registrar and Surveyor access only.</p></div>
-  <div id="au-denied" class="denied"><h3>Access restricted</h3><p>Audit log requires <strong>Registrar</strong> or <strong>Surveyor</strong> role.</p></div>
-  <div id="au-content" style="display:none">
-    <div class="card"><div class="ct">🗂 Audit trail</div>
-      <div class="tw"><table>
-        <thead><tr><th>Timestamp</th><th>User</th><th>Role</th><th>Action</th><th>Parcel</th><th>Outcome</th><th>Detail</th></tr></thead>
-        <tbody id="au-tbody"><tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">No actions yet — interact with the system to populate this log.</td></tr></tbody>
-      </table></div>
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Audit Log</span></div>
+    <h1>System audit log</h1>
+    <p>Every API action logged with user, role, outcome and timestamp. Registrar / Surveyor access only.</p>
+  </div>
+  <div id="audit-denied" class="access-denied" style="display:none">
+    <h2>🔒 Access restricted</h2><p>Audit log access requires <strong>Registrar</strong> or <strong>Surveyor</strong> role.</p>
+  </div>
+  <div id="audit-content" style="display:none">
+    <div class="card">
+      <div class="card-title">🗂 Audit trail</div>
+      <div class="table-wrap">
+        <table><thead><tr><th>Timestamp</th><th>User</th><th>Role</th><th>Action</th><th>Parcel</th><th>Outcome</th><th>Detail</th></tr></thead>
+        <tbody id="audit-tbody"><tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading…</td></tr></tbody></table>
+      </div>
     </div>
   </div>
 </div>
 
-<footer>
-  <span>LandNet Portal v2.0</span> · BSc Land Administration · Technical University of Kenya · ESLM/00770/2021 · Supervisor: Mr. Konguka
-</footer>
+<!-- CREATE PARCEL -->
+<div class="page" id="page-create">
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>New Parcel</span></div>
+    <h1>Register new parcel</h1>
+    <p>Create a new land parcel on the blockchain ledger. Registrar only. Parcel is created in FREE state.</p>
+  </div>
+  <div id="create-alert" class="alert"></div>
+  <div id="create-denied" class="access-denied" style="display:none">
+    <h2>🔒 Access restricted</h2><p>Only <strong>Land Registrars</strong> can register new parcels.</p>
+  </div>
+  <div id="create-form" class="split">
+    <div class="card">
+      <div class="card-title">🌱 Parcel registration</div>
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label class="form-label">Block name</label>
+          <select class="form-select" id="cr-block">
+            <option value="">Select block…</option>
+            <option value="Block A">Block A</option>
+            <option value="Block B">Block B</option>
+            <option value="Block C">Block C</option>
+            <option value="Block D">Block D</option>
+            <option value="Block E">Block E</option>
+            <option value="Block F">Block F</option>
+            <option value="Block G">Block G</option>
+            <option value="Block H">Block H</option>
+            <option value="Block I">Block I</option>
+            <option value="Block J">Block J</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Parcel number</label>
+          <input class="form-input" id="cr-parcel" placeholder="e.g. 008"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Registered owner (full name)</label>
+          <input class="form-input" id="cr-owner" placeholder="e.g. Joseph Kariuki"/>
+        </div>
+      </div>
+      <div class="form-row cols-2">
+        <div class="form-group">
+          <label class="form-label">Area (optional)</label>
+          <input class="form-input" id="cr-area" placeholder="e.g. 0.5 Ha"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location (optional)</label>
+          <input class="form-input" id="cr-location" placeholder="e.g. Kiambu Sub-County"/>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <button class="btn btn-primary" onclick="doCreateParcel()">Register parcel</button>
+        <button class="btn btn-secondary" onclick="clearFields('cr-parcel','cr-owner','cr-area','cr-location')">Clear</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">ℹ️ How registration works</div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">
+        Registering a parcel writes a <strong style="color:var(--text)">CREATE</strong> transaction to the blockchain ledger. The parcel starts in <strong style="color:var(--green)">FREE</strong> state — available immediately for transfers, charges, or cautions.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border-radius:6px">
+          <span style="font-size:16px">📝</span>
+          <div>
+            <div style="font-size:12px;font-weight:500;color:var(--text)">Immutable record</div>
+            <div style="font-size:11px;color:var(--text3)">Once created, the parcel key cannot be changed</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border-radius:6px">
+          <span style="font-size:16px">🔐</span>
+          <div>
+            <div style="font-size:12px;font-weight:500;color:var(--text)">Unique parcel key</div>
+            <div style="font-size:11px;color:var(--text3)">Block + parcel number must not already exist</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg3);border-radius:6px">
+          <span style="font-size:16px">⛓</span>
+          <div>
+            <div style="font-size:12px;font-weight:500;color:var(--text)">Submitted by</div>
+            <div style="font-size:11px;color:var(--text3)">Your name and MSP are recorded on every transaction</div>
+          </div>
+        </div>
+      </div>
+      <div id="create-result" style="display:none;margin-top:14px;padding:14px;background:var(--greenl);border:1px solid var(--green2);border-radius:8px">
+        <div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">✅ Parcel registered</div>
+        <div id="create-result-body" style="font-size:12px;color:var(--text2);line-height:1.7"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div><!-- /app -->
 
 <script>
-// ═══════════════════════════════════════════════════
-//  DATA — USERS
-// ═══════════════════════════════════════════════════
-const USERS = {
-  registrar:   {name:'Alice Wambui',   role:'registrar', mspid:'registryMSP', org:'Land Registry — Nairobi District',   bank:null},
-  kcb_bank:    {name:'Brian Omondi',   role:'bank',      mspid:'bankMSP',     org:'KCB Bank Kenya',                     bank:'KCB Bank Kenya'},
-  equity_bank: {name:'Carol Njeri',    role:'bank',      mspid:'bankMSP',     org:'Equity Bank Kenya',                  bank:'Equity Bank Kenya'},
-  surveyor:    {name:'David Kipchoge', role:'surveyor',  mspid:'surveyorMSP', org:'Kenya Registered Surveyors',         bank:null},
-  owner_alex:  {name:'Alex Kamau',     role:'landowner', mspid:'ownerMSP',    org:'Private Landowner',                  bank:null},
-  owner_susan: {name:'Susan Mwangi',   role:'landowner', mspid:'ownerMSP',    org:'Private Landowner',                  bank:null},
-  owner_peter: {name:'Peter Kamau',    role:'landowner', mspid:'ownerMSP',    org:'Private Landowner',                  bank:null},
-  nlc_officer: {name:'Grace Achieng', role:'registrar', mspid:'registryMSP', org:'National Land Commission',           bank:null},
-};
-const PWS = {registrar:'registry123',kcb_bank:'bank123',equity_bank:'bank123',surveyor:'survey123',owner_alex:'land123',owner_susan:'land123',owner_peter:'land123',nlc_officer:'nlc123'};
+// ── STATE ──────────────────────────────────────────────────────────────────
+const API = '';
+let sessionToken = sessionStorage.getItem('landnet_token') || null;
+let currentUser  = JSON.parse(sessionStorage.getItem('landnet_user') || 'null');
 
-// ═══════════════════════════════════════════════════
-//  DATA — LEDGER (10 parcels · 4 blocks)
-// ═══════════════════════════════════════════════════
-const LEDGER = {
-  'Block A:001':[
-    {txId:'9bd3923a4e1f2c7d',timestamp:'2024-07-18T20:10:30Z',type:'TRANSFER',  blockName:'Block A',parcelNumber:'001',currentOwner:'Susan Mwangi',  currentState:'STAMP_PAID',mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'60ea3bf5a9204d81',timestamp:'2024-07-18T19:54:36Z',type:'TRANSFER',  blockName:'Block A',parcelNumber:'001',currentOwner:'Susan Mwangi',  currentState:'PENDING',   mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'fbcff0789d3e1a54',timestamp:'2024-07-18T14:39:41Z',type:'DISCHARGE', blockName:'Block A',parcelNumber:'001',currentOwner:'Alex Kamau',    currentState:'FREE',      mspid:'bankMSP',    submittedBy:'Brian Omondi',  bank:'KCB Bank Kenya',   loanRef:'KCB/2024/0081'},
-    {txId:'74f97e96c1b2d340',timestamp:'2024-07-15T15:42:54Z',type:'CHARGE',    blockName:'Block A',parcelNumber:'001',currentOwner:'Alex Kamau',    currentState:'CHARGED',   mspid:'bankMSP',    submittedBy:'Brian Omondi',  bank:'KCB Bank Kenya',   loanRef:'KCB/2024/0081'},
-    {txId:'a582431705fbe917',timestamp:'2024-07-13T06:18:40Z',type:'TRANSFER',  blockName:'Block A',parcelNumber:'001',currentOwner:'Alex Kamau',    currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'1c4e7f2908ab6d33',timestamp:'2024-07-10T09:00:00Z',type:'CREATE',    blockName:'Block A',parcelNumber:'001',currentOwner:'James Njoroge', currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block A:002':[
-    {txId:'b0a1234cde567890',timestamp:'2024-07-20T08:30:00Z',type:'CAUTION',   blockName:'Block A',parcelNumber:'002',currentOwner:'Mary Akinyi',   currentState:'CAUTION',   mspid:'registryMSP',submittedBy:'Mary Akinyi',   cautionReason:'Pending court order — Nairobi Env Court NECC/004/2024'},
-    {txId:'f9e8d7c6b5a43210',timestamp:'2024-07-19T14:22:10Z',type:'TRANSFER',  blockName:'Block A',parcelNumber:'002',currentOwner:'Mary Akinyi',   currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'aabb1122ccdd3344',timestamp:'2024-07-15T10:00:00Z',type:'CREATE',    blockName:'Block A',parcelNumber:'002',currentOwner:'Samuel Otieno', currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block A:003':[
-    {txId:'3344ccdd5566eeff',timestamp:'2024-07-21T11:15:00Z',type:'CHARGE',    blockName:'Block A',parcelNumber:'003',currentOwner:'Peter Kamau',   currentState:'CHARGED',   mspid:'bankMSP',    submittedBy:'Carol Njeri',   bank:'Equity Bank Kenya',loanRef:'EQB/2024/0452'},
-    {txId:'7788aabb9900ccdd',timestamp:'2024-07-18T09:50:00Z',type:'TRANSFER',  blockName:'Block A',parcelNumber:'003',currentOwner:'Peter Kamau',   currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'eeff00112233aabb',timestamp:'2024-07-12T07:00:00Z',type:'CREATE',    blockName:'Block A',parcelNumber:'003',currentOwner:'Fatuma Hassan', currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block A:004':[
-    {txId:'11223344aabbccdd',timestamp:'2024-07-22T13:45:00Z',type:'DISCHARGE', blockName:'Block A',parcelNumber:'004',currentOwner:'Grace Wanjiku', currentState:'FREE',      mspid:'bankMSP',    submittedBy:'Brian Omondi',  bank:'KCB Bank Kenya',   loanRef:'KCB/2024/0033'},
-    {txId:'5566778899aabbcc',timestamp:'2024-07-17T16:20:00Z',type:'CHARGE',    blockName:'Block A',parcelNumber:'004',currentOwner:'Grace Wanjiku', currentState:'CHARGED',   mspid:'bankMSP',    submittedBy:'Brian Omondi',  bank:'KCB Bank Kenya',   loanRef:'KCB/2024/0033'},
-    {txId:'ddeeff0011223344',timestamp:'2024-07-13T08:30:00Z',type:'CREATE',    blockName:'Block A',parcelNumber:'004',currentOwner:'Grace Wanjiku', currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block B:001':[
-    {txId:'b72f4a19e03c8d25',timestamp:'2024-07-15T09:14:22Z',type:'CREATE',    blockName:'Block B',parcelNumber:'001',currentOwner:'John Otieno',   currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block B:002':[
-    {txId:'cc99dd88ee77ff66',timestamp:'2024-07-23T10:00:00Z',type:'CAUTION',   blockName:'Block B',parcelNumber:'002',currentOwner:'Peter Kamau',   currentState:'CAUTION',   mspid:'registryMSP',submittedBy:'Peter Kamau',   cautionReason:'Boundary dispute — survey re-measurement in progress'},
-    {txId:'aa11bb22cc33dd44',timestamp:'2024-07-20T11:30:00Z',type:'TRANSFER',  blockName:'Block B',parcelNumber:'002',currentOwner:'Peter Kamau',   currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'55667788990011aa',timestamp:'2024-07-11T07:45:00Z',type:'CREATE',    blockName:'Block B',parcelNumber:'002',currentOwner:'Wanjiru Muthoni',currentState:'FREE',     mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block B:003':[
-    {txId:'ff00112233445566',timestamp:'2024-07-24T14:00:00Z',type:'STAMP_DUTY',blockName:'Block B',parcelNumber:'003',currentOwner:'Amina Osman',   currentState:'STAMP_PAID',mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'7890abcdef012345',timestamp:'2024-07-24T13:45:00Z',type:'TRANSFER',  blockName:'Block B',parcelNumber:'003',currentOwner:'Amina Osman',   currentState:'PENDING',   mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'2345678901234567',timestamp:'2024-07-19T09:00:00Z',type:'CREATE',    blockName:'Block B',parcelNumber:'003',currentOwner:'Robert Mwenda', currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block C:005':[
-    {txId:'e91c3b8d0f4a2e17',timestamp:'2024-07-14T11:30:05Z',type:'STAMP_DUTY',blockName:'Block C',parcelNumber:'005',currentOwner:'John Otieno',   currentState:'STAMP_PAID',mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'c4d5e6f7a8b9c0d1',timestamp:'2024-07-14T10:15:00Z',type:'DISCHARGE', blockName:'Block C',parcelNumber:'005',currentOwner:'James Njoroge', currentState:'FREE',      mspid:'bankMSP',    submittedBy:'Brian Omondi',  bank:'Cooperative Bank', loanRef:'COOP/2023/1192'},
-    {txId:'d2e3f4a5b6c7d8e9',timestamp:'2024-07-01T08:00:00Z',type:'CHARGE',    blockName:'Block C',parcelNumber:'005',currentOwner:'James Njoroge', currentState:'CHARGED',   mspid:'bankMSP',    submittedBy:'Brian Omondi',  bank:'Cooperative Bank', loanRef:'COOP/2023/1192'},
-    {txId:'e0f1a2b3c4d5e6f7',timestamp:'2024-06-15T07:30:00Z',type:'CREATE',    blockName:'Block C',parcelNumber:'005',currentOwner:'James Njoroge', currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block C:010':[
-    {txId:'a1b2c3d4e5f60718',timestamp:'2024-07-22T15:00:00Z',type:'CHARGE',    blockName:'Block C',parcelNumber:'010',currentOwner:'Lydia Chebet',  currentState:'CHARGED',   mspid:'bankMSP',    submittedBy:'Carol Njeri',   bank:'NCBA Bank Kenya',  loanRef:'NCBA/2024/0218'},
-    {txId:'b2c3d4e5f6071829',timestamp:'2024-07-20T12:00:00Z',type:'TRANSFER',  blockName:'Block C',parcelNumber:'010',currentOwner:'Lydia Chebet',  currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'c3d4e5f607182930',timestamp:'2024-07-10T09:00:00Z',type:'CREATE',    blockName:'Block C',parcelNumber:'010',currentOwner:'Thomas Mutua',  currentState:'FREE',      mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-  'Block D:007':[
-    {txId:'d4e5f60718293041',timestamp:'2024-07-25T09:30:00Z',type:'TRANSFER',        blockName:'Block D',parcelNumber:'007',currentOwner:'Hassan Abdi',   currentState:'FREE',    mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'e5f6071829304152',timestamp:'2024-07-24T16:00:00Z',type:'REMOVE_CAUTION',  blockName:'Block D',parcelNumber:'007',currentOwner:'Esther Wanjohi',currentState:'FREE',    mspid:'registryMSP',submittedBy:'Alice Wambui'},
-    {txId:'f607182930415263',timestamp:'2024-07-22T10:00:00Z',type:'CAUTION',         blockName:'Block D',parcelNumber:'007',currentOwner:'Esther Wanjohi',currentState:'CAUTION', mspid:'registryMSP',submittedBy:'Esther Wanjohi',cautionReason:'Inheritance dispute — probate pending'},
-    {txId:'071829304152637d',timestamp:'2024-07-10T08:00:00Z',type:'CREATE',          blockName:'Block D',parcelNumber:'007',currentOwner:'Esther Wanjohi',currentState:'FREE',    mspid:'registryMSP',submittedBy:'Alice Wambui'},
-  ],
-};
+// ── HELPERS ────────────────────────────────────────────────────────────────
+const stateClass = { FREE:'free', CHARGED:'charged', CAUTION:'caution', PENDING:'pending', STAMP_PAID:'paid' };
+const typeIcon   = { CREATE:'🌱', TRANSFER:'🔄', CHARGE:'🏦', DISCHARGE:'✅', CAUTION:'⚠️',
+                     REMOVE_CAUTION:'🔓', STAMP_DUTY:'🏛', SEARCH:'🔍' };
 
-// Audit log (in-memory for session)
-const AUDIT = [];
-
-// ═══════════════════════════════════════════════════
-//  HELPERS
-// ═══════════════════════════════════════════════════
-const SC  = {FREE:'bf',CHARGED:'bch',CAUTION:'bc2',PENDING:'bpe',STAMP_PAID:'bsp'};
-const TI  = {CREATE:'🌱',TRANSFER:'🔄',CHARGE:'🏦',DISCHARGE:'✅',CAUTION:'⚠️',REMOVE_CAUTION:'🔓',STAMP_DUTY:'🏛',SEARCH:'🔍'};
-const now = ()=>new Date().toISOString();
-const rTx = ()=>crypto.getRandomValues(new Uint8Array(16)).reduce((a,b)=>a+(b<16?'0':'')+b.toString(16),'');
-
-let CU = null; // current user
-
-function fill(u,p){document.getElementById('lu').value=u;document.getElementById('lp').value=p;}
-function clearF(...ids){ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';})}
-
-function getParcels(){
-  return Object.entries(LEDGER).map(([key,hist])=>{
-    const l=hist[0];
-    return{parcelKey:key,blockName:l.blockName,parcelNumber:l.parcelNumber,
-           currentOwner:l.currentOwner,currentState:l.currentState,
-           lastUpdated:l.timestamp,txCount:hist.length};
-  });
+async function api(method, path, body = null) {
+  const opts = {
+    method,
+    headers: {
+      'Content-Type':    'application/json',
+      'X-Session-Token': sessionToken || '',
+    },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const res  = await fetch(API + path, opts);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.error || 'Server error');
+  return json;
 }
 
-function showAlert(id,cls,msg){
-  const el=document.getElementById(id);
-  if(!el)return;
-  el.className='alert '+cls+' show';
-  el.textContent=msg;
-  el.style.display='flex';
-  clearTimeout(el._t);
-  el._t=setTimeout(()=>{el.style.display='none';},9000);
+function showAlert(id, cls, msg) {
+  const el = document.getElementById(id);
+  el.className = 'alert ' + cls + ' show';
+  const icon = cls.includes('success') ? '✅' : cls.includes('error') ? '❌' : cls.includes('warning') ? '⚠️' : 'ℹ️';
+  el.innerHTML = `${icon} ${msg}`;
+  el.style.display = 'flex';
+  setTimeout(() => { el.style.display = 'none'; }, 8000);
 }
 
-function logAudit(action,parcelKey,outcome,detail=''){
-  if(!CU)return;
-  AUDIT.unshift({timestamp:now(),name:CU.name,role:CU.role,action,parcelKey:parcelKey||'—',outcome,detail});
-  if(AUDIT.length>200)AUDIT.pop();
-}
+function clearFields(...ids) { ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); }
 
-function txRow(t,showBlock){
-  const sc=SC[t.currentState||t.state]||'bpe';
-  const state=(t.currentState||t.state||'').replace(/_/g,' ');
-  const short=(t.txId||'').slice(0,12)+'…';
-  const ts=(t.timestamp||'').replace('T',' ').slice(0,16);
-  const type=t.type||'RECORD';
-  const detail=t.cautionReason||t.loanRef||t.bank||'—';
+function txRow(t, showBlock = false) {
+  const sc    = stateClass[t.currentState || t.state] || 'pending';
+  const state = t.currentState || t.state || '';
+  const short = (t.txId || '').slice(0, 10) + '...' + (t.txId || '').slice(-4);
+  const ts    = (t.timestamp || '').replace('T', ' ').slice(0, 19);
+  const type  = t.type || 'RECORD';
   return `<tr>
-    <td><span class="txh" title="${t.txId||''}">${short}</span></td>
+    <td><span class="tx-hash" title="${t.txId || ''}">${short}</span></td>
     <td>${ts}</td>
-    <td>${TI[type]||'•'} ${type.replace(/_/g,' ')}</td>
-    ${showBlock?`<td class="tdm">${t.blockName||''}/${t.parcelNumber||''}</td>`:''}
-    <td class="tdm">${t.currentOwner||''}</td>
-    <td>${t.mspid||''}</td>
-    <td><span class="badge ${sc}">${state}</span></td>
-    <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px">${detail}</td>
+    <td>${typeIcon[type] || '•'} ${type.replace('_', ' ')}</td>
+    ${showBlock ? `<td class="td-main">${t.blockName || ''} / ${t.parcelNumber || ''}</td>` : ''}
+    <td class="td-main">${t.currentOwner || ''}</td>
+    <td>${t.mspid || ''}</td>
+    <td><span class="badge badge-${sc}">${state.replace('_', ' ')}</span></td>
   </tr>`;
 }
 
-// ═══════════════════════════════════════════════════
-//  AUTH
-// ═══════════════════════════════════════════════════
-function doLogin(){
-  const u=document.getElementById('lu').value.trim();
-  const p=document.getElementById('lp').value.trim();
-  const err=document.getElementById('lerr');
-  const btn=document.getElementById('lbtn');
-  err.style.display='none';
-  if(!u||!p){err.textContent='Please enter username and password.';err.style.display='block';return;}
-  if(!USERS[u]||PWS[u]!==p){err.textContent='Invalid username or password. Try a demo account below.';err.style.display='block';return;}
-  CU={username:u,...USERS[u]};
-  btn.disabled=true;btn.textContent='Signing in…';
-  setTimeout(()=>{
-    document.getElementById('login-screen').style.display='none';
-    document.getElementById('app').style.display='flex';
-    btn.disabled=false;btn.textContent='Sign in to LandNet';
+// ── AUTH ───────────────────────────────────────────────────────────────────
+function fillLogin(u, p) {
+  document.getElementById('l-user').value = u;
+  document.getElementById('l-pass').value = p;
+}
+
+async function doLogin() {
+  const username = document.getElementById('l-user').value.trim();
+  const password = document.getElementById('l-pass').value.trim();
+  const errEl    = document.getElementById('login-error');
+  const btn      = document.getElementById('login-btn');
+  errEl.style.display = 'none';
+  if (!username || !password) { errEl.textContent = 'Please enter username and password.'; errEl.style.display = 'block'; return; }
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Login failed');
+    sessionToken = data.token;
+    currentUser  = data.user;
+    sessionStorage.setItem('landnet_token', sessionToken);
+    sessionStorage.setItem('landnet_user',  JSON.stringify(currentUser));
     bootApp();
-  },400);
-}
-
-function doLogout(){
-  CU=null;
-  document.getElementById('app').style.display='none';
-  document.getElementById('login-screen').style.display='flex';
-  document.getElementById('lu').value='';
-  document.getElementById('lp').value='';
-}
-
-// ═══════════════════════════════════════════════════
-//  BOOT
-// ═══════════════════════════════════════════════════
-const ROLE_PAGES={transfer:['registrar','landowner'],stamp:['registrar'],charge:['bank'],discharge:['bank'],caution:['registrar','landowner'],audit:['registrar','surveyor']};
-
-function bootApp(){
-  // Nav
-  document.getElementById('nav-nm').textContent=CU.name;
-  document.getElementById('nav-av').textContent=CU.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  const rb=document.getElementById('nrb');rb.textContent=CU.role;rb.className='rbadge role-'+CU.role;
-  // Nav visibility
-  Object.entries(ROLE_PAGES).forEach(([pg,roles])=>{
-    const b=document.getElementById('n-'+pg);
-    if(b)b.classList.toggle('hidden',!roles.includes(CU.role));
-  });
-  // Bank labels
-  if(CU.bank){
-    const cl=document.getElementById('ch-bank-lbl');const dl=document.getElementById('dc-bank-lbl');
-    if(cl)cl.textContent='Charging institution: '+CU.bank;
-    if(dl)dl.textContent='Discharging institution: '+CU.bank;
+  } catch (err) {
+    errEl.textContent = err.message;
+    errEl.style.display = 'block';
+  } finally {
+    btn.disabled = false; btn.textContent = 'Sign in to LandNet';
   }
-  // Role gates
-  applyGates();
-  // Dashboard user info
-  const di=document.getElementById('dash-user');
-  if(di)di.innerHTML=`
-    <div class="urow"><span class="uk">Name</span><span class="uv">${CU.name}</span></div>
-    <div class="urow"><span class="uk">Role</span><span class="uv">${CU.role}</span></div>
-    <div class="urow"><span class="uk">Organisation</span><span class="uv">${CU.org}</span></div>
-    <div class="urow"><span class="uk">MSP ID</span><span class="uv">${CU.mspid}</span></div>`;
-  sp('dashboard');
-  loadDash();
 }
 
-function applyGates(){
-  const gates=[
-    {d:'t-denied',f:'t-form',   roles:['registrar','landowner']},
-    {d:'sd-denied',f:'sd-form', roles:['registrar']},
-    {d:'ch-denied',f:'ch-form', roles:['bank']},
-    {d:'dc-denied',f:'dc-form', roles:['bank']},
-    {d:'ca-denied',f:'ca-form', roles:['registrar','landowner']},
-    {d:'au-denied',f:'au-content',roles:['registrar','surveyor']},
+async function doLogout() {
+  try { await api('POST', '/api/auth/logout'); } catch(_) {}
+  sessionToken = null; currentUser = null;
+  sessionStorage.removeItem('landnet_token');
+  sessionStorage.removeItem('landnet_user');
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+// ── BOOT APP ───────────────────────────────────────────────────────────────
+function bootApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+
+  // Nav user display
+  const u = currentUser;
+  document.getElementById('nav-username').textContent  = u.name;
+  document.getElementById('nav-avatar').textContent    = u.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  const rb = document.getElementById('nav-role-badge');
+  rb.textContent  = u.role;
+  rb.className    = `role-badge role-${u.role}`;
+
+  // Role-based nav visibility
+  const roleNav = {
+    transfer:  ['registrar','landowner'],
+    stamp:     ['registrar'],
+    charge:    ['bank'],
+    discharge: ['bank'],
+    caution:   ['registrar','landowner'],
+    audit:     ['registrar','surveyor'],
+    create:    ['registrar'],
+  };
+  Object.entries(roleNav).forEach(([page, roles]) => {
+    const btn = document.getElementById(`nav-${page}`);
+    if (btn) btn.classList.toggle('hidden', !roles.includes(u.role));
+  });
+
+  // Bank display in charge/discharge forms
+  if (u.bank) {
+    const chEl = document.getElementById('ch-bank-display');
+    const dcEl = document.getElementById('dc-bank-display');
+    if (chEl) chEl.textContent = `Charging institution: ${u.bank}`;
+    if (dcEl) dcEl.textContent = `Discharging institution: ${u.bank}`;
+  }
+
+  // Role-gated page sections
+  applyRoleGates();
+
+  // Dashboard user info
+  const di = document.getElementById('dash-user-info');
+  if (di) di.innerHTML = `
+    <div style="display:flex;justify-content:space-between"><span>Name</span><strong style="color:var(--text)">${u.name}</strong></div>
+    <div style="display:flex;justify-content:space-between"><span>Role</span><strong style="color:var(--text)">${u.role}</strong></div>
+    <div style="display:flex;justify-content:space-between"><span>Organisation</span><strong style="color:var(--text)">${u.org}</strong></div>
+    <div style="display:flex;justify-content:space-between"><span>MSP</span><strong style="color:var(--text);font-family:'DM Mono',monospace">${u.mspid}</strong></div>
+  `;
+
+  showPage('dashboard');
+  loadDashboard();
+}
+
+function applyRoleGates() {
+  const u = currentUser;
+  const gates = [
+    { denied:'transfer-denied',  form:'transfer-form',   roles:['registrar','landowner'] },
+    { denied:'stamp-denied',     form:'stamp-form',      roles:['registrar'] },
+    { denied:'charge-denied',    form:'charge-form',     roles:['bank'] },
+    { denied:'discharge-denied', form:'discharge-form',  roles:['bank'] },
+    { denied:'caution-denied',   form:'caution-form',    roles:['registrar','landowner'] },
+    { denied:'audit-denied',     content:'audit-content',roles:['registrar','surveyor'] },
+    { denied:'create-denied',    form:'create-form',     roles:['registrar'] },
   ];
-  gates.forEach(g=>{
-    const ok=g.roles.includes(CU.role);
-    const dd=document.getElementById(g.d);
-    const ff=document.getElementById(g.f||g.content);
-    if(dd)dd.style.display=ok?'none':'block';
-    if(ff)ff.style.display=ok?'':'none';
+  gates.forEach(g => {
+    const allowed = g.roles.includes(u.role);
+    const denied  = document.getElementById(g.denied);
+    const form    = document.getElementById(g.form || g.content);
+    if (denied) denied.style.display = allowed ? 'none' : 'block';
+    if (form)   form.style.display   = allowed ? ''     : 'none';
   });
 }
 
-// ═══════════════════════════════════════════════════
-//  DASHBOARD
-// ═══════════════════════════════════════════════════
-function loadDash(){
-  const ps=getParcels();
-  const cnt={FREE:0,CHARGED:0,CAUTION:0,PENDING:0,STAMP_PAID:0};
-  ps.forEach(p=>{if(cnt[p.currentState]!==undefined)cnt[p.currentState]++;});
-  document.getElementById('s-free').textContent=cnt.FREE;
-  document.getElementById('s-ch').textContent=cnt.CHARGED;
-  document.getElementById('s-ca').textContent=cnt.CAUTION;
-  const icons={FREE:'✅',CHARGED:'🏦',CAUTION:'⚠️',PENDING:'🔄',STAMP_PAID:'🏛'};
-  const ibg={FREE:'var(--greenl)',CHARGED:'var(--purplel)',CAUTION:'var(--amberl)',PENDING:'var(--bluel)',STAMP_PAID:'var(--greenl)'};
-  const act=document.getElementById('dash-act');
-  act.innerHTML=ps.slice(0,5).map(p=>`
-    <div class="act-item">
-      <div class="act-icon" style="background:${ibg[p.currentState]||'var(--bg3)'}">${icons[p.currentState]||'📄'}</div>
-      <div class="act-body">
-        <div class="act-title">${p.blockName}/${p.parcelNumber} — ${p.currentOwner}</div>
-        <div class="act-meta">${p.currentState} · ${(p.lastUpdated||'').replace('T',' ').slice(0,16)}</div>
-      </div>
-      <span class="badge ${SC[p.currentState]||'bpe'}">${p.currentState.replace(/_/g,' ')}</span>
-    </div>`).join('');
+// ── DASHBOARD ──────────────────────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    const res = await api('GET', '/api/parcels');
+    const parcels = res.data || [];
+    const states = { FREE:0, CHARGED:0, CAUTION:0, PENDING:0, STAMP_PAID:0 };
+    parcels.forEach(p => { if (states[p.currentState] !== undefined) states[p.currentState]++; });
+    document.getElementById('stat-total').textContent   = parcels.length;
+    document.getElementById('stat-free').textContent    = states.FREE;
+    document.getElementById('stat-charged').textContent = states.CHARGED;
+    document.getElementById('stat-caution').textContent = states.CAUTION;
+
+    // Recent activity: latest tx from each parcel, sort, show top 5
+    const allTx = [];
+    parcels.forEach(p => allTx.push({ ...p, type: 'Latest' }));
+    const actEl = document.getElementById('dash-activity');
+    const icons = { FREE:'✅', CHARGED:'🏦', CAUTION:'⚠️', PENDING:'🔄', STAMP_PAID:'🏛' };
+    const stateColors = { FREE:'--greenl', CHARGED:'--purplel', CAUTION:'--amberl', PENDING:'--bluel', STAMP_PAID:'--greenl' };
+    actEl.innerHTML = parcels.slice(0, 5).map(p => `
+      <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border)">
+        <div style="width:32px;height:32px;border-radius:8px;background:var(${stateColors[p.currentState]||'--bg3'});display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">${icons[p.currentState]||'📄'}</div>
+        <div style="flex:1">
+          <div style="font-size:13px;color:var(--text)">${p.blockName} / ${p.parcelNumber} — ${p.currentOwner}</div>
+          <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace">${p.currentState} · ${(p.lastUpdated||'').replace('T',' ').slice(0,16)}</div>
+        </div>
+        <span class="badge badge-${stateClass[p.currentState]||'pending'}">${p.currentState.replace('_',' ')}</span>
+      </div>`).join('');
+  } catch (err) {
+    document.getElementById('dash-activity').innerHTML = `<div style="color:var(--red);font-size:13px">${err.message}</div>`;
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  PARCELS
-// ═══════════════════════════════════════════════════
-function loadParcels(){
-  const ps=getParcels();
-  document.getElementById('ptbody').innerHTML=ps.map(p=>`<tr>
-    <td class="tdm" style="cursor:pointer;color:var(--blue)" onclick="qs('${p.blockName}','${p.parcelNumber}')">${p.parcelKey}</td>
-    <td>${p.blockName}</td><td>${p.parcelNumber}</td>
-    <td class="tdm">${p.currentOwner}</td>
-    <td><span class="badge ${SC[p.currentState]||'bpe'}">${p.currentState.replace(/_/g,' ')}</span></td>
-    <td>${p.txCount}</td>
-    <td>${(p.lastUpdated||'').replace('T',' ').slice(0,16)}</td>
-  </tr>`).join('');
+// ── PARCELS PAGE ───────────────────────────────────────────────────────────
+async function loadParcels() {
+  const tbody = document.getElementById('parcels-tbody');
+  try {
+    const res = await api('GET', '/api/parcels');
+    tbody.innerHTML = (res.data || []).map(p => {
+      const sc = stateClass[p.currentState] || 'pending';
+      return `<tr>
+        <td class="td-main" style="cursor:pointer;color:var(--blue)" onclick="quickSearch('${p.blockName}','${p.parcelNumber}')">${p.parcelKey}</td>
+        <td>${p.blockName}</td>
+        <td>${p.parcelNumber}</td>
+        <td class="td-main">${p.currentOwner}</td>
+        <td><span class="badge badge-${sc}">${p.currentState.replace('_',' ')}</span></td>
+        <td>${p.txCount}</td>
+        <td>${(p.lastUpdated||'').replace('T',' ').slice(0,16)}</td>
+      </tr>`;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="color:var(--red);padding:24px;text-align:center">${err.message}</td></tr>`;
+  }
 }
 
-function qs(b,p){document.getElementById('sb').value=b;document.getElementById('sp2').value=p;sp('search');doSearch();}
-
-// ═══════════════════════════════════════════════════
-//  SEARCH
-// ═══════════════════════════════════════════════════
-function doSearch(){
-  const b=document.getElementById('sb').value.trim()||'Block A';
-  const p=document.getElementById('sp2').value.trim()||'001';
-  const key=`${b}:${p}`;
-  const hist=LEDGER[key];
-  if(!hist){document.getElementById('sr').style.display='none';alert('Parcel ['+key+'] not found on ledger.');return;}
-  const l=hist[0];
-  const sc=SC[l.currentState]||'bpe';
-  document.getElementById('sr-info').innerHTML=`
-    <div class="ir"><div class="ik">Parcel key</div><div class="iv">${key}</div></div>
-    <div class="ir"><div class="ik">Current owner</div><div class="iv">${l.currentOwner}</div></div>
-    <div class="ir"><div class="ik">MSP</div><div class="iv">${l.mspid}</div></div>
-    <div class="ir"><div class="ik">State</div><div class="iv"><span class="badge ${sc}">${(l.currentState||'').replace(/_/g,' ')}</span></div></div>
-    <div class="ir"><div class="ik">Total transactions</div><div class="iv">${hist.length}</div></div>
-    <div class="ir"><div class="ik">Last updated</div><div class="iv">${(l.timestamp||'').replace('T',' ').slice(0,16)}</div></div>
-    ${l.cautionReason?`<div class="ir" style="grid-column:1/-1"><div class="ik">Caution reason</div><div class="iv" style="color:var(--amber)">${l.cautionReason}</div></div>`:''}
-    ${l.bank?`<div class="ir"><div class="ik">Charging bank</div><div class="iv">${l.bank}</div></div><div class="ir"><div class="ik">Loan ref</div><div class="iv">${l.loanRef||'—'}</div></div>`:''}`;
-  document.getElementById('sr-tbody').innerHTML=hist.map(t=>txRow(t,false)).join('');
-  document.getElementById('sr').style.display='block';
-  logAudit('SEARCH',key,'SUCCESS',`${hist.length} records returned`);
+function quickSearch(block, parcel) {
+  document.getElementById('s-block').value  = block;
+  document.getElementById('s-parcel').value = parcel;
+  showPage('search');
+  doSearch();
 }
 
-// ═══════════════════════════════════════════════════
-//  TRANSFER
-// ═══════════════════════════════════════════════════
-function doTransfer(){
-  const b=document.getElementById('tb').value.trim();
-  const p=document.getElementById('tp').value.trim();
-  const o=document.getElementById('to').value.trim();
-  const nn=document.getElementById('tn').value.trim();
-  if(!b||!p||!o||!nn){showAlert('t-alert','aw','Please fill in all fields.');return;}
-  const conds=['c1','c2','c3','c4','c5'];
-  conds.forEach(c=>document.getElementById(c).classList.remove('done'));
-  const key=`${b}:${p}`;
-  const hist=LEDGER[key];
-  if(!hist){showAlert('t-alert','ae',`Parcel [${key}] not found on the ledger.`);return;}
-  const l=hist[0];
-  if(l.currentOwner!==o){logAudit('TRANSFER',key,'REJECTED','Caller not owner');showAlert('t-alert','ae',`Smart contract rejected: [${o}] is not the registered owner. Owner on ledger: ${l.currentOwner}.`);return;}
-  document.getElementById('c1').classList.add('done');
-  if(l.currentState==='CHARGED'){logAudit('TRANSFER',key,'REJECTED','Active charge');showAlert('t-alert','ae',`Smart contract rejected: Parcel [${key}] has an active charge. Discharge before transferring.`);return;}
-  document.getElementById('c2').classList.add('done');
-  if(l.currentState==='CAUTION'){logAudit('TRANSFER',key,'REJECTED','Active caution');showAlert('t-alert','ae',`Smart contract rejected: Parcel [${key}] has an active caution. Remove it before transferring.`);return;}
-  document.getElementById('c3').classList.add('done');
-  if(l.currentState==='PENDING'){logAudit('TRANSFER',key,'REJECTED','Transfer pending');showAlert('t-alert','ae',`Smart contract rejected: A transfer is already pending on [${key}].`);return;}
-  document.getElementById('c4').classList.add('done');
-  document.getElementById('c5').classList.add('done');
-  const txId=rTx();
-  hist.unshift({txId,timestamp:now(),type:'TRANSFER',blockName:b,parcelNumber:p,currentOwner:nn,currentState:'PENDING',mspid:CU.mspid,submittedBy:CU.name});
-  logAudit('TRANSFER',key,'SUCCESS',`${o} → ${nn}`);
-  showAlert('t-alert','as',`Transfer initiated. Parcel [${key}] is PENDING — registrar must confirm stamp duty. TxID: ${txId.slice(0,16)}…`);
+// ── SEARCH ─────────────────────────────────────────────────────────────────
+async function doSearch() {
+  const block  = document.getElementById('s-block').value.trim()  || 'Block A';
+  const parcel = document.getElementById('s-parcel').value.trim() || '001';
+  const btn    = document.querySelector('#page-search .btn-primary');
+  btn.disabled = true; btn.textContent = 'Searching…';
+  try {
+    const res  = await api('GET', `/api/queryParcelHistory?block=${encodeURIComponent(block)}&parcel=${encodeURIComponent(parcel)}`);
+    const data = res.data || [];
+    if (!data.length) { document.getElementById('search-result').style.display = 'none'; return; }
+    const latest = data[0];
+    const sc     = stateClass[latest.currentState] || 'pending';
+    document.getElementById('parcel-info-grid').innerHTML = `
+      <div class="info-row"><div class="info-key">Parcel key</div><div class="info-val">${block} / ${parcel}</div></div>
+      <div class="info-row"><div class="info-key">Current owner</div><div class="info-val">${latest.currentOwner || ''}</div></div>
+      <div class="info-row"><div class="info-key">Organisation</div><div class="info-val">${latest.mspid || ''}</div></div>
+      <div class="info-row"><div class="info-key">State</div><div class="info-val"><span class="badge badge-${sc}">${(latest.currentState||'').replace('_',' ')}</span></div></div>
+      <div class="info-row"><div class="info-key">Total transactions</div><div class="info-val">${data.length}</div></div>
+      <div class="info-row"><div class="info-key">Last updated</div><div class="info-val">${(latest.timestamp||'').replace('T',' ').slice(0,19)}</div></div>
+      ${latest.cautionReason ? `<div class="info-row" style="grid-column:1/-1"><div class="info-key">Caution reason</div><div class="info-val" style="color:var(--amber)">${latest.cautionReason}</div></div>` : ''}`;
+    document.getElementById('search-tbody').innerHTML = data.map(t => txRow(t)).join('');
+    document.getElementById('search-result').style.display = 'block';
+  } catch (err) {
+    document.getElementById('search-result').style.display = 'none';
+    alert('Search error: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Search ledger';
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  STAMP DUTY
-// ═══════════════════════════════════════════════════
-function doStamp(){
-  const b=document.getElementById('sdb').value.trim();
-  const p=document.getElementById('sdp').value.trim();
-  if(!b||!p){showAlert('sd-alert','aw','Please enter block and parcel number.');return;}
-  if(CU.role!=='registrar'){showAlert('sd-alert','ae','Only Registrars can confirm stamp duty.');return;}
-  const key=`${b}:${p}`;
-  const hist=LEDGER[key];
-  if(!hist){showAlert('sd-alert','ae',`Parcel [${key}] not found.`);return;}
-  const l=hist[0];
-  if(l.currentState!=='PENDING'){showAlert('sd-alert','ae',`Parcel [${key}] is not PENDING (current state: ${l.currentState}).`);return;}
-  const txId=rTx();
-  hist.unshift({txId,timestamp:now(),type:'STAMP_DUTY',blockName:b,parcelNumber:p,currentOwner:l.currentOwner,currentState:'STAMP_PAID',mspid:CU.mspid,submittedBy:CU.name});
-  logAudit('STAMP_DUTY',key,'SUCCESS',`Confirmed by ${CU.name}`);
-  showAlert('sd-alert','as',`Stamp duty confirmed for [${key}]. State: STAMP_PAID. TxID: ${txId.slice(0,16)}…`);
+// ── TRANSFER ───────────────────────────────────────────────────────────────
+async function doTransfer() {
+  const block    = document.getElementById('t-block').value.trim();
+  const parcel   = document.getElementById('t-parcel').value.trim();
+  const owner    = document.getElementById('t-owner').value.trim();
+  const newOwner = document.getElementById('t-newowner').value.trim();
+  if (!block || !parcel || !owner || !newOwner) { showAlert('transfer-alert','alert-warning','Please fill in all fields.'); return; }
+  const conds = ['cond-1','cond-2','cond-3','cond-4','cond-5'];
+  conds.forEach(c => document.getElementById(c).classList.remove('done'));
+  try {
+    for (let i = 0; i < 4; i++) { await new Promise(r => setTimeout(r, 250)); document.getElementById(conds[i]).classList.add('done'); }
+    const res = await api('POST', '/api/transferParcel', { block, parcel, currentOwner:owner, newOwner });
+    document.getElementById(conds[4]).classList.add('done');
+    showAlert('transfer-alert','alert-success',`Transfer initiated. TxID: ${res.txId.slice(0,16)}… — State: PENDING`);
+  } catch (err) {
+    conds.forEach(c => document.getElementById(c).classList.remove('done'));
+    showAlert('transfer-alert','alert-error', err.message);
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  CHARGE
-// ═══════════════════════════════════════════════════
-function doCharge(){
-  const b=document.getElementById('chb').value.trim();
-  const p=document.getElementById('chp').value.trim();
-  const o=document.getElementById('cho').value.trim();
-  const r=document.getElementById('chr').value.trim();
-  if(!b||!p||!o||!r){showAlert('ch-alert','aw','Please fill in all fields.');return;}
-  if(CU.role!=='bank'){showAlert('ch-alert','ae','Access denied — bank role required.');return;}
-  const key=`${b}:${p}`;
-  const hist=LEDGER[key];
-  if(!hist){logAudit('CHARGE',key,'REJECTED','Not found');showAlert('ch-alert','ae',`Parcel [${key}] not found.`);return;}
-  const l=hist[0];
-  if(l.currentState==='CHARGED'){logAudit('CHARGE',key,'REJECTED','Already charged');showAlert('ch-alert','ae',`Smart contract rejected: Parcel [${key}] already has an active charge (${l.bank||'another institution'}). Only one charge permitted at a time.`);return;}
-  if(l.currentState==='CAUTION'){logAudit('CHARGE',key,'REJECTED','Active caution');showAlert('ch-alert','ae',`Smart contract rejected: Parcel [${key}] has an active caution — charges blocked.`);return;}
-  if(l.currentState==='PENDING'){logAudit('CHARGE',key,'REJECTED','Transfer pending');showAlert('ch-alert','ae',`Smart contract rejected: Parcel [${key}] has a pending transfer — cannot charge until resolved.`);return;}
-  if(l.currentOwner!==o){logAudit('CHARGE',key,'REJECTED','Owner mismatch');showAlert('ch-alert','ae',`Smart contract rejected: Owner [${o}] does not match ledger record [${l.currentOwner}].`);return;}
-  const bank=CU.bank||CU.org;
-  const txId=rTx();
-  hist.unshift({txId,timestamp:now(),type:'CHARGE',blockName:b,parcelNumber:p,currentOwner:o,currentState:'CHARGED',mspid:CU.mspid,bank,loanRef:r,submittedBy:CU.name});
-  logAudit('CHARGE',key,'SUCCESS',`${bank} · ${r}`);
-  showAlert('ch-alert','as',`Charge placed on [${key}] by ${bank}. Reference: ${r}. TxID: ${txId.slice(0,16)}…`);
+// ── STAMP DUTY ─────────────────────────────────────────────────────────────
+async function doStampDuty() {
+  const block  = document.getElementById('sd-block').value.trim();
+  const parcel = document.getElementById('sd-parcel').value.trim();
+  if (!block || !parcel) { showAlert('stamp-alert','alert-warning','Please enter block and parcel.'); return; }
+  try {
+    const res = await api('PUT', '/api/confirmStampDuty', { block, parcel });
+    showAlert('stamp-alert','alert-success', res.message + ` TxID: ${res.txId.slice(0,16)}…`);
+  } catch (err) {
+    showAlert('stamp-alert','alert-error', err.message);
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  DISCHARGE
-// ═══════════════════════════════════════════════════
-function doDischarge(){
-  const b=document.getElementById('dcb').value.trim();
-  const p=document.getElementById('dcp').value.trim();
-  const r=document.getElementById('dcr').value.trim();
-  if(!b||!p||!r){showAlert('dc-alert','aw','Please fill in all fields.');return;}
-  if(CU.role!=='bank'){showAlert('dc-alert','ae','Access denied — bank role required.');return;}
-  const key=`${b}:${p}`;
-  const hist=LEDGER[key];
-  if(!hist){logAudit('DISCHARGE',key,'REJECTED','Not found');showAlert('dc-alert','ae',`Parcel [${key}] not found.`);return;}
-  const l=hist[0];
-  if(l.currentState!=='CHARGED'){logAudit('DISCHARGE',key,'REJECTED',`State is ${l.currentState}`);showAlert('dc-alert','ae',`Smart contract rejected: Parcel [${key}] is not CHARGED (state: ${l.currentState}).`);return;}
-  const callerBank=CU.bank||CU.org;
-  if(l.bank&&callerBank!==l.bank){logAudit('DISCHARGE',key,'REJECTED',`${callerBank} ≠ ${l.bank}`);showAlert('dc-alert','ae',`Smart contract rejected: Only [${l.bank}] can discharge this parcel. You are logged in as [${callerBank}].`);return;}
-  const txId=rTx();
-  hist.unshift({txId,timestamp:now(),type:'DISCHARGE',blockName:b,parcelNumber:p,currentOwner:l.currentOwner,currentState:'FREE',mspid:CU.mspid,bank:callerBank,loanRef:r,submittedBy:CU.name});
-  logAudit('DISCHARGE',key,'SUCCESS',`${callerBank} · ${r}`);
-  showAlert('dc-alert','as',`Discharge completed for [${key}] by ${callerBank}. Parcel is now FREE. TxID: ${txId.slice(0,16)}…`);
+// ── CHARGE ─────────────────────────────────────────────────────────────────
+async function doCharge() {
+  const block  = document.getElementById('ch-block').value.trim();
+  const parcel = document.getElementById('ch-parcel').value.trim();
+  const owner  = document.getElementById('ch-owner').value.trim();
+  const loanRef= document.getElementById('ch-ref').value.trim();
+  if (!block || !parcel || !owner || !loanRef) { showAlert('charge-alert','alert-warning','Please fill in all fields.'); return; }
+  try {
+    const res = await api('POST', '/api/chargeParcel', { block, parcel, owner, loanRef });
+    showAlert('charge-alert','alert-success', res.message + ` TxID: ${res.txId.slice(0,16)}…`);
+  } catch (err) {
+    showAlert('charge-alert','alert-error', err.message);
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  ADD CAUTION
-// ═══════════════════════════════════════════════════
-function doCaution(){
-  const b=document.getElementById('cab').value.trim();
-  const p=document.getElementById('cap').value.trim();
-  const o=document.getElementById('cao').value.trim();
-  const r=document.getElementById('car').value.trim();
-  if(!b||!p||!o||!r){showAlert('ca-alert','aw','Please fill in all fields.');return;}
-  if(!['registrar','landowner'].includes(CU.role)){showAlert('ca-alert','ae','Access denied.');return;}
-  const key=`${b}:${p}`;
-  const hist=LEDGER[key];
-  if(!hist){logAudit('ADD_CAUTION',key,'REJECTED','Not found');showAlert('ca-alert','ae',`Parcel [${key}] not found.`);return;}
-  const l=hist[0];
-  if(l.currentOwner!==o){logAudit('ADD_CAUTION',key,'REJECTED','Not owner');showAlert('ca-alert','ae',`Smart contract rejected: [${o}] is not the registered owner (${l.currentOwner}).`);return;}
-  if(l.currentState==='CAUTION'){logAudit('ADD_CAUTION',key,'REJECTED','Already cautioned');showAlert('ca-alert','ae',`Smart contract rejected: Parcel [${key}] already has an active caution.`);return;}
-  if(l.currentState==='CHARGED'){logAudit('ADD_CAUTION',key,'REJECTED','Parcel charged');showAlert('ca-alert','ae',`Smart contract rejected: Cannot place a caution on a CHARGED parcel. Discharge first.`);return;}
-  const txId=rTx();
-  hist.unshift({txId,timestamp:now(),type:'CAUTION',blockName:b,parcelNumber:p,currentOwner:o,currentState:'CAUTION',mspid:CU.mspid,cautionReason:r,submittedBy:CU.name});
-  logAudit('ADD_CAUTION',key,'SUCCESS',r);
-  showAlert('ca-alert','as',`Caution placed on [${key}]. All transactions blocked. TxID: ${txId.slice(0,16)}…`);
+// ── DISCHARGE ──────────────────────────────────────────────────────────────
+async function doDischarge() {
+  const block  = document.getElementById('dc-block').value.trim();
+  const parcel = document.getElementById('dc-parcel').value.trim();
+  const loanRef= document.getElementById('dc-ref').value.trim();
+  if (!block || !parcel || !loanRef) { showAlert('discharge-alert','alert-warning','Please fill in all fields.'); return; }
+  try {
+    const res = await api('PUT', '/api/dischargeParcel', { block, parcel, loanRef });
+    showAlert('discharge-alert','alert-success', res.message + ` TxID: ${res.txId.slice(0,16)}…`);
+  } catch (err) {
+    showAlert('discharge-alert','alert-error', err.message);
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  REMOVE CAUTION
-// ═══════════════════════════════════════════════════
-function doRemoveCaution(){
-  const b=document.getElementById('cab').value.trim();
-  const p=document.getElementById('cap').value.trim();
-  const o=document.getElementById('cao').value.trim();
-  if(!b||!p||!o){showAlert('ca-alert','aw','Please fill in block, parcel and owner.');return;}
-  if(!['registrar','landowner'].includes(CU.role)){showAlert('ca-alert','ae','Access denied.');return;}
-  const key=`${b}:${p}`;
-  const hist=LEDGER[key];
-  if(!hist){logAudit('REMOVE_CAUTION',key,'REJECTED','Not found');showAlert('ca-alert','ae',`Parcel [${key}] not found.`);return;}
-  const l=hist[0];
-  if(l.currentState!=='CAUTION'){logAudit('REMOVE_CAUTION',key,'REJECTED',`State is ${l.currentState}`);showAlert('ca-alert','ae',`Smart contract rejected: No active caution on [${key}] (state: ${l.currentState}).`);return;}
-  if(CU.role!=='registrar'&&l.currentOwner!==o){logAudit('REMOVE_CAUTION',key,'REJECTED','Caller not authorised');showAlert('ca-alert','ae','Smart contract rejected: Only the registered owner or a Land Registrar can remove this caution.');return;}
-  const txId=rTx();
-  hist.unshift({txId,timestamp:now(),type:'REMOVE_CAUTION',blockName:b,parcelNumber:p,currentOwner:o,currentState:'FREE',mspid:CU.mspid,submittedBy:CU.name});
-  logAudit('REMOVE_CAUTION',key,'SUCCESS',`Removed by ${CU.name}`);
-  showAlert('ca-alert','as',`Caution removed from [${key}]. Parcel is now FREE. TxID: ${txId.slice(0,16)}…`);
+// ── ADD CAUTION ────────────────────────────────────────────────────────────
+async function doCaution() {
+  const block  = document.getElementById('ca-block').value.trim();
+  const parcel = document.getElementById('ca-parcel').value.trim();
+  const owner  = document.getElementById('ca-owner').value.trim();
+  const reason = document.getElementById('ca-reason').value.trim();
+  if (!block || !parcel || !owner || !reason) { showAlert('caution-alert','alert-warning','Please fill in all fields.'); return; }
+  try {
+    const res = await api('PUT', '/api/addCaution', { block, parcel, owner, reason });
+    showAlert('caution-alert','alert-success', res.message + ` TxID: ${res.txId.slice(0,16)}…`);
+  } catch (err) {
+    showAlert('caution-alert','alert-error', err.message);
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  HISTORY
-// ═══════════════════════════════════════════════════
-function loadHistory(){
-  const all=[];
-  Object.values(LEDGER).forEach(h=>all.push(...h));
-  all.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
-  document.getElementById('htbody').innerHTML=all.map(t=>txRow(t,true)).join('');
+// ── REMOVE CAUTION ─────────────────────────────────────────────────────────
+async function doRemoveCaution() {
+  const block  = document.getElementById('ca-block').value.trim();
+  const parcel = document.getElementById('ca-parcel').value.trim();
+  const owner  = document.getElementById('ca-owner').value.trim();
+  if (!block || !parcel || !owner) { showAlert('caution-alert','alert-warning','Please fill in all fields.'); return; }
+  try {
+    const res = await api('PUT', '/api/removeCaution', { block, parcel, owner });
+    showAlert('caution-alert','alert-success', res.message + ` TxID: ${res.txId.slice(0,16)}…`);
+  } catch (err) {
+    showAlert('caution-alert','alert-error', err.message);
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  AUDIT LOG
-// ═══════════════════════════════════════════════════
-function loadAudit(){
-  const tbody=document.getElementById('au-tbody');
-  if(!tbody)return;
-  if(!AUDIT.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">No audit entries yet — interact with the system to populate this log.</td></tr>';return;}
-  const oc={SUCCESS:'bf',REJECTED:'bc2',ERROR:'brc'};
-  tbody.innerHTML=AUDIT.map(a=>`<tr>
-    <td>${(a.timestamp||'').replace('T',' ').slice(0,19)}</td>
-    <td class="tdm">${a.name}</td>
-    <td>${a.role}</td>
-    <td>${a.action}</td>
-    <td style="font-family:'DM Mono',monospace">${a.parcelKey}</td>
-    <td><span class="badge ${oc[a.outcome]||'bpe'}">${a.outcome}</span></td>
-    <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.detail}</td>
-  </tr>`).join('');
+// ── HISTORY ────────────────────────────────────────────────────────────────
+async function loadHistory() {
+  const tbody = document.getElementById('history-tbody');
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading from ledger…</td></tr>';
+  try {
+    const res = await api('GET', '/api/parcels');
+    const allRows = [];
+    for (const p of (res.data || [])) {
+      try {
+        const hr = await api('GET', `/api/queryParcelHistory?block=${encodeURIComponent(p.blockName)}&parcel=${encodeURIComponent(p.parcelNumber)}`);
+        allRows.push(...(hr.data || []));
+      } catch(_) {}
+    }
+    allRows.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    tbody.innerHTML = allRows.length ? allRows.map(t => txRow(t, true)).join('') :
+      '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">No transactions found</td></tr>';
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="color:var(--red);padding:24px;text-align:center">${err.message}</td></tr>`;
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════════════════
-function sp(name){
-  document.querySelectorAll('.page').forEach(pg=>pg.classList.remove('active'));
-  document.querySelectorAll('.nl').forEach(b=>b.classList.remove('active'));
-  const pg=document.getElementById('page-'+name);
-  const nb=document.getElementById('n-'+name);
-  if(pg)pg.classList.add('active');
-  if(nb)nb.classList.add('active');
-  if(name==='history')loadHistory();
-  if(name==='parcels')loadParcels();
-  if(name==='audit')loadAudit();
+// ── AUDIT LOG ──────────────────────────────────────────────────────────────
+async function loadAudit() {
+  const tbody = document.getElementById('audit-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading…</td></tr>';
+  try {
+    const res = await api('GET', '/api/auditLog');
+    const outcomeCls = { SUCCESS:'badge-free', REJECTED:'badge-caution', ERROR:'badge-charged' };
+    tbody.innerHTML = (res.data || []).map(a => `<tr>
+      <td>${(a.timestamp||'').replace('T',' ').slice(0,19)}</td>
+      <td class="td-main">${a.name}</td>
+      <td>${a.role}</td>
+      <td>${a.action}</td>
+      <td style="font-family:'DM Mono',monospace">${a.parcelKey}</td>
+      <td><span class="badge ${outcomeCls[a.outcome]||'badge-pending'}">${a.outcome}</span></td>
+      <td style="max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.detail}</td>
+    </tr>`).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">No audit entries yet</td></tr>';
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="color:var(--red);padding:24px;text-align:center">${err.message}</td></tr>`;
+  }
 }
 
-// ═══════════════════════════════════════════════════
-//  KEYBOARD SHORTCUT: Enter on login
-// ═══════════════════════════════════════════════════
-document.addEventListener('keydown',e=>{
-  if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none'){doLogin();}
-});
+// ── CREATE PARCEL ──────────────────────────────────────────────────────────
+async function doCreateParcel() {
+  const block    = document.getElementById('cr-block').value.trim();
+  const parcel   = document.getElementById('cr-parcel').value.trim();
+  const owner    = document.getElementById('cr-owner').value.trim();
+  const area     = document.getElementById('cr-area').value.trim();
+  const location = document.getElementById('cr-location').value.trim();
+
+  if (!block || !parcel || !owner) {
+    showAlert('create-alert', 'alert-warning', 'Block name, parcel number and owner are required.');
+    return;
+  }
+  const btn = document.querySelector('#page-create .btn-primary');
+  btn.disabled = true; btn.textContent = 'Registering…';
+  document.getElementById('create-result').style.display = 'none';
+  try {
+    const res = await api('POST', '/api/createParcel', { block, parcel, owner, area, location });
+    showAlert('create-alert', 'alert-success', `Parcel [${res.parcelKey}] registered successfully. TxID: ${res.txId.slice(0,16)}…`);
+    document.getElementById('create-result').style.display = 'block';
+    document.getElementById('create-result-body').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div><span style="color:var(--text3)">Parcel key</span><br/><strong style="color:var(--text)">${res.parcelKey}</strong></div>
+        <div><span style="color:var(--text3)">State</span><br/><span class="badge badge-free">FREE</span></div>
+        <div><span style="color:var(--text3)">Owner</span><br/><strong style="color:var(--text)">${owner}</strong></div>
+        <div><span style="color:var(--text3)">Tx ID</span><br/><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)">${res.txId.slice(0,20)}…</span></div>
+        ${area ? `<div><span style="color:var(--text3)">Area</span><br/><strong style="color:var(--text)">${area}</strong></div>` : ''}
+        ${location ? `<div><span style="color:var(--text3)">Location</span><br/><strong style="color:var(--text)">${location}</strong></div>` : ''}
+      </div>`;
+    // Clear form
+    document.getElementById('cr-block').value = '';
+    clearFields('cr-parcel','cr-owner','cr-area','cr-location');
+  } catch (err) {
+    showAlert('create-alert', 'alert-error', err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Register parcel';
+  }
+}
+
+// ── PAGE NAVIGATION ────────────────────────────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));
+  const pg = document.getElementById('page-' + name);
+  const nb = document.getElementById('nav-'  + name);
+  if (pg) pg.classList.add('active');
+  if (nb) nb.classList.add('active');
+  if (name === 'history') loadHistory();
+  if (name === 'parcels') loadParcels();
+  if (name === 'audit')   loadAudit();
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+if (sessionToken && currentUser) {
+  bootApp();
+}
 </script>
 </body>
 </html>
