@@ -691,19 +691,25 @@ function showAlert(id, cls, msg) {
 function clearFields(...ids) { ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); }
 
 function txRow(t, showBlock = false) {
-  const sc    = stateClass[t.currentState || t.state] || 'pending';
-  const state = t.currentState || t.state || '';
-  const short = (t.txId || '').slice(0, 10) + '...' + (t.txId || '').slice(-4);
+  // Handle both camelCase (from API) and snake_case (fallback)
+  const owner = t.currentOwner || t.current_owner || '';
+  const state = t.currentState || t.current_state || '';
+  const txid  = t.txId        || t.tx_id         || '';
+  const bname = t.blockName   || t.block_name    || '';
+  const pnum  = t.parcelNumber|| t.parcel_number || '';
+  const msp   = t.mspid       || '';
+  const sc    = stateClass[state] || 'pending';
+  const short = txid.slice(0, 10) + '...' + txid.slice(-4);
   const ts    = (t.timestamp || '').replace('T', ' ').slice(0, 19);
   const type  = t.type || 'RECORD';
   return `<tr>
-    <td><span class="tx-hash" title="${t.txId || ''}">${short}</span></td>
+    <td><span class="tx-hash" title="${txid}">${short}</span></td>
     <td>${ts}</td>
-    <td>${typeIcon[type] || '•'} ${type.replace('_', ' ')}</td>
-    ${showBlock ? `<td class="td-main">${t.blockName || ''} / ${t.parcelNumber || ''}</td>` : ''}
-    <td class="td-main">${t.currentOwner || ''}</td>
-    <td>${t.mspid || ''}</td>
-    <td><span class="badge badge-${sc}">${state.replace('_', ' ')}</span></td>
+    <td>${typeIcon[type] || '•'} ${type.replace(/_/g, ' ')}</td>
+    ${showBlock ? `<td class="td-main">${bname} / ${pnum}</td>` : ''}
+    <td class="td-main">${owner}</td>
+    <td>${msp}</td>
+    <td><span class="badge badge-${sc}">${state.replace(/_/g, ' ')}</span></td>
   </tr>`;
 }
 
@@ -861,15 +867,21 @@ async function loadParcels() {
   try {
     const res = await api('GET', '/api/parcels');
     tbody.innerHTML = (res.data || []).map(p => {
-      const sc = stateClass[p.currentState] || 'pending';
+      const key   = p.parcelKey    || p.parcel_key    || '';
+      const bname = p.blockName    || p.block_name    || '';
+      const pnum  = p.parcelNumber || p.parcel_number || '';
+      const owner = p.currentOwner || p.current_owner || '';
+      const state = p.currentState || p.current_state || '';
+      const upd   = p.lastUpdated  || p.updated_at    || '';
+      const sc    = stateClass[state] || 'pending';
       return `<tr>
-        <td class="td-main" style="cursor:pointer;color:var(--blue)" onclick="quickSearch('${p.blockName}','${p.parcelNumber}')">${p.parcelKey}</td>
-        <td>${p.blockName}</td>
-        <td>${p.parcelNumber}</td>
-        <td class="td-main">${p.currentOwner}</td>
-        <td><span class="badge badge-${sc}">${p.currentState.replace('_',' ')}</span></td>
-        <td>${p.txCount}</td>
-        <td>${(p.lastUpdated||'').replace('T',' ').slice(0,16)}</td>
+        <td class="td-main" style="cursor:pointer;color:var(--blue)" onclick="quickSearch('${bname}','${pnum}')">${key}</td>
+        <td>${bname}</td>
+        <td>${pnum}</td>
+        <td class="td-main">${owner}</td>
+        <td><span class="badge badge-${sc}">${state.replace(/_/g,' ')}</span></td>
+        <td>${p.txCount || p.tx_count || 0}</td>
+        <td>${upd.replace('T',' ').slice(0,16)}</td>
       </tr>`;
     }).join('');
   } catch (err) {
@@ -895,15 +907,20 @@ async function doSearch() {
     const data = res.data || [];
     if (!data.length) { document.getElementById('search-result').style.display = 'none'; return; }
     const latest = data[0];
-    const sc     = stateClass[latest.currentState] || 'pending';
+    // Handle both camelCase (API) and snake_case (fallback)
+    const owner  = latest.currentOwner  || latest.current_owner  || '';
+    const state  = latest.currentState  || latest.current_state  || '';
+    const msp    = latest.mspid         || '';
+    const reason = latest.cautionReason || latest.caution_reason || '';
+    const sc     = stateClass[state] || 'pending';
     document.getElementById('parcel-info-grid').innerHTML = `
       <div class="info-row"><div class="info-key">Parcel key</div><div class="info-val">${block} / ${parcel}</div></div>
-      <div class="info-row"><div class="info-key">Current owner</div><div class="info-val">${latest.currentOwner || ''}</div></div>
-      <div class="info-row"><div class="info-key">Organisation</div><div class="info-val">${latest.mspid || ''}</div></div>
-      <div class="info-row"><div class="info-key">State</div><div class="info-val"><span class="badge badge-${sc}">${(latest.currentState||'').replace('_',' ')}</span></div></div>
+      <div class="info-row"><div class="info-key">Current owner</div><div class="info-val">${owner}</div></div>
+      <div class="info-row"><div class="info-key">Organisation</div><div class="info-val">${msp}</div></div>
+      <div class="info-row"><div class="info-key">State</div><div class="info-val"><span class="badge badge-${sc}">${state.replace(/_/g,' ')}</span></div></div>
       <div class="info-row"><div class="info-key">Total transactions</div><div class="info-val">${data.length}</div></div>
       <div class="info-row"><div class="info-key">Last updated</div><div class="info-val">${(latest.timestamp||'').replace('T',' ').slice(0,19)}</div></div>
-      ${latest.cautionReason ? `<div class="info-row" style="grid-column:1/-1"><div class="info-key">Caution reason</div><div class="info-val" style="color:var(--amber)">${latest.cautionReason}</div></div>` : ''}`;
+      ${reason ? `<div class="info-row" style="grid-column:1/-1"><div class="info-key">Caution reason</div><div class="info-val" style="color:var(--amber)">${reason}</div></div>` : ''}`;
     document.getElementById('search-tbody').innerHTML = data.map(t => txRow(t)).join('');
     document.getElementById('search-result').style.display = 'block';
   } catch (err) {
@@ -1010,17 +1027,11 @@ async function loadHistory() {
   const tbody = document.getElementById('history-tbody');
   tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading from ledger…</td></tr>';
   try {
-    const res = await api('GET', '/api/parcels');
-    const allRows = [];
-    for (const p of (res.data || [])) {
-      try {
-        const hr = await api('GET', `/api/queryParcelHistory?block=${encodeURIComponent(p.blockName)}&parcel=${encodeURIComponent(p.parcelNumber)}`);
-        allRows.push(...(hr.data || []));
-      } catch(_) {}
-    }
-    allRows.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-    tbody.innerHTML = allRows.length ? allRows.map(t => txRow(t, true)).join('') :
-      '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">No transactions found</td></tr>';
+    const res = await api('GET', '/api/allTransactions');
+    const rows = res.data || [];
+    tbody.innerHTML = rows.length
+      ? rows.map(t => txRow(t, true)).join('')
+      : '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">No transactions found</td></tr>';
   } catch (err) {
     tbody.innerHTML = `<tr><td colspan="7" style="color:var(--red);padding:24px;text-align:center">${err.message}</td></tr>`;
   }
