@@ -1,4 +1,3 @@
-
 'use strict';
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -339,9 +338,9 @@ if (countParcels.c === 0) {
 const stmts = {
   getUserByUsername: db.prepare('SELECT * FROM users WHERE username = ?'),
   insertSession:     db.prepare('INSERT INTO sessions (token, username, created_at, expires_at, ip) VALUES (?, ?, ?, ?, ?)'),
-  getSession:        db.prepare('SELECT s.*, u.name, u.role, u.mspid, u.org, u.bank FROM sessions s JOIN users u ON s.username = u.username WHERE s.token = ? AND s.expires_at > datetime("now")'),
+  getSession:        db.prepare("SELECT s.*, u.name, u.role, u.mspid, u.org, u.bank FROM sessions s JOIN users u ON s.username = u.username WHERE s.token = ? AND s.expires_at > datetime('now')"),
   deleteSession:     db.prepare('DELETE FROM sessions WHERE token = ?'),
-  cleanSessions:     db.prepare('DELETE FROM sessions WHERE expires_at < datetime("now")'),
+  cleanSessions:     db.prepare("DELETE FROM sessions WHERE expires_at < datetime('now')"),
   insertAudit:       db.prepare('INSERT INTO audit_log (timestamp, username, name, role, action, parcel_key, outcome, detail, ip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'),
   getAuditLog:       db.prepare('SELECT * FROM audit_log ORDER BY timestamp DESC LIMIT 200'),
   getParcel:         db.prepare('SELECT * FROM parcels WHERE parcel_key = ?'),
@@ -349,7 +348,7 @@ const stmts = {
   getParcelHistory:  db.prepare('SELECT * FROM transactions WHERE block_name = ? AND parcel_number = ? ORDER BY timestamp DESC'),
   updateParcel:      db.prepare('UPDATE parcels SET current_owner=?, current_state=?, last_tx_id=?, tx_count=tx_count+1, updated_at=? WHERE parcel_key=?'),
   insertTransaction: db.prepare('INSERT INTO transactions (tx_id, timestamp, type, block_name, parcel_number, current_owner, current_state, mspid, submitted_by, bank, loan_ref, caution_reason) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'),
-  countLoginAttempts:db.prepare('SELECT COUNT(*) as c FROM login_attempts WHERE ip = ? AND attempted_at > datetime("now", ?)'),
+  countLoginAttempts:db.prepare("SELECT COUNT(*) as c FROM login_attempts WHERE ip = ? AND attempted_at > datetime('now', ?)"),
   insertLoginAttempt:db.prepare('INSERT INTO login_attempts (ip) VALUES (?)'),
   cleanLoginAttempts:db.prepare("DELETE FROM login_attempts WHERE attempted_at < datetime('now', '-15 minutes')"),
   getStats:          db.prepare(`SELECT current_state, COUNT(*) as count FROM parcels GROUP BY current_state`),
