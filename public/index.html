@@ -345,11 +345,11 @@ tr:hover td{background:var(--bg3)}
   <div class="card">
     <div class="card-title">🔍 Parcel lookup</div>
     <div class="form-row cols-3">
-      <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="s-block" placeholder="e.g. Block A" value="Block A"/></div>
-      <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="s-parcel" placeholder="e.g. 001" value="001"/></div>
+      <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="s-block" placeholder="e.g. Block A"/></div>
+      <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="s-parcel" placeholder="e.g. 001"/></div>
       <div class="form-group"><label class="form-label">&nbsp;</label><button class="btn btn-primary" onclick="doSearch()" style="height:38px">Search ledger</button></div>
     </div>
-    <div style="font-size:12px;color:var(--text3)">Try: Block A / 001–004 · Block B / 001–003 · Block C / 005, 010 · Block D / 007</div>
+    <div style="font-size:12px;color:var(--text3)">Enter any block name and parcel number. Visit <strong style="color:var(--text2)">All Parcels</strong> to browse all registered parcels on the ledger.</div>
   </div>
   <div id="search-result" style="display:none">
     <div class="card"><div class="card-title">📄 Parcel details</div><div class="parcel-info" id="parcel-info-grid"></div></div>
@@ -376,10 +376,10 @@ tr:hover td{background:var(--bg3)}
     <div class="card">
       <div class="card-title">📋 Transfer request</div>
       <div class="form-row cols-2">
-        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="t-block" placeholder="e.g. Block A"/></div>
-        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="t-parcel" placeholder="e.g. 001"/></div>
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="t-block" placeholder="e.g. Block A" oninput="lookupOwner('t')"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="t-parcel" placeholder="e.g. 001" oninput="lookupOwner('t')"/></div>
       </div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Current owner (must match ledger)</label><input class="form-input" id="t-owner" placeholder="Full name of current owner"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Current owner (must match ledger)</label><input class="form-input" id="t-owner" placeholder="Auto-filled when parcel is found"/><span id="t-owner-hint" style="font-size:11px;color:var(--text3)"></span></div></div>
       <div class="form-row"><div class="form-group"><label class="form-label">New owner</label><input class="form-input" id="t-newowner" placeholder="Full name of new owner"/></div></div>
       <div style="display:flex;gap:10px;margin-top:8px">
         <button class="btn btn-primary" onclick="doTransfer()">Submit transfer</button>
@@ -413,10 +413,10 @@ tr:hover td{background:var(--bg3)}
   <div id="stamp-form" class="card" style="max-width:500px">
     <div class="card-title">🏛 Stamp duty confirmation</div>
     <div class="form-row cols-2">
-      <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="sd-block" placeholder="e.g. Block B"/></div>
-      <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="sd-parcel" placeholder="e.g. 003"/></div>
+      <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="sd-block" placeholder="e.g. Block A"/></div>
+      <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="sd-parcel" placeholder="e.g. 001"/></div>
     </div>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:14px">Parcels currently PENDING: Block A/001 · Block B/003</p>
+    <p style="font-size:12px;color:var(--text3);margin-bottom:14px" id="sd-hint">Enter the block and parcel number of a PENDING parcel. Check <strong>All Parcels</strong> to find PENDING ones.</p>
     <button class="btn btn-primary" onclick="doStampDuty()">Confirm stamp duty paid</button>
   </div>
 </div>
@@ -436,11 +436,15 @@ tr:hover td{background:var(--bg3)}
     <div class="card">
       <div class="card-title">🏦 Charge request</div>
       <div class="form-row cols-2">
-        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="ch-block" placeholder="Block A"/></div>
-        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="ch-parcel" placeholder="001"/></div>
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="ch-block" placeholder="e.g. Block A" oninput="lookupOwner('ch')"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="ch-parcel" placeholder="e.g. 001" oninput="lookupOwner('ch')"/></div>
       </div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Owner name (must match ledger)</label><input class="form-input" id="ch-owner" placeholder="Registered owner"/></div></div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Loan reference</label><input class="form-input" id="ch-ref" placeholder="e.g. KCB/2024/001234"/></div></div>
+      <div class="form-group" id="ch-owner-wrap">
+        <label class="form-label">Owner name (must match ledger)</label>
+        <input class="form-input" id="ch-owner" placeholder="Enter block/parcel above to auto-fill"/>
+        <span id="ch-owner-hint" style="font-size:11px;color:var(--text3)"></span>
+      </div>
+      <div class="form-row" style="margin-top:10px"><div class="form-group"><label class="form-label">Loan reference</label><input class="form-input" id="ch-ref" placeholder="e.g. KCB/2024/001234"/></div></div>
       <p id="ch-bank-display" style="font-size:12px;color:var(--text3);margin-bottom:12px"></p>
       <button class="btn btn-primary" onclick="doCharge()">Place charge</button>
     </div>
@@ -448,7 +452,7 @@ tr:hover td{background:var(--bg3)}
       <div class="card-title">ℹ️ About charging</div>
       <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:12px">A charge locks the parcel as collateral. While CHARGED, the parcel cannot be transferred or charged again by any institution.</p>
       <div style="padding:12px;background:var(--amberl);border:1px solid var(--amber);border-radius:8px"><p style="font-size:12px;color:var(--amber)">⚠️ Smart contract blocks charge if parcel already has an active charge, caution, or pending transfer.</p></div>
-      <div style="margin-top:12px;font-size:12px;color:var(--text3)">FREE parcels available to charge:<br/>Block A / 004, Block B / 001</div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text3)" id="ch-free-hint">FREE parcels available to charge: check <strong>All Parcels</strong> for current state.</div>
     </div>
   </div>
 </div>
@@ -482,7 +486,7 @@ tr:hover td{background:var(--bg3)}
         <div class="tl-item done"><div class="tl-title">Caller is the charging institution</div><div class="tl-meta">MSP verified on every request</div></div>
         <div class="tl-item done"><div class="tl-title">Loan reference provided</div><div class="tl-meta">Must match original charge record</div></div>
       </div>
-      <div style="margin-top:12px;font-size:12px;color:var(--text3)">Currently CHARGED: Block A/003 (Equity Bank) · Block C/010 (NCBA)</div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text3)" id="dc-charged-hint">CHARGED parcels: check <strong>All Parcels</strong> for current state.</div>
     </div>
   </div>
 </div>
@@ -502,10 +506,10 @@ tr:hover td{background:var(--bg3)}
     <div class="card">
       <div class="card-title">⚠️ Caution request</div>
       <div class="form-row cols-2">
-        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="ca-block" placeholder="Block A"/></div>
-        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="ca-parcel" placeholder="004"/></div>
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="ca-block" placeholder="e.g. Block A" oninput="lookupOwner('ca')"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="ca-parcel" placeholder="e.g. 004" oninput="lookupOwner('ca')"/></div>
       </div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Owner name (must match ledger)</label><input class="form-input" id="ca-owner" placeholder="Registered owner"/></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Owner name (must match ledger)</label><input class="form-input" id="ca-owner" placeholder="Auto-filled when parcel is found"/><span id="ca-owner-hint" style="font-size:11px;color:var(--text3)"></span></div></div>
       <div class="form-row"><div class="form-group"><label class="form-label">Reason / reference</label><input class="form-input" id="ca-reason" placeholder="e.g. Pending court order CAJ/2024/0012"/></div></div>
       <div style="display:flex;gap:10px;margin-top:8px">
         <button class="btn btn-primary" onclick="doCaution()">Place caution</button>
@@ -516,7 +520,7 @@ tr:hover td{background:var(--bg3)}
       <div class="card-title">🚫 Effect of caution</div>
       <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">Once placed, the smart contract blocks <strong style="color:var(--text)">all</strong> further transactions — transfers, charges, discharges — until formally removed by the same owner or a registrar.</p>
       <div style="padding:12px;background:var(--redl);border:1px solid var(--red);border-radius:8px"><p style="font-size:12px;color:var(--red)">🔴 Only the owner who placed the caution, or a Land Registrar, can remove it.</p></div>
-      <div style="margin-top:12px;font-size:12px;color:var(--text3)">Currently CAUTIONED: Block A/002 · Block B/002</div>
+      <div style="margin-top:12px;font-size:12px;color:var(--text3)" id="ca-caution-hint">CAUTION parcels: check <strong>All Parcels</strong> for current state.</div>
     </div>
   </div>
 </div>
@@ -856,8 +860,61 @@ async function loadDashboard() {
         </div>
         <span class="badge badge-${stateClass[p.currentState]||'pending'}">${p.currentState.replace('_',' ')}</span>
       </div>`).join('');
+    // Update dynamic hints on transaction pages
+    const free     = parcels.filter(p => (p.currentState||p.current_state) === 'FREE');
+    const charged  = parcels.filter(p => (p.currentState||p.current_state) === 'CHARGED');
+    const cautioned= parcels.filter(p => (p.currentState||p.current_state) === 'CAUTION');
+    const pending  = parcels.filter(p => (p.currentState||p.current_state) === 'PENDING');
+    const fmt = list => list.length
+      ? list.map(p => `${p.blockName||p.block_name}/${p.parcelNumber||p.parcel_number}`).join(' · ')
+      : 'None currently';
+    const el = id => document.getElementById(id);
+    if (el('ch-free-hint'))    el('ch-free-hint').innerHTML    = `FREE parcels available to charge: <strong style="color:var(--text)">${fmt(free)}</strong>`;
+    if (el('dc-charged-hint')) el('dc-charged-hint').innerHTML = `CHARGED parcels to discharge: <strong style="color:var(--text)">${fmt(charged)}</strong>`;
+    if (el('ca-caution-hint')) el('ca-caution-hint').innerHTML = `Currently CAUTION: <strong style="color:var(--text)">${fmt(cautioned)}</strong>`;
+    if (el('sd-hint'))         el('sd-hint').innerHTML         = `PENDING parcels: <strong style="color:var(--text)">${fmt(pending)}</strong>`;
   } catch (err) {
     document.getElementById('dash-activity').innerHTML = `<div style="color:var(--red);font-size:13px">${err.message}</div>`;
+  }
+}
+
+// ── PARCEL OWNER AUTO-LOOKUP ───────────────────────────────────────────────
+// Called when user types in block/parcel fields on transaction forms
+// prefix: 't' = transfer, 'ch' = charge, 'ca' = caution
+const lookupCache = {};
+async function lookupOwner(prefix) {
+  const block  = (document.getElementById(`${prefix}-block`)?.value || '').trim();
+  const parcel = (document.getElementById(`${prefix}-parcel`)?.value || '').trim();
+  const ownerEl= document.getElementById(`${prefix}-owner`);
+  const hintEl = document.getElementById(`${prefix}-owner-hint`);
+  if (!ownerEl) return;
+  if (!block || !parcel || block.length < 6 || parcel.length < 1) {
+    if (hintEl) hintEl.textContent = '';
+    return;
+  }
+  const key = `${block}:${parcel}`;
+  if (lookupCache[key] === undefined) {
+    try {
+      const res = await api('GET', `/api/queryParcelHistory?block=${encodeURIComponent(block)}&parcel=${encodeURIComponent(parcel)}`);
+      const latest = res.data?.[0];
+      if (latest) {
+        const owner = latest.currentOwner || latest.current_owner || '';
+        const state = latest.currentState || latest.current_state || '';
+        lookupCache[key] = { owner, state };
+      } else {
+        lookupCache[key] = null;
+      }
+    } catch { lookupCache[key] = null; }
+  }
+  const found = lookupCache[key];
+  if (found) {
+    ownerEl.value = found.owner;
+    ownerEl.style.borderColor = 'var(--green)';
+    if (hintEl) hintEl.innerHTML = `✅ Found — State: <strong style="color:var(--text)">${found.state.replace(/_/g,' ')}</strong>`;
+  } else {
+    ownerEl.value = '';
+    ownerEl.style.borderColor = 'var(--red)';
+    if (hintEl) hintEl.innerHTML = `❌ Parcel [${key}] not found on ledger`;
   }
 }
 
@@ -898,8 +955,12 @@ function quickSearch(block, parcel) {
 
 // ── SEARCH ─────────────────────────────────────────────────────────────────
 async function doSearch() {
-  const block  = document.getElementById('s-block').value.trim()  || 'Block A';
-  const parcel = document.getElementById('s-parcel').value.trim() || '001';
+  const block  = document.getElementById('s-block').value.trim();
+  const parcel = document.getElementById('s-parcel').value.trim();
+  if (!block || !parcel) {
+    alert('Please enter both a block name and parcel number.');
+    return;
+  }
   const btn    = document.querySelector('#page-search .btn-primary');
   btn.disabled = true; btn.textContent = 'Searching…';
   try {
