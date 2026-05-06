@@ -216,18 +216,11 @@ const SEED_USERS = [
   { username:'admin',       name:'System Admin',   password:'admin2024',   role:'admin',     mspid:'adminMSP',    org:'Technical University of Kenya',     bank:null },
 ];
 
-// Force fresh reseed — drop existing data and reseed with correct passwords
-console.log('  [DB] Resetting users and ledger for fresh seed…');
-db.prepare('DELETE FROM sessions').run();
-db.prepare('DELETE FROM users').run();
-db.prepare('DELETE FROM parcels').run();
-db.prepare('DELETE FROM transactions').run();
-db.prepare('DELETE FROM audit_log').run();
-db.prepare('DELETE FROM login_attempts').run();
-
+// Smart reseed — only seed if tables are empty, otherwise update passwords
 const countUsers = db.prepare('SELECT COUNT(*) as c FROM users').get();
 if (countUsers.c === 0) {
-  console.log('  [DB] Seeding users with bcrypt hashes…');
+  // Fresh database — seed everything
+  console.log('  [DB] Fresh database — seeding users with bcrypt hashes…');
   const insertUser = db.prepare(`
     INSERT INTO users (username, name, password_hash, role, mspid, org, bank)
     VALUES (@username, @name, @password_hash, @role, @mspid, @org, @bank)
@@ -240,7 +233,23 @@ if (countUsers.c === 0) {
   });
   seedAll(SEED_USERS);
   console.log(`  [DB] ${SEED_USERS.length} users seeded.`);
+} else {
+  // Existing database — update passwords for seed users to ensure they match
+  console.log('  [DB] Existing database — refreshing seed user passwords…');
+  const updatePw = db.prepare('UPDATE users SET password_hash=? WHERE username=?');
+  const refresh = db.transaction(users => {
+    for (const u of users) {
+      const hash = bcrypt.hashSync(u.password, BCRYPT_ROUNDS);
+      updatePw.run(hash, u.username);
+    }
+  });
+  refresh(SEED_USERS);
+  console.log('  [DB] Seed user passwords refreshed.');
 }
+
+// Always clear rate limit attempts on startup so no one gets locked out
+db.prepare('DELETE FROM login_attempts').run();
+console.log('  [DB] Login attempt history cleared.');
 
 // ── Seed ledger if parcels table is empty ─────────────────────────────────
 const countParcels = db.prepare('SELECT COUNT(*) as c FROM parcels').get();
@@ -502,6 +511,21 @@ function recordTransaction(txData) {
 // ═══════════════════════════════════════════════════════════════════════════
 //  ROUTE HANDLERS
 // ═══════════════════════════════════════════════════════════════════════════
+
+// GET /api/test  — quick diagnostic without auth
+function handleTest(req, res) {
+  const userCount  = db.prepare('SELECT COUNT(*) as c FROM users').get().c;
+  const parcelCount= db.prepare('SELECT COUNT(*) as c FROM parcels').get().c;
+  const users      = db.prepare('SELECT username, role FROM users').all();
+  sendJSON(res, 200, {
+    status:     'ok',
+    message:    'LandNet is running. Use POST /api/auth/login to log in.',
+    userCount,
+    parcelCount,
+    usernames:  users.map(u => u.username + ' (' + u.role + ')'),
+    hint:       'Try: registrar/registry123  admin/admin2024  kcb_bank/bank123',
+  });
+}
 
 // GET /health
 function handleHealth(req, res) {
@@ -1128,6 +1152,7 @@ const server = http.createServer(async (req, res) => {
 
   // Improvement 10 — centralised error handling
   try {
+    if (pathname === '/api/test'               && method === 'GET')  return handleTest(req,res);
     if (pathname === '/health'                 && method === 'GET')  return handleHealth(req,res);
     if (pathname === '/api/stats'              && method === 'GET')  return handleStats(req,res);
     if (pathname === '/api/auth/login'         && method === 'POST') return handleLogin(req,res);
