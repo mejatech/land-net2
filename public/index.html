@@ -887,6 +887,12 @@ function bootApp() {
     if (btn) btn.classList.toggle('hidden', !roles.includes(u.role));
   });
 
+  // For landowners — check if they own any parcels on the ledger
+  // If not, hide Transfer and Caution tabs (read-only mode)
+  if (u.role === 'landowner') {
+    checkLandownerParcels(u.name);
+  }
+
   // Bank display in charge/discharge forms
   if (u.bank) {
     const chEl = document.getElementById('ch-bank-display');
@@ -930,6 +936,42 @@ function applyRoleGates() {
     if (denied) denied.style.display = allowed ? 'none' : 'block';
     if (form)   form.style.display   = allowed ? ''     : 'none';
   });
+}
+
+}
+
+// ── LANDOWNER PARCEL CHECK ──────────────────────────────────────────────────
+// After login, check if a landowner has any parcels on the ledger.
+// If not — hide Transfer and Caution tabs and show read-only notice.
+async function checkLandownerParcels(name) {
+  try {
+    const res = await api('GET', '/api/parcels');
+    const owned = (res.data || []).filter(p => {
+      const owner = p.currentOwner || p.current_owner || '';
+      return owner === name;
+    });
+    if (owned.length === 0) {
+      // No parcels — hide transaction tabs
+      ['transfer','caution'].forEach(page => {
+        const btn = document.getElementById(`nav-${page}`);
+        if (btn) btn.classList.add('hidden');
+      });
+      // Show a notice on the transfer and caution denied panels
+      const msg = `
+        <h2>🔒 No parcels registered</h2>
+        <p>You do not currently have any land parcels registered to <strong>${name}</strong> on the ledger.</p>
+        <p style="margin-top:8px">Once a registrar registers a parcel in your name, you will be able to initiate transfers and place cautions.</p>
+        <p style="margin-top:8px;font-size:12px;color:var(--text3)">You can still <strong>search</strong> the ledger and view the full <strong>transaction history</strong>.</p>`;
+      const td = document.getElementById('transfer-denied');
+      const cd = document.getElementById('caution-denied');
+      if (td) { td.innerHTML = msg; td.style.display = 'block'; }
+      if (cd) { cd.innerHTML = msg; cd.style.display = 'block'; }
+      const tf = document.getElementById('transfer-form');
+      const cf = document.getElementById('caution-form');
+      if (tf) tf.style.display = 'none';
+      if (cf) cf.style.display = 'none';
+    }
+  } catch(_) {} // fail silently — server will also enforce this
 }
 
 // ── DASHBOARD ──────────────────────────────────────────────────────────────
