@@ -505,7 +505,7 @@ function handleHealth(req, res) {
     mode:      'sqlite-persistent',
     database:  DB_FILE,
     parcels:   stmts.getAllParcels.all().length,
-    sessions:  db.prepare('SELECT COUNT(*) as c FROM sessions WHERE expires_at > datetime("now")').get().c,
+    sessions:  db.prepare("SELECT COUNT(*) as c FROM sessions WHERE expires_at > datetime('now')").get().c,
     stats,
     timestamp: now(),
   });
