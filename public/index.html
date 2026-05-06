@@ -400,20 +400,50 @@ tr:hover td{background:var(--bg3)}
   <div class="page-header">
     <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Stamp Duty</span></div>
     <h1>Confirm stamp duty</h1>
-    <p>Registrar only — confirm stamp duty payment to advance a PENDING parcel to STAMP_PAID.</p>
+    <p>Registrar only — complete the land transfer by confirming stamp duty then registering the title.</p>
   </div>
   <div id="stamp-alert" class="alert"></div>
   <div id="stamp-denied" class="access-denied" style="display:none">
-    <h2>🔒 Access restricted</h2><p>Only <strong>Land Registrars</strong> can confirm stamp duty payments.</p>
+    <h2>🔒 Access restricted</h2><p>Only <strong>Land Registrars</strong> can confirm stamp duty and register titles.</p>
   </div>
-  <div id="stamp-form" class="card" style="max-width:500px">
-    <div class="card-title">🏛 Stamp duty confirmation</div>
-    <div class="form-row cols-2">
-      <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="sd-block" placeholder="e.g. Block A"/></div>
-      <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="sd-parcel" placeholder="e.g. 001"/></div>
+  <div id="stamp-form" class="split">
+    <!-- Step 1 — Stamp Duty -->
+    <div class="card">
+      <div class="card-title">🏛 Step 1 — Confirm stamp duty paid</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6">Parcel must be in <strong>PENDING</strong> state. Confirms stamp duty has been paid to KRA. Advances state to STAMP_PAID.</p>
+      <div class="form-row cols-2">
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="sd-block" placeholder="e.g. Nairobi Block 14"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="sd-parcel" placeholder="e.g. 1001"/></div>
+      </div>
+      <p style="font-size:12px;color:var(--text3);margin-bottom:14px" id="sd-hint">PENDING parcels: check <strong>All Parcels</strong> for current state.</p>
+      <button class="btn btn-primary" onclick="doStampDuty()">✅ Confirm stamp duty paid</button>
     </div>
-    <p style="font-size:12px;color:var(--text3);margin-bottom:14px" id="sd-hint">Enter the block and parcel number of a PENDING parcel. Check <strong>All Parcels</strong> to find PENDING ones.</p>
-    <button class="btn btn-primary" onclick="doStampDuty()">Confirm stamp duty paid</button>
+    <!-- Step 2 — Register Title -->
+    <div class="card">
+      <div class="card-title">📜 Step 2 — Register title to new owner</div>
+      <p style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6">Parcel must be in <strong>STAMP_PAID</strong> state. Formally registers the title deed to the new owner. Sets state to FREE — transfer complete.</p>
+      <div class="form-row cols-2">
+        <div class="form-group"><label class="form-label">Block name</label><input class="form-input" id="rt-block" placeholder="e.g. Nairobi Block 14"/></div>
+        <div class="form-group"><label class="form-label">Parcel number</label><input class="form-input" id="rt-parcel" placeholder="e.g. 1001"/></div>
+      </div>
+      <p style="font-size:12px;color:var(--text3);margin-bottom:14px" id="rt-hint">STAMP_PAID parcels: check <strong>All Parcels</strong> for current state.</p>
+      <button class="btn btn-purple" onclick="doRegisterTitle()">📜 Register title deed</button>
+    </div>
+  </div>
+
+  <!-- Transfer workflow explainer -->
+  <div class="card" style="margin-top:4px">
+    <div class="card-title">🔄 Complete transfer workflow</div>
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px">
+      <span style="padding:6px 12px;background:var(--greenl);border:1px solid var(--green2);border-radius:6px;color:var(--green)">FREE</span>
+      <span style="color:var(--text3)">→ Transfer initiated →</span>
+      <span style="padding:6px 12px;background:var(--bluel);border:1px solid var(--blue2);border-radius:6px;color:var(--blue)">PENDING</span>
+      <span style="color:var(--text3)">→ Stamp duty confirmed →</span>
+      <span style="padding:6px 12px;background:var(--purplel);border:1px solid #6E40C9;border-radius:6px;color:var(--purple)">STAMP_PAID</span>
+      <span style="color:var(--text3)">→ Title registered →</span>
+      <span style="padding:6px 12px;background:var(--greenl);border:1px solid var(--green2);border-radius:6px;color:var(--green)">FREE ✅</span>
+    </div>
+    <p style="font-size:11px;color:var(--text3);margin-top:10px">All three steps are recorded as separate immutable transactions on the blockchain ledger.</p>
   </div>
 </div>
 
@@ -768,7 +798,7 @@ let currentUser  = JSON.parse(sessionStorage.getItem('landnet_user') || 'null');
 // ── HELPERS ────────────────────────────────────────────────────────────────
 const stateClass = { FREE:'free', CHARGED:'charged', CAUTION:'caution', PENDING:'pending', STAMP_PAID:'paid' };
 const typeIcon   = { CREATE:'🌱', TRANSFER:'🔄', CHARGE:'🏦', DISCHARGE:'✅', CAUTION:'⚠️',
-                     REMOVE_CAUTION:'🔓', STAMP_DUTY:'🏛', SEARCH:'🔍' };
+                     REMOVE_CAUTION:'🔓', STAMP_DUTY:'🏛', TITLE_REGISTERED:'📜', SEARCH:'🔍' };
 
 async function api(method, path, body = null) {
   const opts = {
@@ -1014,6 +1044,8 @@ async function loadDashboard() {
     if (el('dc-charged-hint')) el('dc-charged-hint').innerHTML = `CHARGED parcels to discharge: <strong style="color:var(--text)">${fmt(charged)}</strong>`;
     if (el('ca-caution-hint')) el('ca-caution-hint').innerHTML = `Currently CAUTION: <strong style="color:var(--text)">${fmt(cautioned)}</strong>`;
     if (el('sd-hint'))         el('sd-hint').innerHTML         = `PENDING parcels: <strong style="color:var(--text)">${fmt(pending)}</strong>`;
+    const stampPaid = parcels.filter(p => (p.currentState||p.current_state) === 'STAMP_PAID');
+    if (el('rt-hint'))         el('rt-hint').innerHTML         = `STAMP_PAID parcels ready for title registration: <strong style="color:var(--text)">${fmt(stampPaid)}</strong>`;
   } catch (err) {
     document.getElementById('dash-activity').innerHTML = `<div style="color:var(--red);font-size:13px">${err.message}</div>`;
   }
@@ -1166,7 +1198,25 @@ async function doStampDuty() {
   }
 }
 
-// ── CHARGE ─────────────────────────────────────────────────────────────────
+// ── REGISTER TITLE ──────────────────────────────────────────────────────────
+async function doRegisterTitle() {
+  const block  = document.getElementById('rt-block').value.trim();
+  const parcel = document.getElementById('rt-parcel').value.trim();
+  if (!block || !parcel) { showAlert('stamp-alert','alert-warning','Please enter block name and parcel number.'); return; }
+  const btn = document.querySelector('#page-stamp .btn-purple');
+  btn.disabled = true; btn.textContent = 'Registering…';
+  try {
+    const res = await api('PUT', '/api/registerTitle', { block, parcel });
+    showAlert('stamp-alert','alert-success',
+      `📜 Title registered! ${res.message} TxID: ${res.txId.slice(0,16)}…`);
+    document.getElementById('rt-block').value  = '';
+    document.getElementById('rt-parcel').value = '';
+  } catch (err) {
+    showAlert('stamp-alert','alert-error', err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = '📜 Register title deed';
+  }
+}
 async function doCharge() {
   const block  = document.getElementById('ch-block').value.trim();
   const parcel = document.getElementById('ch-parcel').value.trim();
