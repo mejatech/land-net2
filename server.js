@@ -248,120 +248,120 @@ if (countParcels.c === 0) {
   `);
 
   const SEED_LEDGER = {
-    'Block A:001': [
-      { type:'TRANSFER',  timestamp:ago(10),   block_name:'Block A', parcel_number:'001', current_owner:'Susan Mwangi',   current_state:'STAMP_PAID', mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(40),   block_name:'Block A', parcel_number:'001', current_owner:'Susan Mwangi',   current_state:'PENDING',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'DISCHARGE', timestamp:ago(120),  block_name:'Block A', parcel_number:'001', current_owner:'Alex Kamau',     current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0081', caution_reason:null },
-      { type:'CHARGE',    timestamp:ago(200),  block_name:'Block A', parcel_number:'001', current_owner:'Alex Kamau',     current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0081', caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(500),  block_name:'Block A', parcel_number:'001', current_owner:'Alex Kamau',     current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(8640), block_name:'Block A', parcel_number:'001', current_owner:'James Njoroge',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Nairobi Block 14:1001': [
+      { type:'TRANSFER',  timestamp:ago(10),   block_name:'Nairobi Block 14', parcel_number:'1001', current_owner:'Susan Mwangi',   current_state:'STAMP_PAID', mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(40),   block_name:'Nairobi Block 14', parcel_number:'1001', current_owner:'Susan Mwangi',   current_state:'PENDING',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'DISCHARGE', timestamp:ago(120),  block_name:'Nairobi Block 14', parcel_number:'1001', current_owner:'Alex Kamau',     current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0081', caution_reason:null },
+      { type:'CHARGE',    timestamp:ago(200),  block_name:'Nairobi Block 14', parcel_number:'1001', current_owner:'Alex Kamau',     current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0081', caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(500),  block_name:'Nairobi Block 14', parcel_number:'1001', current_owner:'Alex Kamau',     current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(8640), block_name:'Nairobi Block 14', parcel_number:'1001', current_owner:'James Njoroge',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block A:002': [
-      { type:'CAUTION',   timestamp:ago(30),   block_name:'Block A', parcel_number:'002', current_owner:'Mary Akinyi',    current_state:'CAUTION',    mspid:'registryMSP', submitted_by:'Mary Akinyi',   bank:null, loan_ref:null, caution_reason:'Pending court order — Nairobi Env Court NECC/004/2024' },
-      { type:'TRANSFER',  timestamp:ago(1440), block_name:'Block A', parcel_number:'002', current_owner:'Mary Akinyi',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(8640), block_name:'Block A', parcel_number:'002', current_owner:'Samuel Otieno', current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Nairobi Block 14:1002': [
+      { type:'CAUTION',   timestamp:ago(30),   block_name:'Nairobi Block 14', parcel_number:'1002', current_owner:'Mary Akinyi',    current_state:'CAUTION',    mspid:'registryMSP', submitted_by:'Mary Akinyi',   bank:null, loan_ref:null, caution_reason:'Pending court order — Nairobi Env Court NECC/004/2024' },
+      { type:'TRANSFER',  timestamp:ago(1440), block_name:'Nairobi Block 14', parcel_number:'1002', current_owner:'Mary Akinyi',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(8640), block_name:'Nairobi Block 14', parcel_number:'1002', current_owner:'Samuel Otieno', current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block A:003': [
-      { type:'CHARGE',    timestamp:ago(60),   block_name:'Block A', parcel_number:'003', current_owner:'Peter Kamau',    current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'Equity Bank Kenya', loan_ref:'EQB/2024/0452', caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(500),  block_name:'Block A', parcel_number:'003', current_owner:'Peter Kamau',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(7200), block_name:'Block A', parcel_number:'003', current_owner:'Fatuma Hassan',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Nairobi Block 14:1003': [
+      { type:'CHARGE',    timestamp:ago(60),   block_name:'Nairobi Block 14', parcel_number:'1003', current_owner:'Peter Kamau',    current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'Equity Bank Kenya', loan_ref:'EQB/2024/0452', caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(500),  block_name:'Nairobi Block 14', parcel_number:'1003', current_owner:'Peter Kamau',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(7200), block_name:'Nairobi Block 14', parcel_number:'1003', current_owner:'Fatuma Hassan',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block A:004': [
-      { type:'DISCHARGE', timestamp:ago(90),   block_name:'Block A', parcel_number:'004', current_owner:'Grace Wanjiku',  current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0033', caution_reason:null },
-      { type:'CHARGE',    timestamp:ago(300),  block_name:'Block A', parcel_number:'004', current_owner:'Grace Wanjiku',  current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0033', caution_reason:null },
-      { type:'CREATE',    timestamp:ago(5760), block_name:'Block A', parcel_number:'004', current_owner:'Grace Wanjiku',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Nairobi Block 14:1004': [
+      { type:'DISCHARGE', timestamp:ago(90),   block_name:'Nairobi Block 14', parcel_number:'1004', current_owner:'Grace Wanjiku',  current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0033', caution_reason:null },
+      { type:'CHARGE',    timestamp:ago(300),  block_name:'Nairobi Block 14', parcel_number:'1004', current_owner:'Grace Wanjiku',  current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0033', caution_reason:null },
+      { type:'CREATE',    timestamp:ago(5760), block_name:'Nairobi Block 14', parcel_number:'1004', current_owner:'Grace Wanjiku',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block B:001': [
-      { type:'CREATE',    timestamp:ago(2880), block_name:'Block B', parcel_number:'001', current_owner:'John Otieno',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Kiambu Block 7:1001': [
+      { type:'CREATE',    timestamp:ago(2880), block_name:'Kiambu Block 7', parcel_number:'1001', current_owner:'John Otieno',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block B:002': [
-      { type:'CAUTION',   timestamp:ago(45),   block_name:'Block B', parcel_number:'002', current_owner:'Peter Kamau',    current_state:'CAUTION',    mspid:'registryMSP', submitted_by:'Peter Kamau',   bank:null, loan_ref:null, caution_reason:'Boundary dispute — survey re-measurement in progress' },
-      { type:'TRANSFER',  timestamp:ago(720),  block_name:'Block B', parcel_number:'002', current_owner:'Peter Kamau',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(4320), block_name:'Block B', parcel_number:'002', current_owner:'Wanjiru Muthoni',current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Kiambu Block 7:1002': [
+      { type:'CAUTION',   timestamp:ago(45),   block_name:'Kiambu Block 7', parcel_number:'1002', current_owner:'Peter Kamau',    current_state:'CAUTION',    mspid:'registryMSP', submitted_by:'Peter Kamau',   bank:null, loan_ref:null, caution_reason:'Boundary dispute — survey re-measurement in progress' },
+      { type:'TRANSFER',  timestamp:ago(720),  block_name:'Kiambu Block 7', parcel_number:'1002', current_owner:'Peter Kamau',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(4320), block_name:'Kiambu Block 7', parcel_number:'1002', current_owner:'Wanjiru Muthoni',current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block B:003': [
-      { type:'STAMP_DUTY',timestamp:ago(20),   block_name:'Block B', parcel_number:'003', current_owner:'Amina Osman',    current_state:'STAMP_PAID', mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(60),   block_name:'Block B', parcel_number:'003', current_owner:'Amina Osman',    current_state:'PENDING',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(3000), block_name:'Block B', parcel_number:'003', current_owner:'Robert Mwenda',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Kiambu Block 7:1003': [
+      { type:'STAMP_DUTY',timestamp:ago(20),   block_name:'Kiambu Block 7', parcel_number:'1003', current_owner:'Amina Osman',    current_state:'STAMP_PAID', mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(60),   block_name:'Kiambu Block 7', parcel_number:'1003', current_owner:'Amina Osman',    current_state:'PENDING',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(3000), block_name:'Kiambu Block 7', parcel_number:'1003', current_owner:'Robert Mwenda',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block C:005': [
-      { type:'STAMP_DUTY',timestamp:ago(180),  block_name:'Block C', parcel_number:'005', current_owner:'John Otieno',    current_state:'STAMP_PAID', mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'DISCHARGE', timestamp:ago(600),  block_name:'Block C', parcel_number:'005', current_owner:'James Njoroge',  current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'Cooperative Bank',  loan_ref:'COOP/2023/1192', caution_reason:null },
-      { type:'CHARGE',    timestamp:ago(2880), block_name:'Block C', parcel_number:'005', current_owner:'James Njoroge',  current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'Cooperative Bank',  loan_ref:'COOP/2023/1192', caution_reason:null },
-      { type:'CREATE',    timestamp:ago(9000), block_name:'Block C', parcel_number:'005', current_owner:'James Njoroge',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Mombasa Block 11:2001': [
+      { type:'STAMP_DUTY',timestamp:ago(180),  block_name:'Mombasa Block 11', parcel_number:'2001', current_owner:'John Otieno',    current_state:'STAMP_PAID', mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'DISCHARGE', timestamp:ago(600),  block_name:'Mombasa Block 11', parcel_number:'2001', current_owner:'James Njoroge',  current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'Cooperative Bank',  loan_ref:'COOP/2023/1192', caution_reason:null },
+      { type:'CHARGE',    timestamp:ago(2880), block_name:'Mombasa Block 11', parcel_number:'2001', current_owner:'James Njoroge',  current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'Cooperative Bank',  loan_ref:'COOP/2023/1192', caution_reason:null },
+      { type:'CREATE',    timestamp:ago(9000), block_name:'Mombasa Block 11', parcel_number:'2001', current_owner:'James Njoroge',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block C:010': [
-      { type:'CHARGE',    timestamp:ago(120),  block_name:'Block C', parcel_number:'010', current_owner:'Lydia Chebet',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'NCBA Bank Kenya',   loan_ref:'NCBA/2024/0218', caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(480),  block_name:'Block C', parcel_number:'010', current_owner:'Lydia Chebet',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(2880), block_name:'Block C', parcel_number:'010', current_owner:'Thomas Mutua',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Mombasa Block 11:2002': [
+      { type:'CHARGE',    timestamp:ago(120),  block_name:'Mombasa Block 11', parcel_number:'2002', current_owner:'Lydia Chebet',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'NCBA Bank Kenya',   loan_ref:'NCBA/2024/0218', caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(480),  block_name:'Mombasa Block 11', parcel_number:'2002', current_owner:'Lydia Chebet',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(2880), block_name:'Mombasa Block 11', parcel_number:'2002', current_owner:'Thomas Mutua',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
-    'Block D:007': [
-      { type:'TRANSFER',       timestamp:ago(50),   block_name:'Block D', parcel_number:'007', current_owner:'Hassan Abdi',    current_state:'FREE',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'REMOVE_CAUTION', timestamp:ago(200),  block_name:'Block D', parcel_number:'007', current_owner:'Esther Wanjohi', current_state:'FREE',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CAUTION',        timestamp:ago(500),  block_name:'Block D', parcel_number:'007', current_owner:'Esther Wanjohi', current_state:'CAUTION', mspid:'registryMSP', submitted_by:'Esther Wanjohi',bank:null, loan_ref:null, caution_reason:'Inheritance dispute — probate pending' },
-      { type:'CREATE',         timestamp:ago(4320), block_name:'Block D', parcel_number:'007', current_owner:'Esther Wanjohi', current_state:'FREE',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Nakuru Block 3:3001': [
+      { type:'TRANSFER',       timestamp:ago(50),   block_name:'Nakuru Block 3', parcel_number:'3001', current_owner:'Hassan Abdi',    current_state:'FREE',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'REMOVE_CAUTION', timestamp:ago(200),  block_name:'Nakuru Block 3', parcel_number:'3001', current_owner:'Esther Wanjohi', current_state:'FREE',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CAUTION',        timestamp:ago(500),  block_name:'Nakuru Block 3', parcel_number:'3001', current_owner:'Esther Wanjohi', current_state:'CAUTION', mspid:'registryMSP', submitted_by:'Esther Wanjohi',bank:null, loan_ref:null, caution_reason:'Inheritance dispute — probate pending' },
+      { type:'CREATE',         timestamp:ago(4320), block_name:'Nakuru Block 3', parcel_number:'3001', current_owner:'Esther Wanjohi', current_state:'FREE',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
 
     // ── BLOCK E ──────────────────────────────────────────────────────────────
     // E:001 FREE — full charge-discharge-transfer cycle
-    'Block E:001': [
-      { type:'TRANSFER',  timestamp:ago(100),  block_name:'Block E', parcel_number:'001', current_owner:'Beatrice Otieno',  current_state:'STAMP_PAID', mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(300),  block_name:'Block E', parcel_number:'001', current_owner:'Beatrice Otieno',  current_state:'PENDING',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'DISCHARGE', timestamp:ago(800),  block_name:'Block E', parcel_number:'001', current_owner:'Daniel Omondi',   current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0199', caution_reason:null },
-      { type:'CHARGE',    timestamp:ago(1200), block_name:'Block E', parcel_number:'001', current_owner:'Daniel Omondi',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0199', caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(2000), block_name:'Block E', parcel_number:'001', current_owner:'Daniel Omondi',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(7200), block_name:'Block E', parcel_number:'001', current_owner:'Rose Kamau',      current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Kisumu Block 9:1001': [
+      { type:'TRANSFER',  timestamp:ago(100),  block_name:'Kisumu Block 9', parcel_number:'1001', current_owner:'Beatrice Otieno',  current_state:'STAMP_PAID', mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(300),  block_name:'Kisumu Block 9', parcel_number:'1001', current_owner:'Beatrice Otieno',  current_state:'PENDING',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'DISCHARGE', timestamp:ago(800),  block_name:'Kisumu Block 9', parcel_number:'1001', current_owner:'Daniel Omondi',   current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0199', caution_reason:null },
+      { type:'CHARGE',    timestamp:ago(1200), block_name:'Kisumu Block 9', parcel_number:'1001', current_owner:'Daniel Omondi',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0199', caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(2000), block_name:'Kisumu Block 9', parcel_number:'1001', current_owner:'Daniel Omondi',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(7200), block_name:'Kisumu Block 9', parcel_number:'1001', current_owner:'Rose Kamau',      current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
 
     // E:002 CHARGED — Equity Bank active charge
-    'Block E:002': [
-      { type:'CHARGE',    timestamp:ago(150),  block_name:'Block E', parcel_number:'002', current_owner:'Felix Mwenda',    current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'Equity Bank Kenya', loan_ref:'EQB/2024/0881', caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(600),  block_name:'Block E', parcel_number:'002', current_owner:'Felix Mwenda',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(3600), block_name:'Block E', parcel_number:'002', current_owner:'Ann Chebet',      current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Kisumu Block 9:1002': [
+      { type:'CHARGE',    timestamp:ago(150),  block_name:'Kisumu Block 9', parcel_number:'1002', current_owner:'Felix Mwenda',    current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'Equity Bank Kenya', loan_ref:'EQB/2024/0881', caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(600),  block_name:'Kisumu Block 9', parcel_number:'1002', current_owner:'Felix Mwenda',    current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(3600), block_name:'Kisumu Block 9', parcel_number:'1002', current_owner:'Ann Chebet',      current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
 
     // E:003 FREE — simple parcel with short history
-    'Block E:003': [
-      { type:'TRANSFER',  timestamp:ago(720),  block_name:'Block E', parcel_number:'003', current_owner:'George Njoroge',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(5040), block_name:'Block E', parcel_number:'003', current_owner:'Miriam Wanjiku',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Kisumu Block 9:1003': [
+      { type:'TRANSFER',  timestamp:ago(720),  block_name:'Kisumu Block 9', parcel_number:'1003', current_owner:'George Njoroge',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(5040), block_name:'Kisumu Block 9', parcel_number:'1003', current_owner:'Miriam Wanjiku',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
 
     // ── BLOCK F ──────────────────────────────────────────────────────────────
     // F:001 CAUTION — court-ordered caveat
-    'Block F:001': [
-      { type:'CAUTION',   timestamp:ago(80),   block_name:'Block F', parcel_number:'001', current_owner:'James Odhiambo',  current_state:'CAUTION',    mspid:'registryMSP', submitted_by:'James Odhiambo',bank:null, loan_ref:null, caution_reason:'Court injunction — Environment Court ELR/2024/0078' },
-      { type:'DISCHARGE', timestamp:ago(400),  block_name:'Block F', parcel_number:'001', current_owner:'James Odhiambo',  current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'Equity Bank Kenya', loan_ref:'EQB/2024/0330', caution_reason:null },
-      { type:'CHARGE',    timestamp:ago(900),  block_name:'Block F', parcel_number:'001', current_owner:'James Odhiambo',  current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'Equity Bank Kenya', loan_ref:'EQB/2024/0330', caution_reason:null },
-      { type:'CREATE',    timestamp:ago(6000), block_name:'Block F', parcel_number:'001', current_owner:'James Odhiambo',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Eldoret Block 5:1001': [
+      { type:'CAUTION',   timestamp:ago(80),   block_name:'Eldoret Block 5', parcel_number:'1001', current_owner:'James Odhiambo',  current_state:'CAUTION',    mspid:'registryMSP', submitted_by:'James Odhiambo',bank:null, loan_ref:null, caution_reason:'Court injunction — Environment Court ELR/2024/0078' },
+      { type:'DISCHARGE', timestamp:ago(400),  block_name:'Eldoret Block 5', parcel_number:'1001', current_owner:'James Odhiambo',  current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'Equity Bank Kenya', loan_ref:'EQB/2024/0330', caution_reason:null },
+      { type:'CHARGE',    timestamp:ago(900),  block_name:'Eldoret Block 5', parcel_number:'1001', current_owner:'James Odhiambo',  current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Carol Njeri',   bank:'Equity Bank Kenya', loan_ref:'EQB/2024/0330', caution_reason:null },
+      { type:'CREATE',    timestamp:ago(6000), block_name:'Eldoret Block 5', parcel_number:'1001', current_owner:'James Odhiambo',  current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
 
     // F:002 FREE — recently discharged
-    'Block F:002': [
-      { type:'DISCHARGE', timestamp:ago(60),   block_name:'Block F', parcel_number:'002', current_owner:'Naomi Achieng',   current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0441', caution_reason:null },
-      { type:'CHARGE',    timestamp:ago(500),  block_name:'Block F', parcel_number:'002', current_owner:'Naomi Achieng',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0441', caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(1440), block_name:'Block F', parcel_number:'002', current_owner:'Naomi Achieng',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(8000), block_name:'Block F', parcel_number:'002', current_owner:'Samuel Kipchoge', current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Eldoret Block 5:1002': [
+      { type:'DISCHARGE', timestamp:ago(60),   block_name:'Eldoret Block 5', parcel_number:'1002', current_owner:'Naomi Achieng',   current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0441', caution_reason:null },
+      { type:'CHARGE',    timestamp:ago(500),  block_name:'Eldoret Block 5', parcel_number:'1002', current_owner:'Naomi Achieng',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0441', caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(1440), block_name:'Eldoret Block 5', parcel_number:'1002', current_owner:'Naomi Achieng',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(8000), block_name:'Eldoret Block 5', parcel_number:'1002', current_owner:'Samuel Kipchoge', current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
 
     // F:003 PENDING — transfer awaiting stamp duty
-    'Block F:003': [
-      { type:'TRANSFER',  timestamp:ago(25),   block_name:'Block F', parcel_number:'003', current_owner:'Diana Mutua',     current_state:'PENDING',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(2160), block_name:'Block F', parcel_number:'003', current_owner:'Paul Otieno',     current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Eldoret Block 5:1003': [
+      { type:'TRANSFER',  timestamp:ago(25),   block_name:'Eldoret Block 5', parcel_number:'1003', current_owner:'Diana Mutua',     current_state:'PENDING',    mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(2160), block_name:'Eldoret Block 5', parcel_number:'1003', current_owner:'Paul Otieno',     current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
 
     // ── BLOCK G ──────────────────────────────────────────────────────────────
     // G:001 FREE — brand new parcel, no transactions yet
-    'Block G:001': [
-      { type:'CREATE',    timestamp:ago(480),  block_name:'Block G', parcel_number:'001', current_owner:'Caroline Wanjiru',current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Thika Block 2:1001': [
+      { type:'CREATE',    timestamp:ago(480),  block_name:'Thika Block 2', parcel_number:'1001', current_owner:'Caroline Wanjiru',current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
 
     // G:002 CHARGED — NCBA active charge, deep history
-    'Block G:002': [
-      { type:'CHARGE',    timestamp:ago(90),   block_name:'Block G', parcel_number:'002', current_owner:'Victor Omondi',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'NCBA Bank Kenya',   loan_ref:'NCBA/2024/0559', caution_reason:null },
-      { type:'DISCHARGE', timestamp:ago(800),  block_name:'Block G', parcel_number:'002', current_owner:'Victor Omondi',   current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0012', caution_reason:null },
-      { type:'CHARGE',    timestamp:ago(1600), block_name:'Block G', parcel_number:'002', current_owner:'Victor Omondi',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0012', caution_reason:null },
-      { type:'TRANSFER',  timestamp:ago(3000), block_name:'Block G', parcel_number:'002', current_owner:'Victor Omondi',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
-      { type:'CREATE',    timestamp:ago(9500), block_name:'Block G', parcel_number:'002', current_owner:'Lilian Hassan',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+    'Thika Block 2:1002': [
+      { type:'CHARGE',    timestamp:ago(90),   block_name:'Thika Block 2', parcel_number:'1002', current_owner:'Victor Omondi',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'NCBA Bank Kenya',   loan_ref:'NCBA/2024/0559', caution_reason:null },
+      { type:'DISCHARGE', timestamp:ago(800),  block_name:'Thika Block 2', parcel_number:'1002', current_owner:'Victor Omondi',   current_state:'FREE',       mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0012', caution_reason:null },
+      { type:'CHARGE',    timestamp:ago(1600), block_name:'Thika Block 2', parcel_number:'1002', current_owner:'Victor Omondi',   current_state:'CHARGED',    mspid:'bankMSP',     submitted_by:'Brian Omondi',  bank:'KCB Bank Kenya',    loan_ref:'KCB/2024/0012', caution_reason:null },
+      { type:'TRANSFER',  timestamp:ago(3000), block_name:'Thika Block 2', parcel_number:'1002', current_owner:'Victor Omondi',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
+      { type:'CREATE',    timestamp:ago(9500), block_name:'Thika Block 2', parcel_number:'1002', current_owner:'Lilian Hassan',   current_state:'FREE',       mspid:'registryMSP', submitted_by:'Alice Wambui',  bank:null, loan_ref:null, caution_reason:null },
     ],
   };
 
@@ -415,6 +415,12 @@ const stmts = {
   cleanLoginAttempts:db.prepare("DELETE FROM login_attempts WHERE attempted_at < datetime('now', '-15 minutes')"),
   getStats:          db.prepare(`SELECT current_state, COUNT(*) as count FROM parcels GROUP BY current_state`),
   getAllUsers:        db.prepare('SELECT id, username, name, role, mspid, org, bank, created_at FROM users'),
+  insertUser:        db.prepare('INSERT INTO users (username, name, password_hash, role, mspid, org, bank) VALUES (?, ?, ?, ?, ?, ?, ?)'),
+  updateUser:        db.prepare('UPDATE users SET name=?, role=?, mspid=?, org=?, bank=? WHERE username=?'),
+  updateUserPassword:db.prepare('UPDATE users SET password_hash=? WHERE username=?'),
+  deleteUser:        db.prepare('DELETE FROM users WHERE username=?'),
+  getUserById:       db.prepare('SELECT * FROM users WHERE id=?'),
+  userExists:        db.prepare('SELECT id FROM users WHERE username=?'),
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -454,6 +460,9 @@ const PERMISSIONS = {
   removeCaution: ['registrar', 'landowner', 'admin'],
   auditLog:      ['registrar', 'surveyor', 'admin'],
   listUsers:     ['admin'],
+  createUser:    ['admin'],
+  updateUser:    ['admin'],
+  deleteUser:    ['admin'],
   createParcel:  ['registrar', 'admin'],
 };
 
@@ -916,11 +925,114 @@ function handleAuditLog(req, res) {
 }
 
 // GET /api/users  (Improvement 9)
+// — now handled by handleListUsers above
+
+// GET /api/users
 function handleListUsers(req, res) {
   const session = requireAuth(req, res);
   if (!session) return;
   if (!checkRole(session,'listUsers',res)) return;
-  sendJSON(res,200,{status:'ok',data:stmts.getAllUsers.all()});
+  const users = stmts.getAllUsers.all().map(u => ({
+    id:        u.id,
+    username:  u.username,
+    name:      u.name,
+    role:      u.role,
+    mspid:     u.mspid,
+    org:       u.org,
+    bank:      u.bank,
+    createdAt: u.created_at,
+  }));
+  sendJSON(res,200,{status:'ok',count:users.length,data:users});
+}
+
+// POST /api/users  — admin creates a new account
+async function handleCreateUser(req, res) {
+  const session = requireAuth(req, res);
+  if (!session) return;
+  if (!checkRole(session,'createUser',res)) return;
+
+  const body     = await readBody(req);
+  const username = clean(body.username || '', 50).toLowerCase().replace(/\s+/g,'_');
+  const name     = clean(body.name     || '', 100);
+  const role     = clean(body.role     || '', 20);
+  const org      = clean(body.org      || '', 150);
+  const bank     = clean(body.bank     || '', 100) || null;
+  const password = clean(body.password || '', 100);
+
+  if (!username || !name || !role || !org || !password)
+    return sendJSON(res,400,{error:'username, name, role, org and password are all required.'});
+
+  const validRoles = ['registrar','bank','surveyor','landowner'];
+  if (!validRoles.includes(role))
+    return sendJSON(res,400,{error:`Invalid role. Must be one of: ${validRoles.join(', ')}.`});
+
+  // Check username not taken
+  if (stmts.userExists.get(username))
+    return sendJSON(res,409,{error:`Username [${username}] is already taken. Choose another.`});
+
+  // Determine mspid from role
+  const mspMap = { registrar:'registryMSP', bank:'bankMSP', surveyor:'surveyorMSP', landowner:'ownerMSP' };
+  const mspid  = mspMap[role];
+
+  // Hash password
+  const hash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+
+  stmts.insertUser.run(username, name, hash, role, mspid, org, bank);
+
+  logAudit(session,'CREATE_USER',null,'SUCCESS',`Created ${role}: ${name} (${username})`,getIP(req));
+  console.log(`  [ADMIN] Created user: ${name} (${username}) — ${role}`);
+
+  sendJSON(res,201,{
+    status:'ok',
+    message:`Account created for ${name}. Username: ${username}`,
+    user:{ username, name, role, mspid, org, bank },
+  });
+}
+
+// PUT /api/users/:username/password  — admin resets a password
+async function handleResetPassword(req, res, username) {
+  const session = requireAuth(req, res);
+  if (!session) return;
+  if (!checkRole(session,'updateUser',res)) return;
+
+  const body        = await readBody(req);
+  const newPassword = clean(body.password || '', 100);
+  if (!newPassword || newPassword.length < 4)
+    return sendJSON(res,400,{error:'New password must be at least 4 characters.'});
+
+  const user = stmts.getUserByUsername.get(username);
+  if (!user) return sendJSON(res,404,{error:`User [${username}] not found.`});
+  if (username === 'admin')
+    return sendJSON(res,403,{error:'Cannot reset the admin password via this interface.'});
+
+  const hash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+  stmts.updateUserPassword.run(hash, username);
+
+  logAudit(session,'RESET_PASSWORD',null,'SUCCESS',`Reset password for ${username}`,getIP(req));
+  sendJSON(res,200,{status:'ok',message:`Password reset for ${username}.`});
+}
+
+// DELETE /api/users/:username  — admin deletes an account
+function handleDeleteUser(req, res, username) {
+  const session = requireAuth(req, res);
+  if (!session) return;
+  if (!checkRole(session,'deleteUser',res)) return;
+
+  if (username === 'admin')
+    return sendJSON(res,403,{error:'Cannot delete the admin account.'});
+  if (username === session.username)
+    return sendJSON(res,403,{error:'Cannot delete your own account.'});
+
+  const user = stmts.getUserByUsername.get(username);
+  if (!user) return sendJSON(res,404,{error:`User [${username}] not found.`});
+
+  stmts.deleteUser.run(username);
+  // Also remove their active sessions
+  db.prepare('DELETE FROM sessions WHERE username=?').run(username);
+
+  logAudit(session,'DELETE_USER',null,'SUCCESS',`Deleted ${user.role}: ${user.name} (${username})`,getIP(req));
+  console.log(`  [ADMIN] Deleted user: ${user.name} (${username})`);
+  sendJSON(res,200,{status:'ok',message:`Account for ${user.name} has been deleted.`});
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -958,10 +1070,17 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/dischargeParcel'    && method === 'PUT')  return handleDischarge(req,res);
     if (pathname === '/api/addCaution'         && method === 'PUT')  return handleAddCaution(req,res);
     if (pathname === '/api/removeCaution'      && method === 'PUT')  return handleRemoveCaution(req,res);
-    if (pathname === '/api/auditLog'           && method === 'GET')  return handleAuditLog(req,res);
-    if (pathname === '/api/allTransactions'    && method === 'GET')  return handleAllTransactions(req,res);
-    if (pathname === '/api/users'              && method === 'GET')  return handleListUsers(req,res);
-    if (pathname === '/api/createParcel'       && method === 'POST') return handleCreateParcel(req,res);
+    if (pathname === '/api/auditLog'           && method === 'GET')    return handleAuditLog(req,res);
+    if (pathname === '/api/allTransactions'    && method === 'GET')    return handleAllTransactions(req,res);
+    if (pathname === '/api/users'              && method === 'GET')    return handleListUsers(req,res);
+    if (pathname === '/api/users'              && method === 'POST')   return handleCreateUser(req,res);
+    if (pathname === '/api/createParcel'       && method === 'POST')   return handleCreateParcel(req,res);
+
+    // User-specific routes: /api/users/:username/password and /api/users/:username
+    const passMatch   = pathname.match(/^\/api\/users\/([^/]+)\/password$/);
+    const deleteMatch = pathname.match(/^\/api\/users\/([^/]+)$/);
+    if (passMatch   && method === 'PUT')    return handleResetPassword(req, res, decodeURIComponent(passMatch[1]));
+    if (deleteMatch && method === 'DELETE') return handleDeleteUser(req, res, decodeURIComponent(deleteMatch[1]));
 
     // Static files
     const safe = path.normalize(pathname).replace(/^(\.\.([/\\]|$))+/, '');
