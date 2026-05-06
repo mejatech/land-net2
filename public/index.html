@@ -605,23 +605,35 @@ tr:hover td{background:var(--bg3)}
       <div class="form-row cols-2">
         <div class="form-group">
           <label class="form-label">Block name</label>
-          <select class="form-select" id="cr-block">
-            <option value="">Select block…</option>
-            <option value="Nairobi Block 14">Nairobi Block 14</option>
-            <option value="Kiambu Block 7">Kiambu Block 7</option>
-            <option value="Mombasa Block 11">Mombasa Block 11</option>
-            <option value="Nakuru Block 3">Nakuru Block 3</option>
-            <option value="Kisumu Block 9">Kisumu Block 9</option>
-            <option value="Eldoret Block 5">Eldoret Block 5</option>
-            <option value="Thika Block 2">Thika Block 2</option>
-            <option value="Nakuru Block 8">Nakuru Block 8</option>
-            <option value="Kisii Block 4">Kisii Block 4</option>
-            <option value="Machakos Block 6">Machakos Block 6</option>
-          </select>
+          <input class="form-input" id="cr-block" placeholder="e.g. Meru Block 3" list="block-suggestions" autocomplete="off"/>
+          <datalist id="block-suggestions">
+            <option value="Nairobi Block 14"/>
+            <option value="Kiambu Block 7"/>
+            <option value="Mombasa Block 11"/>
+            <option value="Nakuru Block 3"/>
+            <option value="Kisumu Block 9"/>
+            <option value="Eldoret Block 5"/>
+            <option value="Thika Block 2"/>
+            <option value="Nakuru Block 8"/>
+            <option value="Kisii Block 4"/>
+            <option value="Machakos Block 6"/>
+            <option value="Meru Block 1"/>
+            <option value="Nyeri Block 5"/>
+            <option value="Embu Block 2"/>
+            <option value="Garissa Block 1"/>
+            <option value="Kakamega Block 4"/>
+            <option value="Kericho Block 3"/>
+            <option value="Kitale Block 2"/>
+            <option value="Malindi Block 6"/>
+            <option value="Nanyuki Block 3"/>
+            <option value="Nyahururu Block 1"/>
+          </datalist>
+          <span style="font-size:10px;color:var(--text3);margin-top:3px">Type any block name or pick from suggestions</span>
         </div>
         <div class="form-group">
           <label class="form-label">Parcel number</label>
-          <input class="form-input" id="cr-parcel" placeholder="e.g. 008"/>
+          <input class="form-input" id="cr-parcel" placeholder="e.g. 1008"/>
+          <span style="font-size:10px;color:var(--text3);margin-top:3px">Use numeric format e.g. 1001, 2045</span>
         </div>
       </div>
       <div class="form-row">
@@ -1359,6 +1371,28 @@ function showPage(name) {
   if (name === 'parcels') loadParcels();
   if (name === 'audit')   loadAudit();
   if (name === 'users')   loadUsers();
+  if (name === 'create')  loadBlockSuggestions();
+}
+
+// ── BLOCK SUGGESTIONS ─────────────────────────────────────────────────────
+// Dynamically load existing block names from the ledger into the datalist
+async function loadBlockSuggestions() {
+  try {
+    const res = await api('GET', '/api/parcels');
+    const datalist = document.getElementById('block-suggestions');
+    if (!datalist) return;
+    // Get unique block names from live database
+    const blocks = [...new Set((res.data || []).map(p => p.blockName || p.block_name).filter(Boolean))];
+    // Add any new ones not already in the datalist
+    const existing = [...datalist.options].map(o => o.value);
+    blocks.forEach(b => {
+      if (!existing.includes(b)) {
+        const opt = document.createElement('option');
+        opt.value = b;
+        datalist.appendChild(opt);
+      }
+    });
+  } catch(_) {} // fail silently
 }
 
 // ── MANAGE USERS ────────────────────────────────────────────────────────────
