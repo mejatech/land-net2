@@ -711,7 +711,38 @@ async function handleStampDuty(req, res) {
   const txId = rnd();
   recordTransaction({ txId, type:'STAMP_DUTY', blockName:block, parcelNumber:parcel, currentOwner:pRecord.current_owner, currentState:'STAMP_PAID', mspid:session.mspid, submittedBy:session.name });
   logAudit(session,'STAMP_DUTY',key,'SUCCESS',`Confirmed by ${session.name}`,getIP(req));
-  sendJSON(res,200,{status:'ok',txId,newState:'STAMP_PAID',message:`Stamp duty confirmed for [${key}].`});
+  sendJSON(res,200,{status:'ok',txId,newState:'STAMP_PAID',message:`Stamp duty confirmed for [${key}]. Proceed to register title to complete the transfer.`});
+}
+
+// PUT /api/registerTitle — final step: registrar formally registers title to new owner
+async function handleRegisterTitle(req, res) {
+  const session = requireAuth(req, res);
+  if (!session) return;
+  if (!checkRole(session,'stampDuty',res)) return; // same permission as stamp duty — registrar only
+
+  const body   = await readBody(req);
+  const block  = clean(body.block  || '');
+  const parcel = clean(body.parcel || '');
+  if (!block || !parcel) return sendJSON(res,400,{error:'block and parcel are required.'});
+
+  const key     = `${block}:${parcel}`;
+  const pRecord = getParcel(key);
+  if (!pRecord) return sendJSON(res,404,{error:`Parcel [${key}] not found.`});
+  if (pRecord.current_state !== 'STAMP_PAID')
+    return sendJSON(res,400,{error:`Smart contract rejected: Parcel [${key}] is not in STAMP_PAID state (current: ${pRecord.current_state}). Confirm stamp duty first.`});
+
+  const txId = rnd();
+  // State → FREE, owner is already the new owner (set during TRANSFER step)
+  recordTransaction({ txId, type:'TITLE_REGISTERED', blockName:block, parcelNumber:parcel, currentOwner:pRecord.current_owner, currentState:'FREE', mspid:session.mspid, submittedBy:session.name });
+  logAudit(session,'REGISTER_TITLE',key,'SUCCESS',`Title registered to ${pRecord.current_owner} by ${session.name}`,getIP(req));
+  console.log(`  [TITLE] ${session.name}: ${key} → FREE (owner: ${pRecord.current_owner})`);
+  sendJSON(res,200,{
+    status:   'ok',
+    txId,
+    newState: 'FREE',
+    newOwner: pRecord.current_owner,
+    message:  `Title for [${key}] formally registered to ${pRecord.current_owner}. Transfer complete. Parcel is FREE.`,
+  });
 }
 
 // POST /api/chargeParcel
@@ -1097,6 +1128,7 @@ const server = http.createServer(async (req, res) => {
     if (pathname === '/api/queryParcelHistory' && method === 'GET')  return handleSearch(req,res,parsed.query);
     if (pathname === '/api/transferParcel'     && method === 'POST') return handleTransfer(req,res);
     if (pathname === '/api/confirmStampDuty'   && method === 'PUT')  return handleStampDuty(req,res);
+    if (pathname === '/api/registerTitle'      && method === 'PUT')  return handleRegisterTitle(req,res);
     if (pathname === '/api/chargeParcel'       && method === 'POST') return handleCharge(req,res);
     if (pathname === '/api/dischargeParcel'    && method === 'PUT')  return handleDischarge(req,res);
     if (pathname === '/api/addCaution'         && method === 'PUT')  return handleAddCaution(req,res);
