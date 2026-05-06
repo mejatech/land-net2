@@ -216,6 +216,15 @@ const SEED_USERS = [
   { username:'admin',       name:'System Admin',   password:'admin2024',   role:'admin',     mspid:'adminMSP',    org:'Technical University of Kenya',     bank:null },
 ];
 
+// Force fresh reseed — drop existing data and reseed with correct passwords
+console.log('  [DB] Resetting users and ledger for fresh seed…');
+db.prepare('DELETE FROM sessions').run();
+db.prepare('DELETE FROM users').run();
+db.prepare('DELETE FROM parcels').run();
+db.prepare('DELETE FROM transactions').run();
+db.prepare('DELETE FROM audit_log').run();
+db.prepare('DELETE FROM login_attempts').run();
+
 const countUsers = db.prepare('SELECT COUNT(*) as c FROM users').get();
 if (countUsers.c === 0) {
   console.log('  [DB] Seeding users with bcrypt hashes…');
