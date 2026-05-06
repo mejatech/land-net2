@@ -939,8 +939,8 @@ async function handleCreateParcel(req, res) {
     return sendJSON(res, 400, { error: 'block, parcel and owner are required.' });
 
   // Validate block format
-  if (!block.startsWith('Block '))
-    return sendJSON(res, 400, { error: 'Block name must start with "Block " e.g. Block A, Block H.' });
+  if (block.length < 3)
+    return sendJSON(res, 400, { error: 'Block name must be at least 3 characters e.g. Nairobi Block 14, Meru Block 3.' });
 
   const key = `${block}:${parcelNo}`;
 
