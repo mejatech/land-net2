@@ -667,6 +667,17 @@ async function handleTransfer(req, res) {
 
   if (pRecord.current_owner !== currentOwner)
     return sendJSON(res,400,{error:`Smart contract rejected: [${currentOwner}] is not the registered owner. Ledger owner: ${pRecord.current_owner}.`});
+
+  // If caller is a landowner they must be the actual owner — not just typing any name
+  if (session.role === 'landowner' && pRecord.current_owner !== session.name)
+    return sendJSON(res,403,{error:`Smart contract rejected: You [${session.name}] are not the registered owner of parcel [${key}]. Only the registered owner or a registrar can initiate a transfer.`});
+
+  // Extra check — landowner must own at least one parcel on the entire ledger
+  if (session.role === 'landowner') {
+    const ownedParcels = db.prepare(`SELECT COUNT(*) as c FROM parcels WHERE current_owner=?`).get(session.name);
+    if (!ownedParcels || ownedParcels.c === 0)
+      return sendJSON(res,403,{error:`Smart contract rejected: No parcels registered to [${session.name}] on the ledger. Contact the Land Registry to register your land first.`});
+  }
   if (pRecord.current_state === 'CHARGED')
     return sendJSON(res,400,{error:`Smart contract rejected: Parcel [${key}] has an active charge. Discharge before transferring.`});
   if (pRecord.current_state === 'CAUTION')
@@ -756,13 +767,19 @@ async function handleDischarge(req, res) {
   if (pRecord.current_state !== 'CHARGED')
     return sendJSON(res,400,{error:`Smart contract rejected: [${key}] is not CHARGED (state: ${pRecord.current_state}).`});
 
-  // Get the charging bank from the latest transaction
-  const latestCharge = db.prepare(`SELECT bank FROM transactions WHERE block_name=? AND parcel_number=? AND type='CHARGE' ORDER BY timestamp DESC LIMIT 1`).get(block, parcel);
-  const chargingBank = latestCharge?.bank;
-  const callerBank   = session.bank || session.org;
+  // Get the charging bank AND officer from the latest charge transaction
+  const latestCharge = db.prepare(`SELECT bank, submitted_by FROM transactions WHERE block_name=? AND parcel_number=? AND type='CHARGE' ORDER BY timestamp DESC LIMIT 1`).get(block, parcel);
+  const chargingBank    = latestCharge?.bank;
+  const chargingOfficer = latestCharge?.submitted_by;
+  const callerBank      = session.bank || session.org;
 
+  // Rule 1 — only the same bank institution can discharge
   if (chargingBank && callerBank !== chargingBank)
-    return sendJSON(res,403,{error:`Smart contract rejected: Only [${chargingBank}] can discharge this parcel. You are [${callerBank}].`});
+    return sendJSON(res,403,{error:`Smart contract rejected: Only [${chargingBank}] can discharge this parcel. You are logged in as [${callerBank}].`});
+
+  // Rule 2 — only the specific officer who placed the charge can discharge it
+  if (chargingOfficer && session.name !== chargingOfficer)
+    return sendJSON(res,403,{error:`Smart contract rejected: This charge was placed by [${chargingOfficer}]. Only that officer can discharge it. Contact [${chargingOfficer}] at ${chargingBank}.`});
 
   const txId = rnd();
   recordTransaction({ txId, type:'DISCHARGE', blockName:block, parcelNumber:parcel, currentOwner:pRecord.current_owner, currentState:'FREE', mspid:session.mspid, submittedBy:session.name, bank:callerBank, loanRef });
@@ -789,6 +806,17 @@ async function handleAddCaution(req, res) {
   if (!pRecord) return sendJSON(res,404,{error:`Parcel [${key}] not found.`});
   if (pRecord.current_owner !== owner)
     return sendJSON(res,400,{error:`Smart contract rejected: [${owner}] is not the registered owner (${pRecord.current_owner}).`});
+
+  // Landowner must be the actual owner — cannot caution someone else's parcel
+  if (session.role === 'landowner' && pRecord.current_owner !== session.name)
+    return sendJSON(res,403,{error:`Smart contract rejected: You [${session.name}] are not the registered owner of parcel [${key}]. Only the registered owner or a registrar can place a caution.`});
+
+  // Landowner must own at least one parcel on the ledger
+  if (session.role === 'landowner') {
+    const owned = db.prepare(`SELECT COUNT(*) as c FROM parcels WHERE current_owner=?`).get(session.name);
+    if (!owned || owned.c === 0)
+      return sendJSON(res,403,{error:`Smart contract rejected: No parcels registered to [${session.name}] on the ledger. Contact the Land Registry first.`});
+  }
   if (pRecord.current_state === 'CAUTION')
     return sendJSON(res,400,{error:`Smart contract rejected: [${key}] already has an active caution.`});
   if (pRecord.current_state === 'CHARGED')
@@ -820,6 +848,9 @@ async function handleRemoveCaution(req, res) {
     return sendJSON(res,400,{error:`Smart contract rejected: No active caution on [${key}] (state: ${pRecord.current_state}).`});
   if (session.role !== 'registrar' && session.role !== 'admin' && pRecord.current_owner !== owner)
     return sendJSON(res,403,{error:'Smart contract rejected: Only the registered owner or a Registrar can remove this caution.'});
+  // Landowner must be the actual owner on the ledger
+  if (session.role === 'landowner' && pRecord.current_owner !== session.name)
+    return sendJSON(res,403,{error:`Smart contract rejected: You [${session.name}] are not the registered owner of parcel [${key}].`});
 
   const txId = rnd();
   recordTransaction({ txId, type:'REMOVE_CAUTION', blockName:block, parcelNumber:parcel, currentOwner:owner, currentState:'FREE', mspid:session.mspid, submittedBy:session.name });
