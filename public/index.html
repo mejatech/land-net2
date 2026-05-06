@@ -57,12 +57,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 }
 .login-hint{margin-top:24px;padding:16px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)}
 .login-hint-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-.demo-user{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);cursor:pointer}
-.demo-user:last-child{border-bottom:none}
-.demo-user:hover .demo-name{color:var(--blue)}
-.demo-name{font-size:12px;color:var(--text2);font-weight:500}
-.demo-role{font-size:11px;color:var(--text3)}
-.demo-pw{font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)}
 
 /* ── APP SHELL ──────────────────────────────────────── */
 #app{display:none}
@@ -225,35 +219,36 @@ tr:hover td{background:var(--bg3)}
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo"><span class="dot"></span>LandNet</div>
-    <p class="login-sub">Blockchain Land Records · Hyperledger Fabric · Kenya</p>
+    <p class="login-sub">Blockchain Land Records System · Kenya · Technical University of Kenya</p>
     <div id="login-error"></div>
     <label class="login-label">Username</label>
-    <input class="login-input" id="l-user" placeholder="e.g. registrar" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <input class="login-input" id="l-user" placeholder="Enter your username" autocomplete="username" onkeydown="if(event.key==='Enter')doLogin()"/>
     <label class="login-label">Password</label>
-    <input class="login-input" id="l-pass" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <input class="login-input" id="l-pass" type="password" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"/>
     <button class="login-btn" id="login-btn" onclick="doLogin()">Sign in to LandNet</button>
 
     <div class="login-hint">
-      <div class="login-hint-title">Demo accounts — click to fill</div>
-      <div class="demo-user" onclick="fillLogin('registrar','registry123')">
-        <span><span class="demo-name">registrar</span> <span class="demo-pw">registry123</span></span>
-        <span class="demo-role">Land Registrar</span>
+      <div class="login-hint-title">Access information</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.8">
+        <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:14px">🏛</span>
+          <span><strong style="color:var(--text2)">Registrars</strong> — username provided by system admin</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:14px">🏦</span>
+          <span><strong style="color:var(--text2)">Bank officers</strong> — username provided by system admin</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:14px">📐</span>
+          <span><strong style="color:var(--text2)">Surveyors</strong> — username provided by system admin</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding:5px 0">
+          <span style="font-size:14px">🏠</span>
+          <span><strong style="color:var(--text2)">Landowners</strong> — username is your first name, default password: <span style="font-family:'DM Mono',monospace;color:var(--text2)">land123</span></span>
+        </div>
       </div>
-      <div class="demo-user" onclick="fillLogin('kcb_bank','bank123')">
-        <span><span class="demo-name">kcb_bank</span> <span class="demo-pw">bank123</span></span>
-        <span class="demo-role">Bank Officer</span>
-      </div>
-      <div class="demo-user" onclick="fillLogin('surveyor','survey123')">
-        <span><span class="demo-name">surveyor</span> <span class="demo-pw">survey123</span></span>
-        <span class="demo-role">Surveyor</span>
-      </div>
-      <div class="demo-user" onclick="fillLogin('owner_alex','land123')">
-        <span><span class="demo-name">owner_alex</span> <span class="demo-pw">land123</span></span>
-        <span class="demo-role">Landowner</span>
-      </div>
-      <div class="demo-user" onclick="fillLogin('owner_peter','land123')">
-        <span><span class="demo-name">owner_peter</span> <span class="demo-pw">land123</span></span>
-        <span class="demo-role">Landowner</span>
+      <div style="margin-top:12px;padding:10px;background:var(--bluel);border:1px solid var(--blue2);border-radius:6px;font-size:11px;color:var(--blue)">
+        ℹ️ Contact the Land Registry office if you cannot access your account.
       </div>
     </div>
   </div>
@@ -275,6 +270,7 @@ tr:hover td{background:var(--bg3)}
     <button class="nav-link" id="nav-history" onclick="showPage('history')">History</button>
     <button class="nav-link" id="nav-audit" onclick="showPage('audit')">Audit Log</button>
     <button class="nav-link" id="nav-create" onclick="showPage('create')">+ New Parcel</button>
+    <button class="nav-link" id="nav-users" onclick="showPage('users')">👤 Manage Users</button>
   </div>
   <div class="nav-right">
     <span class="role-badge" id="nav-role-badge"></span>
@@ -581,16 +577,16 @@ tr:hover td{background:var(--bg3)}
           <label class="form-label">Block name</label>
           <select class="form-select" id="cr-block">
             <option value="">Select block…</option>
-            <option value="Block A">Block A</option>
-            <option value="Block B">Block B</option>
-            <option value="Block C">Block C</option>
-            <option value="Block D">Block D</option>
-            <option value="Block E">Block E</option>
-            <option value="Block F">Block F</option>
-            <option value="Block G">Block G</option>
-            <option value="Block H">Block H</option>
-            <option value="Block I">Block I</option>
-            <option value="Block J">Block J</option>
+            <option value="Nairobi Block 14">Nairobi Block 14</option>
+            <option value="Kiambu Block 7">Kiambu Block 7</option>
+            <option value="Mombasa Block 11">Mombasa Block 11</option>
+            <option value="Nakuru Block 3">Nakuru Block 3</option>
+            <option value="Kisumu Block 9">Kisumu Block 9</option>
+            <option value="Eldoret Block 5">Eldoret Block 5</option>
+            <option value="Thika Block 2">Thika Block 2</option>
+            <option value="Nakuru Block 8">Nakuru Block 8</option>
+            <option value="Kisii Block 4">Kisii Block 4</option>
+            <option value="Machakos Block 6">Machakos Block 6</option>
           </select>
         </div>
         <div class="form-group">
@@ -650,6 +646,112 @@ tr:hover td{background:var(--bg3)}
       <div id="create-result" style="display:none;margin-top:14px;padding:14px;background:var(--greenl);border:1px solid var(--green2);border-radius:8px">
         <div style="font-size:11px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">✅ Parcel registered</div>
         <div id="create-result-body" style="font-size:12px;color:var(--text2);line-height:1.7"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MANAGE USERS -->
+<div class="page" id="page-users">
+  <div class="page-header">
+    <div class="breadcrumb"><span>LandNet</span><span>›</span><span>Manage Users</span></div>
+    <h1>Manage users</h1>
+    <p>Admin only — create, view and delete portal accounts. All roles except admin can be managed here.</p>
+  </div>
+  <div id="users-denied" class="access-denied" style="display:none">
+    <h2>🔒 Access restricted</h2><p>Only the <strong>System Administrator</strong> can manage user accounts.</p>
+  </div>
+  <div id="users-content" style="display:none">
+
+    <!-- Create Account Form -->
+    <div class="split" style="margin-bottom:16px">
+      <div class="card">
+        <div class="card-title">➕ Create new account</div>
+        <div id="create-user-alert" class="alert"></div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label class="form-label">Full name</label>
+            <input class="form-input" id="nu-name" placeholder="e.g. Joseph Kariuki"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input class="form-input" id="nu-username" placeholder="e.g. joseph_kariuki"/>
+            <span style="font-size:10px;color:var(--text3)">Auto-generated from name — or type your own</span>
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="form-group">
+            <label class="form-label">Role</label>
+            <select class="form-select" id="nu-role" onchange="onRoleChange()">
+              <option value="">Select role…</option>
+              <option value="landowner">🏠 Landowner</option>
+              <option value="registrar">🏛 Land Registrar</option>
+              <option value="bank">🏦 Bank Officer</option>
+              <option value="surveyor">📐 Surveyor</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input class="form-input" id="nu-password" placeholder="Default: land123" value="land123"/>
+          </div>
+        </div>
+        <div class="form-group" id="nu-org-group">
+          <label class="form-label">Organisation</label>
+          <input class="form-input" id="nu-org" placeholder="e.g. Private Landowner"/>
+        </div>
+        <div class="form-group" id="nu-bank-group" style="display:none">
+          <label class="form-label">Bank name</label>
+          <select class="form-select" id="nu-bank">
+            <option value="">Select bank…</option>
+            <option value="KCB Bank Kenya">KCB Bank Kenya</option>
+            <option value="Equity Bank Kenya">Equity Bank Kenya</option>
+            <option value="NCBA Bank Kenya">NCBA Bank Kenya</option>
+            <option value="Cooperative Bank">Cooperative Bank</option>
+            <option value="Absa Bank Kenya">Absa Bank Kenya</option>
+            <option value="Standard Chartered Kenya">Standard Chartered Kenya</option>
+            <option value="DTB Bank Kenya">DTB Bank Kenya</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-primary" onclick="doCreateUser()">Create account</button>
+          <button class="btn btn-secondary" onclick="clearUserForm()">Clear</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">ℹ️ Role guide</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="padding:10px;background:var(--bg3);border-radius:6px;border-left:3px solid var(--blue)">
+            <div style="font-size:12px;font-weight:500;color:var(--text)">🏠 Landowner</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:3px">Can search, transfer and place cautions on their own parcels. Username: first name. Default password: land123</div>
+          </div>
+          <div style="padding:10px;background:var(--bg3);border-radius:6px;border-left:3px solid var(--green)">
+            <div style="font-size:12px;font-weight:500;color:var(--text)">🏛 Registrar</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:3px">Full access — search, transfer, stamp duty, cautions, create parcels, audit log</div>
+          </div>
+          <div style="padding:10px;background:var(--bg3);border-radius:6px;border-left:3px solid var(--purple)">
+            <div style="font-size:12px;font-weight:500;color:var(--text)">🏦 Bank Officer</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:3px">Can charge and discharge parcels. Must select their bank name.</div>
+          </div>
+          <div style="padding:10px;background:var(--bg3);border-radius:6px;border-left:3px solid var(--amber)">
+            <div style="font-size:12px;font-weight:500;color:var(--text)">📐 Surveyor</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:3px">Read-only — can search parcel history and view audit log. Cannot make transactions.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div class="card-title" style="margin-bottom:0">👥 All accounts</div>
+        <button class="btn btn-secondary" onclick="loadUsers()" style="font-size:11px;padding:5px 12px">↻ Refresh</button>
+      </div>
+      <div id="reset-pw-alert" class="alert"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Name</th><th>Username</th><th>Role</th><th>Organisation</th><th>Created</th><th>Actions</th></tr></thead>
+          <tbody id="users-tbody"><tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading…</td></tr></tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -718,11 +820,6 @@ function txRow(t, showBlock = false) {
 }
 
 // ── AUTH ───────────────────────────────────────────────────────────────────
-function fillLogin(u, p) {
-  document.getElementById('l-user').value = u;
-  document.getElementById('l-pass').value = p;
-}
-
 async function doLogin() {
   const username = document.getElementById('l-user').value.trim();
   const password = document.getElementById('l-pass').value.trim();
@@ -783,6 +880,7 @@ function bootApp() {
     caution:   ['registrar','landowner'],
     audit:     ['registrar','surveyor'],
     create:    ['registrar'],
+    users:     ['admin'],
   };
   Object.entries(roleNav).forEach(([page, roles]) => {
     const btn = document.getElementById(`nav-${page}`);
@@ -823,6 +921,7 @@ function applyRoleGates() {
     { denied:'caution-denied',   form:'caution-form',    roles:['registrar','landowner'] },
     { denied:'audit-denied',     content:'audit-content',roles:['registrar','surveyor'] },
     { denied:'create-denied',    form:'create-form',     roles:['registrar'] },
+    { denied:'users-denied',     form:'users-content',   roles:['admin'] },
   ];
   gates.forEach(g => {
     const allowed = g.roles.includes(u.role);
@@ -1169,7 +1268,150 @@ function showPage(name) {
   if (name === 'history') loadHistory();
   if (name === 'parcels') loadParcels();
   if (name === 'audit')   loadAudit();
+  if (name === 'users')   loadUsers();
 }
+
+// ── MANAGE USERS ────────────────────────────────────────────────────────────
+const ROLE_LABELS = { registrar:'🏛 Registrar', bank:'🏦 Bank Officer', surveyor:'📐 Surveyor', landowner:'🏠 Landowner', admin:'⚙️ Admin' };
+const ROLE_BADGES = { registrar:'role-registrar', bank:'role-bank', surveyor:'role-surveyor', landowner:'role-landowner', admin:'role-registrar' };
+
+async function loadUsers() {
+  const tbody = document.getElementById('users-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">Loading…</td></tr>';
+  try {
+    const res = await api('GET', '/api/users');
+    const users = res.data || [];
+    if (!users.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:24px">No users found.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = users.map((u, i) => `
+      <tr>
+        <td style="color:var(--text3)">${i + 1}</td>
+        <td class="td-main">${u.name}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:12px">${u.username}</td>
+        <td><span class="role-badge ${ROLE_BADGES[u.role]||''}" style="font-size:10px">${ROLE_LABELS[u.role]||u.role}</span></td>
+        <td style="font-size:12px">${u.org || '—'}${u.bank ? ` · <em style="color:var(--purple)">${u.bank}</em>` : ''}</td>
+        <td style="font-size:11px;color:var(--text3)">${(u.createdAt||'').slice(0,10)}</td>
+        <td>
+          ${u.username !== 'admin' ? `
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-secondary" style="font-size:11px;padding:4px 10px" onclick="promptResetPassword('${u.username}','${u.name}')">Reset pw</button>
+            <button class="btn btn-danger" style="font-size:11px;padding:4px 10px" onclick="promptDeleteUser('${u.username}','${u.name}')">Delete</button>
+          </div>` : '<span style="font-size:11px;color:var(--text3)">Protected</span>'}
+        </td>
+      </tr>`).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="color:var(--red);padding:24px;text-align:center">${err.message}</td></tr>`;
+  }
+}
+
+function onRoleChange() {
+  const role = document.getElementById('nu-role').value;
+  const orgEl = document.getElementById('nu-org');
+  const bankGroup = document.getElementById('nu-bank-group');
+  // Auto-fill org based on role
+  const orgDefaults = {
+    landowner: 'Private Landowner',
+    registrar: 'Land Registry — Nairobi District',
+    surveyor:  'Kenya Registered Surveyors',
+    bank:      '',
+  };
+  if (orgDefaults[role] !== undefined) orgEl.value = orgDefaults[role];
+  bankGroup.style.display = (role === 'bank') ? '' : 'none';
+  if (role !== 'bank') document.getElementById('nu-password').value = 'land123';
+  if (role === 'registrar') document.getElementById('nu-password').value = 'registry123';
+  if (role === 'surveyor')  document.getElementById('nu-password').value = 'survey123';
+  if (role === 'bank')      document.getElementById('nu-password').value = 'bank123';
+  // Auto-generate username from name
+  autoUsername();
+}
+
+function autoUsername() {
+  const name = document.getElementById('nu-name').value.trim().toLowerCase();
+  const role = document.getElementById('nu-role').value;
+  if (!name) return;
+  const parts = name.split(/\s+/);
+  let username = '';
+  if (role === 'landowner') {
+    username = parts[0]; // first name only for landowners
+  } else if (role === 'bank') {
+    const bank = document.getElementById('nu-bank').value;
+    username = bank ? bank.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'') : parts[0];
+  } else {
+    username = parts.join('_');
+  }
+  document.getElementById('nu-username').value = username;
+}
+
+function clearUserForm() {
+  ['nu-name','nu-username','nu-org'].forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('nu-role').value = '';
+  document.getElementById('nu-password').value = 'land123';
+  document.getElementById('nu-bank-group').style.display = 'none';
+  document.getElementById('nu-bank').value = '';
+}
+
+async function doCreateUser() {
+  const name     = document.getElementById('nu-name').value.trim();
+  const username = document.getElementById('nu-username').value.trim();
+  const role     = document.getElementById('nu-role').value;
+  const org      = document.getElementById('nu-org').value.trim();
+  const bank     = document.getElementById('nu-bank').value || null;
+  const password = document.getElementById('nu-password').value.trim();
+
+  if (!name || !username || !role || !org || !password) {
+    showAlert('create-user-alert','alert-warning','Please fill in all required fields.');
+    return;
+  }
+  if (role === 'bank' && !bank) {
+    showAlert('create-user-alert','alert-warning','Please select a bank name for bank officer accounts.');
+    return;
+  }
+  const btn = document.querySelector('#page-users .btn-primary');
+  btn.disabled = true; btn.textContent = 'Creating…';
+  try {
+    const res = await api('POST', '/api/users', { name, username, role, org, bank, password });
+    showAlert('create-user-alert','alert-success',
+      `✅ Account created! Name: ${name} · Username: ${username} · Password: ${password}`);
+    clearUserForm();
+    loadUsers(); // refresh the table
+  } catch (err) {
+    showAlert('create-user-alert','alert-error', err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Create account';
+  }
+}
+
+async function promptResetPassword(username, name) {
+  const newPw = prompt(`Reset password for ${name} (${username}):\n\nEnter new password (min 4 characters):`,'land123');
+  if (!newPw) return;
+  if (newPw.length < 4) { alert('Password must be at least 4 characters.'); return; }
+  try {
+    await api('PUT', `/api/users/${encodeURIComponent(username)}/password`, { password: newPw });
+    showAlert('reset-pw-alert','alert-success',`✅ Password reset for ${name}. New password: ${newPw}`);
+  } catch (err) {
+    showAlert('reset-pw-alert','alert-error', err.message);
+  }
+}
+
+async function promptDeleteUser(username, name) {
+  if (!confirm(`Delete account for ${name} (${username})?\n\nThis cannot be undone. Their active sessions will also be terminated.`)) return;
+  try {
+    await api('DELETE', `/api/users/${encodeURIComponent(username)}`);
+    showAlert('reset-pw-alert','alert-success',`✅ Account for ${name} has been deleted.`);
+    loadUsers();
+  } catch (err) {
+    showAlert('reset-pw-alert','alert-error', err.message);
+  }
+}
+
+// Auto-generate username when name is typed
+document.addEventListener('DOMContentLoaded', () => {
+  const nameEl = document.getElementById('nu-name');
+  if (nameEl) nameEl.addEventListener('input', autoUsername);
+});
 
 // ── INIT ───────────────────────────────────────────────────────────────────
 if (sessionToken && currentUser) {
